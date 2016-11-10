@@ -1,0 +1,103 @@
+﻿/********************************************************************
+ * File: Shape.cs                                                   *
+ * Author: Dillon Allan and Jason Karpiak                           *
+ * Description: Base class used for all shapes rendered in-game.    *
+ ********************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    public abstract class Shape
+    {
+        #region Fields
+        public float m_fXSpeed = 0,     // horizontal speed
+                     m_fYSpeed = 0,     // vertical speed
+                     m_fRotation = 0,   // rotation (in degrees)
+                     m_fRotInc = 0;     // rotation increment (in degrees)
+
+        protected Direction Bearing;    // Shape direction
+
+        public const int Tilesize = 50;    // set to increase drawing size
+
+        protected static Random s_rnd = new Random(); // random value generator
+        #endregion
+
+        #region Properties
+        private bool _IsMarkedForDeath; // removal flag
+        public bool IsMarkedForDeath
+        {
+            get
+            {
+                return _IsMarkedForDeath;
+            }
+            set
+            {
+                _IsMarkedForDeath = value;
+            }
+        }
+
+        // Screen position 
+        private PointF Pos;
+        public PointF Position { get { return Pos; } }
+
+        public Color Color; // shape color
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Default instance constructor.
+        /// Sets initial position of the Shape.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of the shape.
+        /// </param>
+        /// <param name="initialDirection">
+        /// Initial direction the shape is facing.
+        /// </param>
+        public Shape(PointF position, Direction initialDirection)
+        {
+            Pos = position;
+            Bearing = initialDirection;
+        }
+
+        /// <summary>
+        /// Abstract method that returns a shape's GraphicPath object. 
+        /// </summary>
+        /// <returns>GraphicPath object.</returns>
+        public abstract GraphicsPath GetPath();
+
+        /// <summary>
+        /// Abstract method for rendering Shapes. 
+        /// </summary>
+        /// <param name="gr">Graphics buffer.</param>
+        public abstract void Render(Graphics gr);
+
+        /// <summary>
+        /// Updates shape position and roration to current speed and rotation values.
+        /// </summary>
+        /// <param name="size">Client rectangle size.</param>
+        public void Tick(Size size)
+        {
+            // check X/Y bounds, and don't let the Shape move off-screen.
+            if (Pos.X + m_fXSpeed >= 0 && Pos.X + m_fXSpeed < size.Width)
+                Pos.X += m_fXSpeed;
+            if (Pos.Y + m_fYSpeed >= 0 && Pos.Y + m_fYSpeed < size.Height)
+                Pos.Y += m_fYSpeed;
+
+            // update rotation
+            // (reset rotation to 0 if at 360 degrees,
+            //  to avoid an overflow error in the event that
+            // the rotation member gets too big)
+            if (m_fRotation + m_fRotInc == 360)
+                m_fRotation = 0;
+            m_fRotation += m_fRotInc;
+        }
+        #endregion
+    }
+}

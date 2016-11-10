@@ -1,0 +1,115 @@
+﻿/********************************************************************************
+ * File: GunFire.cs                                                             *
+ * Author: Dillon Allan and Jason Karpiak                                       *
+ * Description: Class derived from Shape. Used for gunshots rendered in-game.   *
+ ********************************************************************************/
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    class Gunfire : DynamicShape
+    {
+        #region Members
+        // size of machine gun bullets and rockets
+        const int machineGunSize = Tilesize * (1 / 10);
+        const int rocketSize = Tilesize * (1 / 5);
+
+        // speed of machine gun bullets and rockets
+        const float machineGunSpeed = Tank.Speed * 1.65f;
+        const float rocketSpeed = Tank.Speed * 1.25f;
+
+        // gunfire offset distance 
+        // (ensures the bullet doesn't spawn over top of the tank)
+        const int gunfireOffset = Tilesize / 5;
+
+        // models for machine gun bullets and rockets
+        static readonly RectangleF machineGunModel = new RectangleF((3 / 10f * Tank.TankSize) + gunfireOffset, -1 / 12f * Tank.TankSize,
+                1 / 6f * Tank.TankSize, 1 / 6f * Tank.TankSize);
+        static readonly RectangleF rocketModel = new RectangleF((3 / 10f * Tank.TankSize) + gunfireOffset, -1 / 12f * Tank.TankSize,
+                1 / 4f * Tank.TankSize, 1 / 6f * Tank.TankSize);
+
+        // type of gun fired
+        public GunType Gun { get; private set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Default instance constructor for new gunfire.
+        /// Sets initial position and gun type.
+        /// </summary>
+        /// <param name="position">
+        /// Initial location of the gun blast.
+        /// </param>
+        /// <param name="rotation">
+        /// Angle of gun fire.
+        /// </param>
+        /// <param name="gunType">
+        /// Type of gun fired.
+        /// </param>
+        /// <param name="color">
+        /// Color of gunfire shape.
+        /// </param>
+        /// <param name="player">
+        /// Player index.
+        /// </param>
+        public Gunfire(PointF position, float rotation, GunType gunType, Color color, PlayerNumber player)
+            : base(position, color, player)
+        {
+            // set angle of gun fire
+            m_fRotation = rotation;
+
+            // set gunfire initial position
+            Position = new PointF(position.X, position.Y);
+
+            // gunfire speed magnitude i.e. the hypotenuse
+            float speed = 0;
+
+            // initialize gunfire model
+            _model = new GraphicsPath();
+
+            // set gunfire properties according to gun type
+            Gun = gunType;
+            switch (Gun)
+            {
+                case GunType.MachineGun:
+                    // draw a little ellipse for the mg bullet
+                    _model.AddEllipse(machineGunModel);
+                    speed = machineGunSpeed;
+                    break;
+
+                case GunType.Rocket:
+                    // draw a little rectangle for the rocket
+                    _model.AddRectangle(rocketModel);
+                    speed = rocketSpeed;
+                    break;
+            }
+
+            // set angle in radians
+            double angle = Math.PI / 180 * rotation;
+
+            // use trigonometry to set the x and y speeds
+            m_fXSpeed = speed * (float)Math.Cos(angle);
+            m_fYSpeed = speed * (float)Math.Sin(angle);
+        }
+
+        /// <summary>
+        /// Alternate constructor used for creating 
+        /// a copy of a gunfire object for hit testing.
+        /// </summary>
+        /// <param name="gunfire">
+        /// The gunfire object to copy.
+        /// </param>
+        public Gunfire(Gunfire gunfire) : base(gunfire.Position, gunfire.Color, gunfire.Player)
+        {
+            // copy all properties to the new gunfire object
+            m_fRotation = gunfire.m_fRotation;
+            m_fRotInc = gunfire.m_fRotInc;
+            m_fXSpeed = gunfire.m_fXSpeed;
+            m_fYSpeed = gunfire.m_fYSpeed;
+            _model = gunfire._model;
+        }
+        #endregion
+    }
+}

@@ -1,0 +1,49 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    class Block
+    {
+        //private members, filled in by xml parser;
+        public const int TILE_SIZE = 50;
+        //bitmap for walls and ammo spawns
+        public Bitmap _bm;
+        //the boolean to check if we should render or not
+        private bool _isAlive;
+        //the position of the block
+        protected Point _position;
+        //bounds used for hit detection
+        private Region _bounds;
+
+        public Block(bool isAlive, Point position)
+        {
+            //the condition of the block
+            _isAlive = isAlive;
+            //set the block position
+            _position = position;
+            //set new bounds for the block
+            Rectangle rect = new Rectangle(_position.X, _position.Y, TILE_SIZE, TILE_SIZE);
+            _bounds = new Region(rect);
+        }
+        //render and image( wall or ammo)
+        public void Render(Graphics gr, Bitmap bm)
+        {
+            if (IsAlive)
+            {
+                gr.DrawImage(bm, _position.X, _position.Y, TILE_SIZE, TILE_SIZE);
+            }
+        }
+        //public properties for access
+        public Region Bounds { get { return _bounds; } }
+        public bool IsAlive { get { return _isAlive; } set { _isAlive = value; } }
+        public Point Position { get { return _position; } }
+
+
+    }
+}

@@ -1,0 +1,55 @@
+﻿/********************************************************************
+ * File: Shape.cs                                                   *
+ * Author: Dillon Allan and Jason Karpiak                           *
+ * Description: Base class used for all shapes rendered in-game.    *
+ ********************************************************************/
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    public abstract class Shape
+    {
+        #region Fields
+        // set to increase drawing size
+        public const int Tilesize = 50;
+
+        // shape model
+        protected GraphicsPath _model;
+        #endregion
+ 
+        #region Properties
+        // removal flag
+        public bool IsMarkedForDeath { get; /*protected */ set; }
+
+        // Screen position
+        public PointF Position { get; /* protected */ set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Default instance constructor.
+        /// Sets initial position of the Shape.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of the shape.
+        /// </param>
+        public Shape(PointF position)
+        {
+            Position = position;
+        }
+
+        /// <summary>
+        /// Abstract method that returns a shape's GraphicPath object. 
+        /// </summary>
+        /// <returns>GraphicPath object.</returns>
+        public abstract GraphicsPath GetPath();
+
+        /// <summary>
+        /// Abstract method for rendering Shapes. 
+        /// </summary>
+        /// <param name="gr">Graphics buffer.</param>
+        public abstract void Render(Graphics gr);
+        #endregion
+    }
+}

@@ -1,0 +1,49 @@
+﻿/****************************************************************************
+ * File: Ammo.cs                                                            *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Used for creating ammo drops for tanks for collect in-game. *
+ ****************************************************************************/
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Diagnostics;
+
+namespace CMPE2800_Lab02
+{
+    class Ammo : Shape
+    {
+        // the type of spawn (ammo or tank)
+        public SpawnType _spawnType;
+
+        // the stopwatch for counting the time between ammo spawns
+        public static Stopwatch _stopwatch;
+
+        public Bitmap _bm;
+
+        public bool IsAlive { get; set; }
+
+        public Ammo(bool isAlive, Point sp, SpawnType st, Bitmap bm) : base(sp)
+        {
+            _stopwatch = new Stopwatch();
+            _spawnType = st;
+            _model = new GraphicsPath();
+            _model.AddRectangle(new RectangleF(Position.X + Tilesize / 4, Position.Y + Tilesize / 4,
+                Tilesize / 2, Tilesize / 2));
+            //set ammo image
+            if (st == SpawnType.Ammo)
+                _bm = bm;
+            IsAlive = isAlive;
+        }
+        public override GraphicsPath GetPath()
+        {
+            return _model.Clone() as GraphicsPath;
+        }
+        public override void Render(Graphics gr)
+        {
+            // get the model's bounds
+            RectangleF modRect = _model.GetBounds();
+
+            //render an ammo icon
+            gr.DrawImage(_bm, modRect.X, modRect.Y, modRect.Width, modRect.Height);
+        }
+    }
+}

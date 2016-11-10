@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    //this enum determines whether or not we can destroy the wall with a tank shell hit
+    enum WallType { Hard, Weak }
+    //TODO: expand the WallShape enum to include more shapes
+    enum WallShape { L, l, o, hl }
+    class Wall : Shape
+    {
+        //Wall Color
+        Color _wallColor;
+        //use the WallType to know what image to render for the wall color
+        WallType _wallType;
+        HatchStyle _hatch;
+        //leverage the base class constructor except for the WallType
+        public Wall(Point position, WallType wt) : base(position)
+        {
+            
+            _wallType = wt;
+            //assign the breakable flag
+            _model = new GraphicsPath();
+            _model.AddRectangle(new RectangleF(Position.X, Position.Y, Tilesize, Tilesize));
+            IsMarkedForDeath = false;
+            if (_wallType == WallType.Hard)
+            {
+                Breakable = false;
+                _wallColor = Color.LightSteelBlue;
+                _hatch = HatchStyle.Percent70;
+            }
+            else
+            {
+                Breakable = true;
+                _wallColor = Color.DarkRed;
+                _hatch = HatchStyle.HorizontalBrick;
+            }
+        }
+        public override void Render(Graphics gr)
+        {
+            gr.FillRegion(new HatchBrush(_hatch, Color.Black, _wallColor), new Region( GetPath()));
+           
+        }
+        public override GraphicsPath GetPath()
+        {
+            return _model.Clone() as GraphicsPath;
+        }
+        public bool Breakable { get; set; }
+    }
+}

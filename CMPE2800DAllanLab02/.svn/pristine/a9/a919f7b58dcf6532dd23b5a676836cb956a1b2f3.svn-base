@@ -1,0 +1,170 @@
+﻿/****************************************************************
+ * File: Form1.cs                                               *
+ * Author: Dillon Allan and Jason Karpiak                       *
+ * Description: Main file for game event processing.            *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Members
+        Graphics _grFront;                  // main graphics buffer
+        Tank _tP1;           // TEST - collection of Tanks
+        AbstractInput _abP1;
+        Color _cPlayer1Color = Color.Green;
+        Color _cPlayer2Color = Color.Tan;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes class-level members.
+        /// </summary>
+        public TanksForm()
+        {
+            InitializeComponent();
+
+            _grFront = CreateGraphics();
+
+            // test tank rendering
+            _tP1 = new Tank(new PointF(400, 400), _cPlayer1Color);
+
+            // test tank input
+            _abP1 = new AbstractInput();
+        }
+
+        /// <summary>
+        /// Checks Player 1 controls for keydown events,
+        /// and sets AbstractInput fields accordingly.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TanksForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // check for 8 directions of movement
+            //if (e.KeyCode == Keys.Up && e.KeyCode == Keys.Right)
+            switch (e.KeyCode)
+            {
+                case Keys.Up:
+                    _abP1.Up = true;
+                    break;
+                case Keys.Down:
+                    _abP1.Down = true;
+                    break;
+                case Keys.Left:
+                    _abP1.Left = true;
+                    break;
+                case Keys.Right:
+                    _abP1.Right = true;
+                    break;
+            }
+        }
+
+        //private void CheckKeys()
+        //{
+
+        //    Keyboard.IsKeyDown()
+        //}
+
+        //protected override bool Pro
+
+        /// <summary>
+        /// Each tick (25 ms) checks for new movement, rendering, 
+        /// and hit detection operations to process.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tim_Updater_Tick(object sender, EventArgs e)
+        {
+            // check for input from players
+            ApplyInput(_abP1);
+            ResetInput(_abP1);
+            // perform buffered graphics operations
+            DoubleBufferedRender();
+        }
+
+        /// <summary>
+        /// Transforms shapes and redners to back buffer
+        /// before replacing the front buffer.
+        /// </summary>
+        private void DoubleBufferedRender()
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(_grFront, ClientRectangle))
+                {
+                    bg.Graphics.Clear(Color.Black);
+
+                    // transform and render player tanks
+                    _tP1.Tick(ClientRectangle.Size);
+                    _tP1.Render(bg.Graphics);
+
+                    // draw a grid for testing render shapes.
+                    for (int x = 0; x < ClientRectangle.Width; x += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), x, 0, x, ClientRectangle.Height);
+                    }
+
+                    for (int y = 0; y < ClientRectangle.Height; y += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), 0, y, ClientRectangle.Width, y);
+                    }
+
+                    // flip back buffer to front
+                    bg.Render();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks value of each field, and 
+        /// updates Tank properties accordingly.
+        /// </summary>
+        /// <param name="input">
+        /// Player input.
+        /// </param>
+        private void ApplyInput(AbstractInput input)
+        {
+            // Check up or down 
+            if (input.Up)
+                _tP1.m_fYSpeed = -Shape.Speed;
+            else if (input.Down)
+                _tP1.m_fYSpeed = Shape.Speed;
+            else
+                _tP1.m_fYSpeed = 0;
+            
+            // Check left AND right 
+            if (input.Left)
+                _tP1.m_fXSpeed = -Shape.Speed;
+            else if (input.Right)
+                _tP1.m_fXSpeed = Shape.Speed;
+            else
+                _tP1.m_fXSpeed = 0;
+
+            // Check fire cannon!
+        }
+
+        /// <summary>
+        /// Resets input flags.
+        /// </summary>
+        /// <param name="input">
+        /// Player input.
+        /// </param>
+        private void ResetInput(AbstractInput input)
+        {
+            input.Up = input.Down = input.Left = input.Right = 
+                input.UpRight = input.DownRight = input.DownLeft = input.UpRight = 
+                input.Fire = false;
+        }
+        #endregion
+    }
+}

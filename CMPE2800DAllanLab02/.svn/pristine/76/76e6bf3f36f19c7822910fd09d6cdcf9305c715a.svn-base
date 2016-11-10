@@ -1,0 +1,340 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Drawing2D;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml;
+
+namespace CMPE2800_Lab02
+{
+    class Level : Shape
+    {
+        
+        List<Shape> _shapeList = new List<Shape>();
+        public List<PointF> _respawnPoints = new List<PointF>();
+        public List<Ammo> _ammoDrops = new List<Ammo>();
+        //TODO: GetPath of a _model 
+        
+        Bitmap _backgroundImage;
+
+        public Level(string file, PointF point) : base(point)
+        {
+            ParseLevel(file);
+        }
+        
+        /// <summary>
+        /// The List of shapes in the Level (walls and spawns)
+        /// </summary>
+        public List<Shape> LevelShapeList { get { return _shapeList; } }
+        /// <summary>
+        /// A List of spawn Locations and what type of spawn they are. Also copy this for rendering purposes
+        /// </summary>
+
+        public Bitmap LevelBackground { get { return _backgroundImage; } } //use as backdrop
+
+        public override GraphicsPath GetPath()
+        {
+            throw new NotImplementedException("No Graphics Path");
+        }
+        public override void Render(Graphics gr)
+        {
+            
+            gr.DrawImage(_backgroundImage, Position);
+            
+        }
+        #region Parsers
+        /// <summary>
+        /// ParseLevel() takes in the Level xml file, extracts the data from it, and makes it useable for rendering
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void ParseLevel(string fileName)
+        {
+            //variable to hold the raw sml string
+            string XMLRaw;
+            //get the xml data
+            using (StringReader SR = new StringReader(fileName))
+            {
+                XMLRaw = SR.ReadToEnd();
+            }
+            //start a parser
+            using (XmlReader XR = XmlReader.Create(new StringReader(XMLRaw)))
+            {
+                //a string to hold the type of level we are using (e.g. desert, grass, etc.)
+                string levelType = null;
+                // while we have a line to read read
+                while (XR.Read())
+                {
+                    switch (XR.NodeType)
+                    {
+                        case XmlNodeType.Element:
+                            switch (XR.Name)
+                            {
+                                //set the type of level, this will determine the background
+                                case "LEVELTYPE":
+                                    levelType = XR.ReadElementContentAsString();
+                                    //depending on the level type, assign the appropriate background image
+                                    switch (levelType)
+                                    {
+                                        case "DESERT":
+                                            _backgroundImage = new Bitmap(Properties.Resources.DirtTerrain);
+                                            break;
+                                        case "CITY":
+                                            _backgroundImage = new Bitmap(Properties.Resources.CityTerrain);
+                                            break;
+                                        case "GRASS":
+                                            _backgroundImage = new Bitmap(Properties.Resources.GrassTerrain);
+                                            break;
+                                    }
+                                    break;
+                                //set the walls we will use in our level
+                                case "WALL":
+                                    ParseWall(XR.ReadSubtree());
+                                    break;
+                                //set the spawns in our level
+                                case "SPAWN":
+                                    ParseSpawns(XR.ReadSubtree());
+                                    break;
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// This function takes an XmlReader the was created from a WALL element in the main file,
+        /// It cycles through all of the subelements and then creates a Wall Object at each of the
+        /// necessary locations in the Block Array
+        /// </summary>
+        /// <param name="wallReader"></param>
+        private void ParseWall(XmlReader wallReader)
+        {
+            //a point to hold the location from where we add the wall
+            Point wallLocation = new Point();
+
+            //a Walltype to hold the type, set the default to hard
+            WallType wt = WallType.Hard;
+
+            //a Wallshape to hold the shape, default is vertical line
+            WallShape ws = WallShape.l;
+
+            //a string to hold text data parsed from the file
+            string tempString = "";
+
+            //width and height variables
+            int width = 0, height = 0;
+
+            //read to the end
+            while (wallReader.Read())
+            {
+                //check the node type
+                switch (wallReader.NodeType)
+                {
+                    ///*******************************************************
+                    ///Here we parse the WALL subelements into their own parts
+                    ///*******************************************************
+                    case XmlNodeType.Element:
+                        //check the tag name and perform the necessary action on it
+                        switch (wallReader.Name)
+                        {
+                            //get the starting X location of the wall
+                            case "X":
+                                wallLocation.X = wallReader.ReadElementContentAsInt();
+                                break;
+                            //get the starting Y location of the wall
+                            case "Y":
+                                wallLocation.Y = wallReader.ReadElementContentAsInt();
+                                break;
+                            //Get the wall type as a string, and then assign the appropriate type based on
+                            //the string
+                            case "TYPE":
+                                tempString = wallReader.ReadElementContentAsString();
+                                if (tempString == "WEAK")
+                                    wt = WallType.Weak;
+                                break;
+                            //Get the shape type. Call the SetWallShape function. It returns the appropriate enum WallShape
+                            case "SHAPE":
+                                tempString = wallReader.ReadElementContentAsString();
+                                ws = SetWallShape(tempString);
+                                break;
+                            //Get the width of the wall
+                            case "WIDTH":
+                                width = wallReader.ReadElementContentAsInt() * Tilesize;
+                                break;
+                            //Get the height of the wall
+                            case "HEIGHT":
+                                height = wallReader.ReadElementContentAsInt() * Tilesize;
+                                //add the walls once we reach the end
+                                AddWalls(wallLocation, wt, ws, width, height);
+                                break;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+        }
+
+        /// <summary>
+        ///This function takes an XmlReader the was created from a SPAWNS element in the main file,
+        /// It cycles through all of the subelements and then creates a Spawn object of the type specified.
+        /// </summary>
+        /// <param name="spawnReader"></param>
+        private void ParseSpawns(XmlReader spawnReader)
+        {
+            //a point to hold the location where we will spawn
+            Point spawnLocation = new Point();
+
+            //A SpawnType to hold the type, default is Tank
+            SpawnType st = SpawnType.Tank;
+
+            //A Bitmap to hold the rockets image
+            Bitmap bm = null;
+            //a string to hold text data parsed from the file
+            string tempString = "";
+
+            //read to the end
+            while (spawnReader.Read())
+            {
+                //check the node type
+                switch (spawnReader.NodeType)
+                {
+                    ///*******************************************************
+                    ///Here we parse the SPAWN subelements into their own parts
+                    ///*******************************************************
+                    case XmlNodeType.Element:
+                        switch (spawnReader.Name)
+                        {
+                            //get the starting X location of the wall
+                            case "X":
+                                spawnLocation.X = spawnReader.ReadElementContentAsInt() * Tilesize;
+                                break;
+                            //get the starting Y location of the wall
+                            case "Y":
+                                spawnLocation.Y = spawnReader.ReadElementContentAsInt() * Tilesize;
+                                break;
+                            //Get the wall type as a string, and then assign the appropriate type based on
+                            //the string
+                            case "TYPE":
+                                tempString = spawnReader.ReadElementContentAsString();
+                                if (tempString == "Ammo")
+                                {
+                                    //Spawn type
+                                    st = SpawnType.Ammo;
+                                    bm = Properties.Resources.Rockets;
+                                    _ammoDrops.Add(new Ammo(false, spawnLocation, st, bm));
+                                }
+                                else
+                                {
+                                    //add tankspawn
+                                    _respawnPoints.Add(spawnLocation);
+                                }
+                                
+                                break;
+                        }
+                        break;
+
+                }
+            }
+        }
+        /// <summary>
+        /// This funtion takes in a string and returns the appropriate WallShape
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        private WallShape SetWallShape(string s)
+        {
+            //return the WallShape associated with the input string
+            switch (s)
+            {
+                case "L":
+                    return WallShape.L;
+                case "o":
+                    return WallShape.o;
+                case "hl":
+                    return WallShape.hl;
+                default:
+                    return WallShape.l;
+            }
+        }
+        private void AddWalls(Point wallLocation, WallType wt, WallShape ws, int width, int height)
+        {
+            //create a temporary point to hold the location we are adding to
+            Point tempPoint = new Point(wallLocation.X, wallLocation.Y);
+            //
+            //Bitmap holder for the type of wall we are adding
+            Bitmap tempBm;
+
+            //hard walls are metal
+            if (wt == WallType.Hard)
+            {
+                tempBm = new Bitmap(Properties.Resources.HardWall);
+            }
+            //weak walls are concrete
+            else
+                tempBm = new Bitmap(Properties.Resources.WeakWall);
+            switch (ws)
+            {
+                //Add an 'L' shaped Wall
+                case WallShape.L:
+                    //draw the vertical section of the L has to be -1 so when we increment Y we dont extend beyond the height specified
+                    for (int i = 0; i < (height / Tilesize) - 1; ++i)
+                    {
+                        //add the wall and move to next Y position
+
+                        _shapeList.Add(new Wall
+                            (new Point(tempPoint.X * Tilesize, tempPoint.Y++ * Tilesize), wt, tempBm));
+                        tempPoint.Y++;
+                        
+                    }
+                    //draw the horizontal section, the first element overwrites the one we wrote above,
+                    //but the computational cost is negliable and this is easier to read
+                    for (int i = 0; i < width / Tilesize; ++i)
+                    {
+                        //add the wall and move to the next X position
+                        _shapeList.Add( new Wall
+                            (new Point(tempPoint.X++ * Tilesize, tempPoint.Y * Tilesize), wt, tempBm));
+                        tempPoint.X++;
+                        
+                    }
+                    break;
+                //add an 'o' shaped wall
+                case WallShape.o:
+                    //copy of the origin point for drawing
+                    Point drawPoint = tempPoint;
+                    //nested for loop because the shape is a equilateral
+                    for (int i = 0; i < height / Tilesize; ++i)
+                    {
+                        drawPoint.Y = tempPoint.Y + i;
+                        for (int j = 0; j < width / Tilesize; ++j)
+                        {
+                            drawPoint.X = tempPoint.X + j;
+                            _shapeList.Add(new Wall
+                                (new Point(drawPoint.X * Tilesize,  drawPoint.Y * Tilesize), wt, tempBm));
+                        }
+                        drawPoint.X = tempPoint.X;
+                    }
+                    break;
+                //add a vertical 'l' shaped wall
+                case WallShape.l:
+                    //single for loop because we are drawing straight down. no change in X
+                    for (int i = 0; i < height / Tilesize; ++i)
+                        _shapeList.Add(new Wall
+                            (new Point(tempPoint.X * Tilesize, (tempPoint.Y + i) * Tilesize), wt, tempBm));
+                    break;
+                case WallShape.hl:
+                    for (int i = 0; i < width / Tilesize; ++i)
+                        _shapeList.Add(new Wall
+                            (new Point((tempPoint.X + i) * Tilesize, tempPoint.Y * Tilesize), wt, tempBm));
+                    break;
+
+            }
+        }
+        #endregion
+    }
+}

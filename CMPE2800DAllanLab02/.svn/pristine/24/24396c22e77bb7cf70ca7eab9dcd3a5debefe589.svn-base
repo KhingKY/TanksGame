@@ -1,0 +1,115 @@
+﻿/********************************************************************
+ * File: DynamicShape.cs                                            *
+ * Author: Dillon Allan and Jason Karpiak                           *
+ * Description: Class derived from Shape.                           *
+ *              Used for all moving shapes rendered in-game.        *
+ ********************************************************************/
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    class DynamicShape : Shape
+    {
+        #region Members
+        // horizontal speed
+        public float m_fXSpeed = 0,
+
+            // vertical speed
+            m_fYSpeed = 0,
+
+            // rotation (in degrees)
+            m_fRotation = 0,
+
+            // rotation increment (in degrees)
+            m_fRotInc = 0;
+
+        // shape color
+        protected Color Color;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Default instance constructor.
+        /// Sets initial position and bearing of the DynamicShape.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of the shape.
+        /// </param>
+        /// <param name="initialDirection">
+        /// Initial direction the shape is facing.
+        /// </param>
+        public DynamicShape(PointF position, Color color) : base(position)
+        {
+            Color = color;
+        }
+
+        /// <summary>
+        /// Applies SRT-ordered transformations on the dynamic shape.
+        /// </summary>
+        /// <returns>
+        /// Returns a fully transformed clone of the dynamic shape's model.
+        /// </returns>
+        public override GraphicsPath GetPath()
+        {
+            GraphicsPath gp = _model.Clone() as GraphicsPath;
+            Matrix mat = new Matrix();
+
+            // in order: rotate, then translate
+            mat.Rotate(m_fRotation);
+
+            // set dynamic shape screen position 
+            mat.Translate(Position.X, Position.Y, MatrixOrder.Append);
+
+            // apply transformations to the GraphicsPath object
+            gp.Transform(mat);
+
+            return gp;
+        }
+
+        /// <summary>
+        /// Fills dynamic shape's region in screen space, based on 
+        /// its model.
+        /// </summary>
+        /// <param name="gr">
+        /// Screen graphics object.
+        /// </param>
+        public override void Render(Graphics gr)
+        {
+            gr.FillRegion(new SolidBrush(Color), new Region(GetPath()));
+        }
+
+        /// <summary>
+        /// Updates shape position and roration to current speed and rotation values.
+        /// </summary>
+        /// <param name="size">Client rectangle size.</param>
+        public void Tick(Size size)
+        {
+            // check X/Y bounds, and don't let the Shape move off-screen.
+            if (Position.X + m_fXSpeed >= 0 &&
+                Position.X + m_fXSpeed <= size.Width)
+                Position = new PointF(Position.X + m_fXSpeed, Position.Y);
+
+            // if this is a GunFire object, remove it, now that it's out of bounds
+            else if (GetType().Equals(typeof(Gunfire)))
+                IsMarkedForDeath = true;
+
+            if (Position.Y + m_fYSpeed >= 0
+                && Position.Y + m_fYSpeed <= size.Height)
+                Position = new PointF(Position.X, Position.Y + m_fYSpeed);
+
+            // if this is a GunFire object, remove it, now that it's out of bounds
+            else if (GetType().Equals(typeof(Gunfire)))
+                IsMarkedForDeath = true;
+
+            // update rotation
+            // (reset rotation to 0 if at 360 degrees,
+            //  to avoid an overflow error in the event that
+            // the rotation member gets too big)
+            if (m_fRotation + m_fRotInc == 360)
+                m_fRotation = 0;
+            m_fRotation += m_fRotInc;
+            #endregion
+        }
+    }
+}

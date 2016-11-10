@@ -1,0 +1,32 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    //this enum determines whether or not we can destroy the wall with a tank shell hit
+    enum WallType { Hard, Weak }
+    //TODO: expand the WallShape enum to include more shapes
+    enum WallShape { L, l, o }
+    class Wall : Block
+    {
+        //Bitmap image for the walls
+
+        //use the WallType to know what image to render for the wall color
+        WallType _wallType;
+
+        //leverage the base class constructor except for the WallType
+        public Wall(bool isAlive, Point position, WallType wt, Bitmap bm) : base(true, position, bm)
+        {
+            _bm = bm;
+            _wallType = wt;
+            //assign the breakable flag
+            Breakable = _wallType == WallType.Hard ? false : true;
+        }
+        public bool Breakable { get; set; }
+    }
+}

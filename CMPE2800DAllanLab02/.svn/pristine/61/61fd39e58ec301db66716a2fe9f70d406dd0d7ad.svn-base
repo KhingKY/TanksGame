@@ -1,0 +1,96 @@
+﻿/****************************************************************************
+ * File: GunFire.cs                                                         *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Class derived from Shape. Used for tanks rendered in-game.  *
+ ****************************************************************************/
+using System;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    class Gunfire : DynamicShape
+    {
+        #region Members
+        // size of machine gun bullets and rockets
+        const int machineGunSize = Tilesize * (1 / 10);
+        const int rocketSize = Tilesize * (1 / 5);
+
+        // speed of machine gun bullets and rockets
+        const int machineGunSpeed = Tank.Speed * 2;
+        const int rocketSpeed = Tank.Speed * 1;
+
+        // gunfire offset distance magnitude
+        const int gunfireOffset = Tilesize / 5;
+
+        // models for machine gun bullets and rockets
+        readonly RectangleF machineGunModel = new RectangleF(3 / 10f * Tank.TankSize, -1 / 12f * Tank.TankSize,
+                1 / 6f * Tank.TankSize, 1 / 6f * Tank.TankSize);
+        readonly RectangleF rocketModel = new RectangleF(3 / 10f * Tank.TankSize, -1 / 12f * Tank.TankSize,
+                1 / 4f * Tank.TankSize, 1 / 6f * Tank.TankSize);
+
+        // player who fired their gun
+        public PlayerNumber Player { get; private set; }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Default instance constructor for new gunfire.
+        /// Sets initial position and gun type.
+        /// </summary>
+        /// <param name="position">
+        /// Initial location of the gun blast.
+        /// </param>
+        /// <param name="rotation">
+        /// Angle of gun fire.
+        /// </param>
+        /// <param name="gunType">
+        /// Type of gun fired.
+        /// </param>
+        /// <param name="color">
+        /// Color of gunfire shape.
+        /// </param>
+        public Gunfire(PlayerNumber player, PointF position, float rotation, GunType gunType, Color color)
+            : base(position, color)
+        {
+            // set player index who owns this gunshot
+            Player = player;
+
+            // set angle of gun fire
+            m_fRotation = rotation;
+
+            // set angle in radians
+            double angle = Math.PI / 180 * rotation;
+
+            // set gunfire initial position
+            Position = new PointF(position.X, position.Y);
+
+            // gunfire speed magnitude i.e. the hypotenuse
+            int speed = 0;
+
+            // initialize gunfire model
+            _model = new GraphicsPath();
+
+            // set gunfire properties according to gun type
+            switch (gunType)
+            {
+                case GunType.MachineGun:
+                    // draw a little ellipse for the mg bullet
+                    _model.AddEllipse(machineGunModel);
+                    speed = machineGunSpeed;
+                    break;
+
+                case GunType.Rocket:
+                    // draw a little rectangle for the rocket
+                    _model.AddRectangle(rocketModel);
+                    speed = rocketSpeed;
+                    break;
+            }
+
+            // use trigonometry to set the x and y speeds
+            m_fXSpeed = (int)(speed * Math.Cos(angle));
+            m_fYSpeed = (int)(speed * Math.Sin(angle));
+        }
+        #endregion
+    }
+}

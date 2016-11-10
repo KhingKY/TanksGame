@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    class Block : Shape
+    {
+        //private members, filled in by xml parser;
+    
+        //bitmap for walls and ammo spawns
+        public Bitmap _bm;
+        //the boolean to check if we should render or not
+        private bool _isAlive;
+
+        public Block(bool isAlive, Point position, Bitmap bm) : base(position)
+        {
+            //the condition of the block
+            _isAlive = isAlive;
+            _bm = bm;
+            _model = new GraphicsPath();
+            _model.AddRectangle(new RectangleF(Position.X, Position.Y, Tilesize, Tilesize));
+        }
+        //render and image(wall or ammo)
+        public override void Render(Graphics gr)
+        {
+            if (IsAlive)
+            {
+                gr.DrawImage(_bm, Position.X, Position.Y, Tilesize, Tilesize);
+            }
+        }
+        public override GraphicsPath GetPath()
+        {
+            return _model.Clone() as GraphicsPath;
+        }
+        //public properties for access
+        public bool IsAlive { get { return _isAlive; } set { _isAlive = value; } }
+        
+    }
+}

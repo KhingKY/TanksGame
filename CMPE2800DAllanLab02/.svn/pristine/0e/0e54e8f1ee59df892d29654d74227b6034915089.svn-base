@@ -1,0 +1,94 @@
+﻿/****************************************************************************
+ * File: Tank.cs                                                            *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Class derived from Shape. Used for tanks rendered in-game.  *
+ ****************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    class Tank : Shape
+    {
+        #region Fields
+        private static readonly GraphicsPath _model;    // shared model tank
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Static constructor sets model outline.
+        /// </summary>
+        static Tank()
+        {
+            _model = new GraphicsPath();
+
+            // tank body
+            _model.AddRectangle(new RectangleF(- 1 / 2f * Tilesize , - 2 / 6f * Tilesize, 4 / 5f * Tilesize, 2/ 3f * Tilesize));
+
+            // tip of tank barrel that protrudes past tank body
+            _model.AddRectangle(new RectangleF(3 / 10f * Tilesize, -1 / 12f * Tilesize, 1 / 5f * Tilesize, 1 / 6f * Tilesize));
+        }
+
+        /// <summary>
+        /// Instance constructor sets tank color, and 
+        /// leverages base constructor to set position.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of Tank.
+        /// </param>
+        /// <param name="color">
+        /// Tank color.
+        /// </param>
+        public Tank(PointF position, Color color) : base(position)
+        {
+            Color = color;
+        }
+
+        /// <summary>
+        /// Applies SRT-ordered transformations on the Tank.
+        /// </summary>
+        /// <returns>
+        /// Returns a fully transformed clone of the Tank model.
+        /// </returns>
+        public override GraphicsPath GetPath()
+        {
+            GraphicsPath gp = _model.Clone() as GraphicsPath;
+            Matrix mat = new Matrix();
+
+            // I should add a scale operation to reduce the Tank size 
+            // slightly (~90%), so the player can maneuver through holes in walls.
+
+            // in order: rotate, then translate
+            mat.Rotate(m_fRot, MatrixOrder.Append);
+
+            // +180 to account for the inverted y-axis
+            mat.Translate(Position.X, Position.Y, MatrixOrder.Append);
+
+            // apply transformations to the GraphicsPath object
+            gp.Transform(mat);
+            return gp;
+        }
+
+        public override void Render(Graphics gr)
+        {
+            // render each layer of the tank model in order: 
+            Region outline = new Region(GetPath());
+            RectangleF tankRect = outline.GetBounds(gr); // bottom layer reference point 
+
+            // 1) tank base 
+            gr.FillRegion(new HatchBrush(HatchStyle.NarrowHorizontal, Color), outline);
+
+            // 2) barrel
+            gr.FillRectangle(new SolidBrush(Color.Gray), tankRect.X + 1 / 2f * Tilesize, tankRect.Y + 3 / 12f * Tilesize, 1 / 2f * Tilesize, 1 / 6f * Tilesize);
+
+            // 3) turret
+            gr.FillEllipse(new SolidBrush(Color.Tan), tankRect.X + 1 / 6f * Tilesize, tankRect.Y + 1 / 12f * Tilesize, 1 / 2f * Tilesize, 1 / 2f * Tilesize);
+        }
+        #endregion
+    }
+}

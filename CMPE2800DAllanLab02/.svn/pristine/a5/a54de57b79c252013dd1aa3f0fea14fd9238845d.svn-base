@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    class Block 
+    {
+        //private members, filled in by xml parser;
+        public const int TILE_SIZE = 10;
+
+        private bool _isAlive;
+        private Point _position;
+        
+        public Block(bool isAlive, Point position)
+        {
+            _isAlive = isAlive;
+            _position = position;
+        }
+        public bool IsAlive { get { return _isAlive; } set { _isAlive = value; } }
+        public Point Position { get { return _position; } }
+    }
+}

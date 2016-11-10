@@ -1,0 +1,52 @@
+﻿/****************************************************************************
+ * File: Wall.cs                                                            *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Used for generating wall shapes in-game.                    *
+ ****************************************************************************/
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    class Wall : Shape
+    {
+        //Wall Color
+        Color _wallColor;
+        //use the WallType to know what image to render for the wall color
+        public WallType _wallType { get; private set; }
+        HatchStyle _hatch;
+
+        //leverage the base class constructor except for the WallType
+        public Wall(Point position, WallType wt) : base(position)
+        {
+
+            _wallType = wt;
+            //assign the breakable flag
+            _model = new GraphicsPath();
+            _model.AddRectangle(new RectangleF(Position.X, Position.Y, Tilesize, Tilesize));
+            IsMarkedForDeath = false;
+            if (_wallType == WallType.Hard)
+            {
+                _wallColor = Color.LightSteelBlue;
+                _hatch = HatchStyle.Percent70;
+            }
+            else
+            {
+                _wallColor = Color.DarkRed;
+                _hatch = HatchStyle.HorizontalBrick;
+            }
+        }
+
+        public override void Render(Graphics gr)
+        {
+            gr.FillRegion(new HatchBrush(_hatch, Color.Black, _wallColor), new Region(GetPath()));
+
+        }
+
+        public override GraphicsPath GetPath()
+        {
+            return _model.Clone() as GraphicsPath;
+        }
+
+    }
+}

@@ -1,0 +1,138 @@
+﻿/************************************************************************
+ * File: PlayerData.cs                                                  *
+ * Author: Dillon Allan and Jason Karpiak                               *
+ * Description: Class used for tracking player information,             *
+ *              including health, lives remaining, and reload status.   *
+ ***********************************************************************/
+using System.Collections.Generic;
+using System.Diagnostics;
+
+namespace CMPE2800_Lab02
+{
+    class PlayerData
+    {
+        #region Members
+        // get-only player number
+        public PlayerNumber Player { get; }
+
+        // player score
+        public int Score { get; private set; }
+
+        // players have three lives
+        public int Lives { get; private set; }
+
+        // players have 100HP per life
+        public int HP { get; private set; }
+
+        // used for generating the appropriate gunfire objects
+        public GunType CurrentWeapon { get; private set; }
+
+        // list of weapons to choose from
+        static readonly List<GunType> Guns = new List<GunType>() { GunType.MachineGun, GunType.Rocket };
+
+        // reload times (ms) for each gun type
+        public const int MachineGunReload = 100;
+        public const int RocketReload = 1000;
+
+        // stopwatch to time tank gunfire reloads
+        Stopwatch ReloadTimer = new Stopwatch();
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Instance constructor for new PlayerData objects.
+        /// </summary>
+        /// <param name="player">
+        /// Player number in the game.
+        /// </param>
+        public PlayerData(PlayerNumber player)
+        {
+            // user specifies player number
+            Player = player;
+
+            // players have three lives
+            Lives = 3;
+
+            // players have 100HP per life
+            HP = 100;
+
+            // machinegun is the starting weapon by default
+            CurrentWeapon = GunType.MachineGun;
+        }
+
+        /// <summary>
+        /// Checks if the player's reload timer is running.
+        /// </summary>
+        /// <returns>
+        /// Returns true if the reload timer is running, 
+        /// or false if it's not running.
+        /// </returns>
+        //public bool IsReloading()
+        //{
+        //    if (ReloadTimer.IsRunning)
+        //        return true;
+        //    return false;
+        //}
+
+        /// <summary>
+        /// Checks reload timer's elapsed milliseconds against
+        /// the current weapon's reload time.
+        /// </summary>
+        /// <returns>
+        /// Returns false if still reloading, and true if reloading is done.
+        /// </returns>
+        public bool CheckReload()
+        {
+            // return true if not reloading
+            if (!ReloadTimer.IsRunning)
+                return true;
+
+            // currently reloading -- check if reload is complete 
+            // for the current weapon, and reset the timer.
+            int reloadTime = 0;
+
+            switch (CurrentWeapon)
+            {
+                case GunType.MachineGun:
+                    reloadTime = MachineGunReload;
+                    break;
+                case GunType.Rocket:
+                    reloadTime = RocketReload;
+                    break;
+            }
+
+            // if not done reloading yet, return false
+            if (ReloadTimer.ElapsedMilliseconds < reloadTime)
+                return false;
+
+            // done reloading, so reset the timer and return true
+            ReloadTimer.Reset();
+            return true;
+        }
+
+        /// <summary>
+        /// Resets the reload timer.
+        /// </summary>
+        public void StartReloading()
+        {
+            ReloadTimer.Restart();
+        }
+
+        /// <summary>
+        /// Gets the next weapon from the player's list of guns.
+        /// </summary>
+        public void SwitchWeapon()
+        {
+            // wrap around if at the end of the list
+            if (CurrentWeapon == Guns[Guns.Count - 1])
+            {
+                CurrentWeapon = Guns[0];
+                return;
+            }
+
+            // set current weapon to the next weapon in the list
+            CurrentWeapon = Guns[Guns.IndexOf(CurrentWeapon + 1)];
+        }
+        #endregion
+    }
+}

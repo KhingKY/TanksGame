@@ -1,0 +1,65 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
+
+namespace CMPE2800_Lab02
+{
+    enum SpawnType { Tank, Ammo }
+    //The Spawning class. This will hold the different types of spawns and inherits from Block
+    class Spawn : Block
+    {
+        // the type of spawn (ammo or tank)
+        public SpawnType _spawnType;
+        // the stopwatch for counting the time between ammo spawns
+        private Stopwatch _stopwatch;
+        public Spawn(bool isAlive, Point sp, SpawnType st) : base(isAlive, sp)
+        {
+            _stopwatch = new Stopwatch();
+            _spawnType = st;
+            if (st == SpawnType.Ammo)
+            {
+                _bm = Properties.Resources.Rockets;
+            }
+        }
+
+        public new void Render(Graphics gr, Bitmap bm)
+        {
+            //render an ammo icon
+            if (IsAlive && _spawnType == SpawnType.Ammo && !_stopwatch.IsRunning)
+            {
+                gr.DrawImage(bm, _position.X + TILE_SIZE / 4, _position.Y + TILE_SIZE / 4, TILE_SIZE / 2, TILE_SIZE / 2);
+            }
+        }
+
+        /// <summary>
+        /// This is a member method for stating and stopping the ammo stopwatch.
+        /// We need a stopwatch to count how much time has passed before we 
+        /// allow another respawn of ammo. 20 seconds in this case
+        /// </summary>
+        public void AmmoStopWatch()
+        {
+            //the isAlive bool will be set once the ammo has been collected
+            //The IsRunning flag is here just to protect against starting it again
+            if (!IsAlive && !_stopwatch.IsRunning)
+            {
+                _stopwatch.Start();
+                //sleep 1 millisecond so that the next if statement 
+                //doesn't trigger due to processing speed
+                Thread.Sleep(1);
+            }
+
+            //once 20 seconds has passed, stop the watch and spawn another ammo
+            if (_stopwatch.ElapsedMilliseconds % 20000 == 0)
+            {
+                IsAlive = true;
+                _stopwatch.Stop();
+            }
+        }
+    }
+}

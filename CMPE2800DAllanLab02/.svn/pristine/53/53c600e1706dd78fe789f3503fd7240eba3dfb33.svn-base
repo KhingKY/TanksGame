@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    //class to hold the basic information about a spawn point. basically just the position
+    //ammo and tank spawns will inherit from this.
+    class Spawn 
+    {
+        protected Point _spawnPoint;
+        protected Image _image;
+        public Spawn (Point sp, Image img)
+        {
+            _image = img;
+            _spawnPoint = sp;
+        }
+        public Point SpawnPoint { get { return _spawnPoint; } }
+    }
+}
