@@ -1,2 +1,2 @@
-language: C#
-c#:
+language: csharp
+solution: CMPE2800_Lab02.sln
