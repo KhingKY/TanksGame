@@ -1,5 +1,15 @@
 language: csharp
 solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
+
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
+after_script:
+  - nunit-console Tests/bin/Release/Tests.dll
+
+
 notifications:
   slack:
     secure: k0GCD0WFXYUbAfi2ny2GEswRXN6jmFV2s82dArM74C3qOdjHiegq9cJ5Dpa38GWoLevhUD/0zFmkWrRPg9Tb08nNDNe7sQVuW++Qkau9L34jLuikBHTYoedy4z4tYwFVLyIWy4Rv+Fp97kkyregi+3HLXb7z24PupF3j7IMsPoFqQ94+AK3pM7NOJ/A6GMeaRS1cLUOip8Uu/exIi2ZDVKmkDVXw4YqZzPSRhkAao6DEHqtAtgH2V8RtwFGvDWpGg76ZgxXoanf5GrLvavw6EIDVz0UpIOooQu9pGwbU6z4tw7Aku9lzmC5M9kGySPskOwJw9hOSguE5YlxjbfhtfwmRsGK0hTFvcxPMOjvlsKvoadkXd1m9ekxPmM8CHDFJJ9R/ieP4a36LDC4eXVwY0VCroRqCXOhjjRD0m4RvphroAgG4bYGS4kIxMjmwPz6rA1ol6PDz6xvs6swlhFYu8CgdlOco+WGlpm5qe/aQgJYTanRPP8J+qgy91jmMefvSBR9n0JY3WrGtwgSD4TXZSGaorZ8G+z2eoNHog/8EpASi/K0/vMl89T8ZZ5XjlTlU5LPkzN1eJ1BNWHJ/nPjNGwJV9fJ2emiXXbWKDh1mtqY/c+OSoqduYhztpKC8VGuprt0uKOw5KOdV2pwO8iRuj2dW+mEWJFOjWCbuAbm1RJY=
+
