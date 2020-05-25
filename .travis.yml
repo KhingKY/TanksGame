@@ -1,4 +1,13 @@
 language: csharp
 solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
+
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
+  - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
+after_script:
+  - nunit-console Tests/bin/Release/Tests.dll
+
+
 notifications:
   slack: distinctiontaskdp1hq:yZ0iwso8HQU2xRTmkmerkY1j
