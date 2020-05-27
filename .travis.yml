@@ -22,3 +22,10 @@ notifications:
       - 101215067@students.swinburne.edu.my
     on_success: never
     on_failure: always
+
+deploy:
+    provider: pages
+    skip-cleanup: true
+    github-token: $GITHUB_OAUTH_TOKEN
+    on:
+        branch: Elwin
