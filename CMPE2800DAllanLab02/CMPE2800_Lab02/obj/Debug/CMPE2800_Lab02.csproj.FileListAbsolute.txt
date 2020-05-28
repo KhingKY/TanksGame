@@ -52,4 +52,5 @@ C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE28
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csproj.GenerateResource.cache
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.exe
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.pdb
-C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csprojResolveAssemblyReference.cache
+C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csprojAssemblyReference.cache
+C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csproj.CopyComplete
