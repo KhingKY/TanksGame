@@ -1,13 +1,24 @@
 language: csharp
+mono: none
+dotnet: 2.1.1
 solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 
 before_install:
   - sudo apt-get install nunit-console
 before_script:
   - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
+script:
+  - dotnet restore
+  - dotnet test
 after_script:
   - nunit-console Tests/bin/Release/Tests.dll
-
+after_success:
+    deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_OAUTH_TOKEN
+        on:
+            branch: master
 
 notifications:
   slack:
@@ -23,9 +34,3 @@ notifications:
     on_success: never
     on_failure: always
 
-deploy:
-    provider: pages
-    skip-cleanup: true
-    github-token: $GITHUB_OAUTH_TOKEN
-    on:
-        branch: Elwin
