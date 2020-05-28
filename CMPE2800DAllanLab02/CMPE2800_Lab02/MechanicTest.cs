@@ -12,51 +12,48 @@ namespace CMPE2800_Lab02
 	class MechanicTest
 	{
 		[Test()]
-		public void IsWithinTileSizeTest()
+		public void ChangeWeaponTest()
 		{
-			PointF startP1 = new PointF(1, 0);
-			Color colour = Color.FromName("Blue");
-			Tank tank = new Tank(startP1, colour, PlayerNumber.One);
+			PlayerData playerData = new PlayerData(PlayerNumber.One);
 
-			PointF startP2 = new PointF(1, 1);
-			Color colour2 = Color.FromName("Red");
-			Tank tank2 = new Tank(startP2, colour2, PlayerNumber.Two);
+			playerData.SwitchWeapon();
+			Assert.AreEqual(playerData.CurrentWeapon, GunType.Rocket);
 
-			Assert.IsTrue(tank.IsWithinTileSize(tank2));
-
+			playerData.SwitchWeapon();
+			Assert.AreEqual(playerData.CurrentWeapon, GunType.MachineGun);
 		}
 
 		[Test()]
-		public void IsIntersectingTest()
+		public void TakeDamageTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(Properties.Resources.DirtTerrain);
-			Graphics gr = Graphics.FromImage(_backgroundImage);
-			PointF startP1 = new PointF(1, 0);
-			Color colour = Color.FromName("Blue");
-			Tank tank = new Tank(startP1, colour, PlayerNumber.One);
+			PlayerData playerData1= new PlayerData(PlayerNumber.One);
+			PlayerData playerData2 = new PlayerData(PlayerNumber.Two);
 
-			PointF startP2 = new PointF(1, 1);
-			Color colour2 = Color.FromName("Red");
-			Tank tank2 = new Tank(startP2, colour2, PlayerNumber.Two);
+			playerData1.TakeDamage(GunType.MachineGun, playerData2);
+			Assert.AreEqual(playerData1.HP, 95);
 
-			Assert.IsTrue(tank.IsIntersecting(tank2, gr));
+			playerData1.TakeDamage(GunType.Rocket, playerData2);
+			Assert.AreEqual(playerData1.HP, 70);
 
+			playerData1.Respawn();
+			Assert.AreEqual(playerData1.HP, 100);
+			Assert.AreEqual(playerData1.Lives, 4);
 		}
 
 		[Test()]
-		public void IsCollidingTest()
+		public void ReloadAmmoTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(Properties.Resources.DirtTerrain);
-			Graphics gr = Graphics.FromImage(_backgroundImage);
-			PointF startP1 = new PointF(1, 0);
-			Color colour = Color.FromName("Blue");
-			Tank tank = new Tank(startP1, colour, PlayerNumber.One);
+			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+			playerData1.SwitchWeapon();
 
-			PointF startP2 = new PointF(1, 1);
-			Color colour2 = Color.FromName("Red");
-			Tank tank2 = new Tank(startP2, colour2, PlayerNumber.Two);
+			playerData1.StartReloading();
+			Assert.AreEqual(playerData1.HeavyAmmo, 4);
 
-			Assert.IsTrue(tank.IsColliding(tank2, gr));
+			playerData1.StartReloading();
+			Assert.AreEqual(playerData1.HeavyAmmo, 3);
+
+			playerData1.GetMaxAmmo();
+			Assert.AreEqual(playerData1.HeavyAmmo, 5);
 
 		}
 
