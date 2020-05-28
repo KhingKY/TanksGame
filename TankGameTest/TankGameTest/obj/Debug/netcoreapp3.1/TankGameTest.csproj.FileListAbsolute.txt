@@ -88,9 +88,15 @@ C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\M
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\nunit.framework.dll
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\CMPE2800_Lab02.pdb
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\CMPE2800_Lab02.exe.config
-C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\nunit.framework.pdb
-C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\nunit.framework.xml
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.csprojAssemblyReference.cache
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.AssemblyInfoInputs.cache
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.AssemblyInfo.cs
 C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.csproj.CopyComplete
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\TankGameTest.pdb
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\Microsoft.Win32.SystemEvents.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\System.Drawing.Common.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\Microsoft.Win32.SystemEvents.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\runtimes\unix\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\bin\Debug\netcoreapp3.1\runtimes\win\lib\netcoreapp3.0\System.Drawing.Common.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.dll
+C:\Users\Owner\DP1\TanksGame\TankGameTest\TankGameTest\obj\Debug\netcoreapp3.1\TankGameTest.pdb

@@ -30,7 +30,7 @@ namespace TankGameTest
 		[Test()]
 		public void IsIntersectingTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(Properties.Resources.DirtTerrain);
+			Bitmap _backgroundImage = new Bitmap(@"..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
 			Color colour = Color.FromName("Blue");
@@ -47,7 +47,7 @@ namespace TankGameTest
 		[Test()]
 		public void IsCollidingTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(Properties.Resources.DirtTerrain);
+			Bitmap _backgroundImage = new Bitmap(@"..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
 			Color colour = Color.FromName("Blue");
