@@ -1,0 +1,48 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Threading;
+
+namespace CMPE2800_Lab02
+{
+    enum SpawnType { Tank, Ammo }
+    //The Spawning class. This will hold the different types of spawns and inherits from Block
+    class Spawn : Block
+    {
+        // the type of spawn (ammo or tank)
+        public SpawnType _spawnType;
+        // the stopwatch for counting the time between ammo spawns
+        public Stopwatch _stopwatch;
+        public Spawn(bool isAlive, Point sp, SpawnType st, Bitmap bm) : base(isAlive, sp, bm)
+        {
+            _stopwatch = new Stopwatch();
+            _spawnType = st;
+            if (st == SpawnType.Ammo)
+            {
+                _bm = bm;
+            }
+        }
+
+        public new void Render(Graphics gr)
+        {
+            //render an ammo icon
+            if (IsAlive && _spawnType == SpawnType.Ammo)
+            {
+                gr.DrawImage(_bm, Position.X + Tilesize / 4, Position.Y + Tilesize / 4, 
+                    Tilesize / 2, Tilesize / 2);
+            }
+        }
+
+        /// <summary>
+        /// This is a member method for stating and stopping the ammo stopwatch.
+        /// We need a stopwatch to count how much time has passed before we 
+        /// allow another respawn of ammo. 20 seconds in this case
+        /// </summary>
+       
+    }
+}

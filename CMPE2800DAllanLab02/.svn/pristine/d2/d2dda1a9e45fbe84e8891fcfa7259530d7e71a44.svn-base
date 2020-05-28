@@ -1,0 +1,441 @@
+﻿/****************************************************************
+ * File: Utilities.cs                                           *
+ * Author: Dillon Allan and Jason Karpiak                       *
+ * Description: Helper functions used by Form1.cs.              *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
+using System.Linq;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Methods
+        /// <summary>
+        /// Poll for keyboard and gamepad state
+        /// </summary>
+        PointF prevPos = new PointF();
+        float prevRot;
+        //********************************
+        //TODO: Add missiles to Tank; temp variable for testing
+        //********************************
+        private void TProcessInput()
+        {
+            while (_bRenderFlag)
+            {
+                // process new input from each player
+                foreach (AbstractInput ab in _lPlayerInputs)
+                {
+                    // get input for next frame
+                    ab.CheckGamePadConnection();
+
+                    // poll abstract input,
+                    // and update player's tank
+                    ApplyInput(ab);
+                }
+
+                // slow background thread down to prevent saturation
+                Thread.Sleep(25);
+            }
+        }
+
+        /// <summary>
+        /// Transforms shapes and redners to back buffer
+        /// before replacing the front buffer.
+        /// </summary>
+        private void DoubleBufferedRender()
+        {
+
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(CreateGraphics(), ClientRectangle))
+                {
+                    _lvGameLevel.Render(bg.Graphics);
+
+                    // take snapshot of shape list
+                    List<Shape> shapeSnapshot;
+                    lock (_oSyncLock)
+                    {
+                        shapeSnapshot = new List<Shape>(_lShapes);
+                    }
+
+                    // transform and render shapes
+                    /* foreach (Shape s in shapeSnapshot)
+                     {
+                         // tick dynamic shapes to update movement
+                         if (s.GetType().IsSubclassOf(typeof(DynamicShape)))
+                         {
+                             (s as DynamicShape).Tick();
+                         }
+                         // draw shape to back buffer
+                         s.Render(bg.Graphics);
+                     }*/
+                    lock (_oSyncLock)
+                    {
+                        shapeSnapshot.ForEach(s =>
+                        {
+                            s.Render(bg.Graphics);
+                            //if (s is DynamicShape)
+                                //(s as DynamicShape).Tick();
+
+                        });
+                    }
+                    //render the ammo spawn
+                    foreach (Ammo s in _lAmmoSpawns)
+                    {
+                        //if there is an ammo on the screen render it and continue
+                        if (s.IsAlive)
+                        {
+                            s.Render(bg.Graphics);
+                            continue;
+                        }
+                        //if there is no ammo on the screen, but A timer has been set and has exceeded
+                        //the threshold, render it
+                        if (s._stopwatch.ElapsedMilliseconds >= 5000 && !s.IsAlive && _liveAmmoSpawns == 1)
+                        {
+                            s._stopwatch.Reset();
+                            s.IsAlive = true;
+
+                        }
+                        //if there are no live ammo spawns(either on the screen or a timer running)
+                        if (_liveAmmoSpawns == 0)
+                        {
+                            //start the timer for a random spawn. and set _liveammoSpawns to 1
+                            _lAmmoSpawns[_gen.Next(0, 4)]._stopwatch.Start();
+                            _liveAmmoSpawns = 1;
+                        }
+                    }
+                    // remove all shapes marked for death
+                    shapeSnapshot.RemoveAll((Shape s) => s.IsMarkedForDeath);
+
+                    // update original list of shapes
+                    lock (_oSyncLock)
+                        _lShapes = new List<Shape>(shapeSnapshot);
+
+                    //#if DEBUG
+                    //                    // draw a grid for testing render shapes
+
+                    //                    // vertical lines
+                    //                    for (int x = 0; x < ClientRectangle.Width; x += Shape.Tilesize)
+                    //                    {
+                    //                        bg.Graphics.DrawLine(new Pen(Color.Red), x, 0, x, ClientRectangle.Height);
+                    //                    }
+
+                    //                    // horizontal lines
+                    //                    for (int y = 0; y < ClientRectangle.Height; y += Shape.Tilesize)
+                    //                    {
+                    //                        bg.Graphics.DrawLine(new Pen(Color.Red), 0, y, ClientRectangle.Width, y);
+                    //                    }
+                    //#endif
+                    // flip back buffer to front
+                    bg.Render();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks input field values, and 
+        /// updates Tank properties accordingly.
+        /// </summary>
+        /// <param name="input">
+        /// Player input.
+        /// </param>
+        private void ApplyInput(AbstractInput input)
+        {
+            Tank tank;
+            PlayerData thisPlayer;
+            Graphics gr = CreateGraphics();
+
+
+            // check player number, 
+            // and assign local tank and player data to the player's tank 
+            // and player data members, respectively
+            switch (input.Player)
+            {
+                case PlayerNumber.One:
+                    tank = _tkP1;
+                    thisPlayer = _pdP1;
+                    break;
+                case PlayerNumber.Two:
+                    tank = _tkP2;
+                    thisPlayer = _pdP2;
+                    break;
+                default:
+                    throw new Exception("Player input doesn't exist!");
+            }
+            prevPos.X = tank.Position.X;
+            prevPos.Y = tank.Position.Y;
+            prevRot = tank.m_fRotation;
+            //variables to hold the previous positions of the tanks
+            
+            // check rotation
+            if (input.Rotate)
+            {
+                // stop the tank
+                // (player can't rotate AND translate at once)
+                tank.m_fXSpeed = tank.m_fYSpeed = tank.m_fRotInc = 0;
+
+                // rotate clockwise
+                if (input.Rotate && (input.Right || input.Down))
+                {
+                    tank.m_fRotInc = Tank.RotInc;
+                    //return;
+                }
+
+                // rotate counterclockwise
+                else if (input.Rotate && (input.Left || input.Up))
+                {
+                    tank.m_fRotInc = -Tank.RotInc;
+                    //return;
+                }
+                //if the rotation causes us to hit a wall , return it to the previous rotation
+            }
+
+            else
+            {// not rotating, reset rotation increment
+
+                tank.m_fRotInc = 0;
+                // check translation
+
+                // check up AND down
+                if (input.Up && input.Down)
+                {
+                    // trigger motor interlock
+                    tank.m_fYSpeed = 0;
+                }
+
+                // check up OR down
+                else
+                {
+                    if (input.Up)
+                        // tank.m_fYSpeed = -Tank.Speed;
+                        tank.m_fYSpeed = -Tank.Speed;
+
+                    else if (input.Down)
+                        tank.m_fYSpeed = Tank.Speed;
+                    // tank.m_fYSpeed = Tank.Speed;
+
+                    // no vertical movement input
+                    else
+                        tank.m_fYSpeed = 0;
+
+
+                    // Check left AND right 
+                    if (input.Right && input.Left)
+                    {
+                        // trigger motor interlock
+                        tank.m_fXSpeed = 0;
+                    }
+
+                    // Check left OR right
+                    else
+                    {
+                        if (input.Right)
+                            tank.m_fXSpeed = Tank.Speed;
+                        else if (input.Left)
+                            tank.m_fXSpeed = -Tank.Speed;
+                        // no horizontal movement input
+                        else
+                            tank.m_fXSpeed = 0;
+                    }
+                }
+            }
+
+            // Check weapon select
+            if (input.SwitchWeapon)
+            {
+                // switch to the next weapon
+                thisPlayer.SwitchWeapon();
+            }
+
+            // Check fire cannon
+            if (input.Fire)
+            {
+                // check if not reloading
+                if (thisPlayer.CheckReload())
+                {
+                    // get gunshot color
+                    Color shotColor = Color.White;
+                    switch (thisPlayer.Player)
+                    {
+                        case PlayerNumber.One:
+                            switch (thisPlayer.CurrentWeapon)
+                            {
+                                case GunType.MachineGun:
+                                    shotColor = _cPlayer1MGColor;
+                                    break;
+                                case GunType.Rocket:
+                                    shotColor = _cPlayer1RocketColor;
+                                    break;
+                            }
+                            break;
+                        case PlayerNumber.Two:
+                            switch (thisPlayer.CurrentWeapon)
+                            {
+                                case GunType.MachineGun:
+                                    shotColor = _cPlayer2MGColor;
+                                    break;
+                                case GunType.Rocket:
+                                    shotColor = _cPlayer2RocketColor;
+                                    break;
+                            }
+                            break;
+                    }
+
+                    // get a new gunshot
+                    Gunfire newShot = new Gunfire(thisPlayer.Player, tank.Position, tank.m_fRotation,
+                        thisPlayer.CurrentWeapon, shotColor);
+
+                    // start reloading
+                    thisPlayer.StartReloading();
+
+                    //add new gunshot it to the list
+                    lock (_oSyncLock)
+                    {
+                        _lShapes.Add(newShot);
+                    }
+                }
+            }
+            //move the tank
+            tank.Tick();
+            //cycle through the list of shapes
+            foreach (Shape s in _lShapes)
+            {
+                //create a gunfire object for collision testing
+                
+                //if the shape is gunfire move it
+                if (s is Gunfire)
+                    (s as Gunfire).Tick();
+                //if the shape is the tank we are test, continue
+                if (tank == s)
+                    continue;
+                
+                //lock the collision test
+                lock (_oSyncLock)
+                {
+                    //if the tank is colliding and we are close enough to care
+                    if (tank.IsColliding(s, gr) && IsClose(tank, s))
+                    {
+                        //if the shape we are testing is a wall or another tank, don't move
+                        if (s is Wall || s is Tank)
+                        {
+                            tank.Position = prevPos;
+                            tank.m_fRotation = prevRot;
+                        }
+                        
+                    }
+                }
+            }
+        }
+        /// <summary>
+        /// WallCollision
+        /// Detects a collion between a dynamic shape ds (like tanks) and walls
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="gr"></param>
+        /// <returns></returns>
+        /*    private bool WallCollision(Shape ds, Graphics gr)
+            {
+                //bool to return if there is a collision
+                bool hit = false;
+                //region of the dynamic shape
+                Region dsRegion = new Region(ds.GetPath());
+                //cycle through the blocks
+                foreach (Block b in _lvGameLevel.LevelBlocks)
+                {
+                    //when we encounter a wall
+                    if (b is Wall)
+                    {
+                        Wall w = (Wall)b;
+                        Region wallRegion = new Region(w.GetPath());
+                        //if the wall is close enough for us to care
+                        if(IsClose(ds, w))
+                        {
+                            //check if there is an intersect
+                            Region dsTemp = dsRegion.Clone();
+                            dsTemp.Intersect(wallRegion);
+                            hit = dsTemp.IsEmpty(gr) ? false : true;
+                        }
+                        //return if we hit a wall 
+                        if (hit)
+                            return true;
+                    }
+                }
+                return hit;
+            }*/
+        /// <summary>
+        /// MissileCollect
+        /// This method uses detects whether or not a set of missiles has been collected by the 
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <param name="gr"></param>
+        /// <returns></returns>
+        /*    private bool MissileCollect(Shape ds, Graphics gr)
+            {
+                //bool to hold whether or not the tank collected the missile
+                bool collected = false;
+                Region dsRegion = new Region(ds.GetPath());
+                //cycle through the blocks
+                foreach (Block b in _lvGameLevel.LevelBlocks)
+                {
+                    //if we have a spawn
+                    if (b is Spawn)
+                    {
+                        Spawn s = (Spawn)b;
+                        Region spawnRegion = new Region(s.GetPath());
+                        //if there is an ammoSpawn, Alive, and close
+                        if (s._spawnType == SpawnType.Ammo && s.IsAlive && IsClose(ds, s))
+                        { 
+
+                            Region dsTemp = dsRegion.Clone();
+                            dsTemp.Intersect(spawnRegion);
+                            //if there is an intersection, collect the ammo and get rid of it
+                            if(!dsTemp.IsEmpty(gr))
+                            {
+                                collected = true;
+                                s.IsAlive = false;
+                                //break out of the loop because there can only be 1 spawn at any time, so it
+                                //would be pointless to check for more.
+                                break;
+                            }
+                        }
+                    }
+                }
+                //return whether or not we have collected the ammo
+                return collected;
+                */
+
+
+        /// <summary>
+        /// checks to see if two shapes are close enough to bother checking if they are colliding
+        /// </summary>
+        /// <param name="s1"></param>
+        /// <param name="s2"></param>
+        /// <returns></returns>
+        private bool IsClose(Shape s1, Shape s2)
+        {
+            return Math.Abs(s1.Position.X - s2.Position.X) < 2.5 * Shape.Tilesize &&
+                Math.Abs(s1.Position.Y - s2.Position.Y) < 2.5 * Shape.Tilesize;
+        }
+        /// <summary>
+        /// Creates a region that exists outside of the client rectangle. Used
+        /// for hit detection at edge of screen
+        /// </summary>
+        /// <param name="clientRect"></param>
+        /// <returns></returns>
+      /*  private Region OutOfBounds(Rectangle clientRect)
+        {
+            Rectangle bounds = clientRect;
+            bounds.Inflate(10, 10);
+            Region outerBounds = new Region(bounds);
+            outerBounds.Exclude(clientRect);
+            return outerBounds;
+        }*/
+        #endregion
+
+    }
+}

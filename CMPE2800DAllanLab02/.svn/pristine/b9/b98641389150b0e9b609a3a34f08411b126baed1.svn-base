@@ -1,0 +1,200 @@
+﻿/****************************************************************************
+ * File: Tank.cs                                                            *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Class derived from DynamicShape.                            *
+ *              Used for tanks rendered in-game.                            *
+ ****************************************************************************/
+using System.Drawing;
+using System.Drawing.Drawing2D;
+
+namespace CMPE2800_Lab02
+{
+    class Tank : DynamicShape
+    {
+        #region Fields
+        //private static readonly GraphicsPath _model;  // shared tank model
+
+        // set size of tank model (90% of tilesize for maneuverability)
+        public const int TankSize = Tilesize * 9 / 10;
+
+        // set tank speed 
+        public const int Speed = 5;
+
+        // set rate of rotation
+        public const int RotInc = 5;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Static constructor sets model outline.
+        /// </summary>
+        //static Tank()
+        //{
+        //    _model = new GraphicsPath();
+
+        //    // tank body
+        //    _model.AddRectangle(new RectangleF(-1 / 2f * TankSize, -2 / 6f * TankSize,
+        //        4 / 5f * TankSize, 2 / 3f * TankSize));
+
+        //    // tip of tank barrel that protrudes past tank body
+        //    _model.AddRectangle(new RectangleF(3 / 10f * TankSize, -1 / 12f * TankSize,
+        //        1 / 5f * TankSize, 1 / 6f * TankSize));
+        //}
+
+        /// <summary>
+        /// Instance constructor sets tank color and initial direction, and 
+        /// leverages base constructor to set position.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of Tank.
+        /// </param>
+        /// <param name="initialDirection">
+        /// Initial direction of the tank is facing at game start.
+        /// </param>
+        /// <param name="color">
+        /// Tank color.
+        /// </param>
+        public Tank(PointF position, Direction initialDirection, Color color)
+            : base(position, color)
+        {
+            // set initial bearing based on initial direction
+            switch (initialDirection)
+            {
+                case Direction.North:
+                    m_fRotation = 270;
+                    break;
+                case Direction.South:
+                    m_fRotation = 90;
+                    break;
+                case Direction.East:
+                    m_fRotation = 0;
+                    break;
+                case Direction.West:
+                    m_fRotation = 180;
+                    break;
+                case Direction.NorthEast:
+                    m_fRotation = 315;
+                    break;
+                case Direction.SouthEast:
+                    m_fRotation = 45;
+                    break;
+                case Direction.SouthWest:
+                    m_fRotation = 135;
+                    break;
+                case Direction.NorthWest:
+                    m_fRotation = 225;
+                    break;
+            }
+
+            // set tank model
+            _model = new GraphicsPath();
+
+            // tank body
+            _model.AddRectangle(new RectangleF(-1 / 2f * TankSize, -2 / 6f * TankSize,
+                4 / 5f * TankSize, 2 / 3f * TankSize));
+            //_model.AddRectangle(new RectangleF(0, 0, 4 / 5f * TankSize, 2 / 3f * TankSize));
+
+            // tip of tank barrel that protrudes past tank body
+            _model.AddRectangle(new RectangleF(3 / 10f * TankSize, -1 / 12f * TankSize,
+                1 / 5f * TankSize, 1 / 6f * TankSize));
+        }
+
+        /// <summary>
+        /// Alternative Tank constructor for making a copy of a pre-existing tank.
+        /// </summary>
+        /// <param name="position">Tank position.</param>
+        /// <param name="rotation">Tank rotation.</param>
+        /// <param name="rotInc">Tank rate of rotation per frame.</param>
+        /// <param name="xSpeed">Tank horizontal speed.</param>
+        /// <param name="ySpeed">Tank vertical speed.</param>
+        /// <param name="color">Tank color.</param>
+        public Tank(PointF position, float rotation, float rotInc, float xSpeed, float ySpeed, Color color) : base(position, color)
+        {
+            // set members
+            m_fRotation = rotation;
+            m_fRotInc = rotInc;
+            m_fXSpeed = xSpeed;
+            m_fYSpeed = ySpeed;
+
+            // set tank model
+            _model = new GraphicsPath();
+
+            // tank body
+            _model.AddRectangle(new RectangleF(-1 / 2f * TankSize, -2 / 6f * TankSize,
+                4 / 5f * TankSize, 2 / 3f * TankSize));
+            //_model.AddRectangle(new RectangleF(0, 0, 4 / 5f * TankSize, 2 / 3f * TankSize));
+
+            // tip of tank barrel that protrudes past tank body
+            _model.AddRectangle(new RectangleF(3 / 10f * TankSize, -1 / 12f * TankSize,
+                1 / 5f * TankSize, 1 / 6f * TankSize));
+        }
+
+        /// <summary>
+        /// Returns a new Gunfire object belonging to the tank.
+        /// </summary>
+        /// <param name="gunType">
+        /// Tank can fire a machine gun, or a rocket.
+        /// </param>
+        /// <param name="color">
+        /// Color of the gun projectile.
+        /// </param>
+        //public Gunfire Fire(GunType gunType, Color color)
+        //{
+        //    // check if currently reloading, or if reloading time has passed
+        //    if (!ReloadTimer.IsRunning)
+        //    {
+        //        // if reload time has passed, 
+        //        // create a new bullet or rocket
+        //        switch (gunType)
+        //        {
+        //            case GunType.MachineGun:
+        //                if (ReloadTimer.ElapsedMilliseconds >= MachineGunReload)
+        //                    ReloadTimer.Restart();
+        //                return new Gunfire(new Point(), GunType.MachineGun, color);
+
+        //            case GunType.Rocket:
+        //                if (ReloadTimer.ElapsedMilliseconds >= RocketReload)
+        //                    ReloadTimer.Restart();
+        //                return new Gunfire(new Point(), GunType.Rocket, color);
+
+        //        }
+        //    }
+        //}
+
+        ///// <summary>
+        ///// Applies SRT-ordered transformations on the Tank.
+        ///// </summary>
+        ///// <returns>
+        ///// Returns a fully transformed clone of the Tank model.
+        ///// </returns>
+        //public override GraphicsPath GetPath()
+        //{
+        //    GraphicsPath gp = _model.Clone() as GraphicsPath;
+        //    Matrix mat = new Matrix();
+
+        //    // in order: rotate, then translate
+        //    mat.Rotate(m_fRotation);
+
+        //    // set tank screen position 
+        //    mat.Translate(Position.X, Position.Y, MatrixOrder.Append);
+
+        //    // apply transformations to the GraphicsPath object
+        //    gp.Transform(mat);
+
+        //    return gp;
+        //}
+
+        /// <summary>
+        /// Fills tank region in screen space, based on 
+        /// the tank's model.
+        /// </summary>
+        /// <param name="gr">
+        /// Screen graphics object.
+        /// </param>
+        //public override void Render(Graphics gr)
+        //{
+        //    gr.FillRegion(new HatchBrush(HatchStyle.NarrowHorizontal, Color), new Region(GetPath()));
+        //}
+        #endregion
+    }
+}

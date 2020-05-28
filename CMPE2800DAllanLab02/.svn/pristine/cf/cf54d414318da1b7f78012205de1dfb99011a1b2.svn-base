@@ -1,0 +1,124 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Drawing2D;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+
+namespace CMPE2800_Lab02
+{
+    class Level
+    {
+        Block[,] _blockArray = new Block[10,10]; //Walls, spawns, none, etc.
+        List<Spawn> _spawnList;
+        Image _backgroundImage;
+        Size _blockSize;
+
+        public Level(Image bg, string file)
+        {
+            _backgroundImage = bg;
+            int levelWidth = bg.Width / Block.TILE_SIZE;
+            int levelHeight = bg.Height / Block.TILE_SIZE;
+            _blockSize = new Size(levelWidth, levelHeight);
+            //populate the block array with a bunch of empty blocks
+            for (int i = 0; i < levelWidth; ++i)
+            {
+                for (int j = 0; j < levelHeight; ++j)
+                {
+                    Point p = new Point(i, j);
+                    _blockArray[i, j] = new Block(false, p);
+                }
+            }
+            ParseLevel(file);
+            
+        }
+
+        public Block[,] LevelBlocks { get { return _blockArray; } } //make copy of this for rendering
+        public List<Spawn> LevelSpawns { get { return _spawnList; } } //make copy for rendering
+        public Image LevelBackground { get { return _backgroundImage; } } //use as backdrop
+        private void ParseLevel(string fileName)
+        {
+            string XMLRaw;
+            using (StreamReader SR = File.OpenText(fileName))
+            {
+                XMLRaw = SR.ReadToEnd();
+            }
+            //start a parser
+            using (XmlReader XR = XmlReader.Create(new StringReader(XMLRaw)))
+            {
+                // the builder of a ele class
+                TankSpawn tankSpawn = null;
+                AmmoSpawn ammoSpawn = null;
+                string levelType = null;
+                // while we have a line to read read
+                while (XR.Read())
+                {
+                    switch (XR.NodeType)
+                    {
+                        //if it is an element check the space name
+                        case XmlNodeType.Element:
+                            // store proper
+                            switch (XR.Name) {
+                                case "LEVELTYPE":
+                                    levelType = XR.ReadElementContentAsString();
+                                    break;
+                                case "WALL":
+                                    ParseWall(XR.ReadSubtree());
+                                    break;
+                                case "ATOMIC_NUMBER":
+                                    ATOMIC_NUMBER = XR.ReadElementContentAsString();
+                                    break;
+                                case "SYMBOL":
+                                    SYMBOL = XR.ReadElementContentAsString();
+                                    break;
+                            }
+                            break;
+                        //if we are closing a element and it is an atom we are done
+                        case XmlNodeType.EndElement:
+                            if (XR.Name == "LEVEL")
+                            {
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        private void ParseWall(XmlReader wallReader)
+        {
+            Point wallLocation = new Point();
+            WallType wt = WallType.Hard;
+            while (wallReader.Read())
+            {
+                switch (wallReader.NodeType)
+                {
+                    case XmlNodeType.Element:
+                        switch (wallReader.Name)
+                        {
+                            case "X":
+                                wallLocation.X = wallReader.ReadContentAsInt();
+                                break;
+                            case "Y":
+                                wallLocation.Y = wallReader.ReadContentAsInt();
+                                break;
+                            case "TYPE":
+                                wt = (WallType)wallReader.ReadContentAsInt();
+                                break;
+                        }
+                        continue;
+                    case XmlNodeType.EndElement:
+                        if (wallReader.Name == "HEIGHT")
+                        {
+                            _blockArray[wallLocation.X, wallLocation.Y] = new Wall(true, wallLocation, wt);
+                        }
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,116 @@
+﻿/****************************************************************************
+ * File: Tank.cs                                                            *
+ * Author: Dillon Allan and Jason Karpiak                                   *
+ * Description: Class derived from Shape. Used for tanks rendered in-game.  *
+ ****************************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    class Tank : Shape
+    {
+        #region Fields
+        private static readonly GraphicsPath _model;    // shared tank model
+        private const int TankSize = 180;               // set size of tank model
+        public const int Speed = 10;                    // set to increase speed for tanks 
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Static constructor sets model outline.
+        /// </summary>
+        static Tank()
+        {
+            _model = new GraphicsPath();
+
+            // tank body
+            _model.AddRectangle(new RectangleF(- 1 / 2f * TankSize , - 2 / 6f * TankSize, 
+                4 / 5f * TankSize, 2 / 3f * TankSize));
+
+            // tip of tank barrel that protrudes past tank body
+            _model.AddRectangle(new RectangleF(3 / 10f * TankSize, -1 / 12f * TankSize, 
+                1 / 5f * TankSize, 1 / 6f * TankSize));
+        }
+
+        /// <summary>
+        /// Instance constructor sets tank color, and 
+        /// leverages base constructor to set position.
+        /// </summary>
+        /// <param name="position">
+        /// Screen position of Tank.
+        /// </param>
+        /// <param name="color">
+        /// Tank color.
+        /// </param>
+        public Tank(PointF position, Direction initialDirection, Color color) : base(position, initialDirection)
+        {
+            Color = color;
+        }
+
+        /// <summary>
+        /// Applies SRT-ordered transformations on the Tank.
+        /// </summary>
+        /// <returns>
+        /// Returns a fully transformed clone of the Tank model.
+        /// </returns>
+        public override GraphicsPath GetPath()
+        {
+            GraphicsPath gp = _model.Clone() as GraphicsPath;
+            Matrix mat = new Matrix();
+            
+            // in order: rotate, then translate
+
+            // set tank screen position 
+            mat.Translate(Position.X, Position.Y, MatrixOrder.Append);
+
+            // apply transformations to the GraphicsPath object
+            gp.Transform(mat);
+
+            return gp;
+        }
+
+        public override void Render(Graphics gr)
+        {
+            // render each layer of the tank model in order: 
+            Region baseOutline = new Region(GetPath());
+            RectangleF tankRect = baseOutline.GetBounds(gr); // bottom layer reference point 
+
+            // reference geometry for tank layers
+            PointF rotatePoint = new PointF(tankRect.X, tankRect.Y);
+            float x, y, width, height;
+            RectangleF rect;
+            GraphicsPath gp = new GraphicsPath();
+
+            // 1) tank base 
+            gr.FillRegion(new HatchBrush(HatchStyle.NarrowHorizontal, Color), baseOutline);
+
+            // 2) barrel
+
+            // get top left corner
+            x = tankRect.X + 1 / 2f * TankSize;
+            y = tankRect.Y + 3 / 12f * TankSize;
+
+            // get barrel length and width
+            width = 1 / 2f * TankSize;
+            height = 1 / 6f * TankSize;
+
+            // make shape
+            rect = new RectangleF(x, y, width, height);
+
+            gr.FillRectangle(new SolidBrush(Color.Gray), rect);
+
+            // 3) turret
+            width = tankRect.X + 1 / 7f * TankSize;
+            height = tankRect.Y + 1 / 12f * TankSize;
+            gr.FillEllipse(new SolidBrush(Color.Tan), width, 
+                height, 1 / 2f * TankSize, 1 / 2f * TankSize);
+        }
+        #endregion
+    }
+}

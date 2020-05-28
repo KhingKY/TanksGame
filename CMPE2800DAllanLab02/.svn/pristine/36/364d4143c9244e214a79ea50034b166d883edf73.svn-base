@@ -1,0 +1,255 @@
+﻿/****************************************************************
+ * File: Utilities.cs                                           *
+ * Author: Dillon Allan and Jason Karpiak                       *
+ * Description: Helper functions used by Form1.cs.              *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
+
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Methods
+        /// <summary>
+        /// Poll for keyboard and gamepad state
+        /// </summary>
+        private void TProcessInput()
+        {
+            while (true)
+            {
+                // process new input from each player
+                foreach (AbstractInput ab in _lPlayerInputs)
+                {
+                    // get input for next frame
+                    ab.CheckGamePadConnection();
+
+                    // poll abstract input,
+                    // and update player's tank
+                    ApplyInput(ab);
+                }
+
+                // slow background thread down to prevent saturation
+                Thread.Sleep(25);
+            }
+        }
+
+        /// <summary>
+        /// Transforms shapes and redners to back buffer
+        /// before replacing the front buffer.
+        /// </summary>
+        private void DoubleBufferedRender()
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(CreateGraphics(), ClientRectangle))
+                {
+                    bg.Graphics.Clear(Color.Black);
+
+                    // take snapshot of shape list
+                    List<Shape> shapeSnapshot;
+                    lock (_oSyncLock)
+                    {
+                        shapeSnapshot = new List<Shape>(_lShapes);
+                    }
+
+                    // transform and render shapes
+                    foreach (Shape s in shapeSnapshot)
+                    {
+                        // tick dynamic shapes to update movement
+                        if (s.GetType().IsSubclassOf(typeof(DynamicShape)))
+                            (s as DynamicShape).Tick(ClientRectangle.Size);
+
+                        // draw shape to back buffer
+                        s.Render(bg.Graphics);
+                    }
+
+                    // remove all shapes marked for death
+                    shapeSnapshot.RemoveAll((Shape s) => s.IsMarkedForDeath);
+
+                    // update original list of shapes
+                    lock (_oSyncLock)
+                        _lShapes = new List<Shape>(shapeSnapshot);
+
+#if DEBUG
+                    // draw a grid for testing render shapes
+
+                    // vertical lines
+                    for (int x = 0; x < ClientRectangle.Width; x += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), x, 0, x, ClientRectangle.Height);
+                    }
+
+                    // horizontal lines
+                    for (int y = 0; y < ClientRectangle.Height; y += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), 0, y, ClientRectangle.Width, y);
+                    }
+#endif
+                    // flip back buffer to front
+                    bg.Render();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks input field values, and 
+        /// updates Tank properties accordingly.
+        /// </summary>
+        /// <param name="input">
+        /// Player input.
+        /// </param>
+        private void ApplyInput(AbstractInput input)
+        {
+            Tank tank;
+            PlayerData thisPlayer;
+
+            // check player number, 
+            // and assign local tank and player data to the player's tank 
+            // and player data members, respectively
+            switch (input.Player)
+            {
+                case PlayerNumber.One:
+                    tank = _tkP1;
+                    thisPlayer = _pdP1;
+                    break;
+                case PlayerNumber.Two:
+                    tank = _tkP2;
+                    thisPlayer = _pdP2;
+                    break;
+                default:
+                    throw new Exception("Player input doesn't exist!");
+            }
+
+            // check rotation
+            if (input.Rotate)
+            {
+                // stop the tank
+                // (player can't rotate AND translate at once)
+                tank.m_fXSpeed = tank.m_fYSpeed = tank.m_fRotInc = 0;
+
+                // rotate clockwise
+                if (input.Rotate && (input.Right || input.Down))
+                {
+                    tank.m_fRotInc = Tank.RotInc;
+                    //return;
+                }
+
+                // rotate counterclockwise
+                else if (input.Rotate && (input.Left || input.Up))
+                {
+                    tank.m_fRotInc = -Tank.RotInc;
+                    //return;
+                }
+            }
+
+            else
+            {// not rotating, reset rotation increment
+                tank.m_fRotInc = 0;
+
+                // check translation
+
+                // check up AND down
+                if (input.Up && input.Down)
+                {
+                    // trigger motor interlock
+                    tank.m_fYSpeed = 0;
+                }
+
+                // check up OR down
+                else
+                {
+                    if (input.Up)
+                        tank.m_fYSpeed = -Tank.Speed;
+                    else if (input.Down)
+                        tank.m_fYSpeed = Tank.Speed;
+
+                    // no vertical movement input
+                    else
+                        tank.m_fYSpeed = 0;
+                }
+
+                // Check left AND right 
+                if (input.Right && input.Left)
+                {
+                    // trigger motor interlock
+                    tank.m_fXSpeed = 0;
+                }
+
+                // Check left OR right
+                else
+                {
+                    if (input.Right)
+                        tank.m_fXSpeed = Tank.Speed;
+                    else if (input.Left)
+                        tank.m_fXSpeed = -Tank.Speed;
+
+                    // no horizontal movement input
+                    else
+                        tank.m_fXSpeed = 0;
+                }
+            }
+
+            // Check weapon select
+            if (input.SwitchWeapon)
+            {
+                // switch to the next weapon
+                thisPlayer.SwitchWeapon();
+            }
+
+            // Check fire cannon
+            if (input.Fire)
+            {
+                // check if not reloading
+                if (thisPlayer.CheckReload())
+                {
+                    // get gunshot color
+                    Color shotColor = Color.White;
+                    switch (thisPlayer.Player)
+                    {
+                        case PlayerNumber.One:
+                            switch (thisPlayer.CurrentWeapon)
+                            {
+                                case GunType.MachineGun:
+                                    shotColor = _cPlayer1MGColor;
+                                    break;
+                                case GunType.Rocket:
+                                    shotColor = _cPlayer1RocketColor;
+                                    break;
+                            }
+                            break;
+                        case PlayerNumber.Two:
+                            switch (thisPlayer.CurrentWeapon)
+                            {
+                                case GunType.MachineGun:
+                                    shotColor = _cPlayer2MGColor;
+                                    break;
+                                case GunType.Rocket:
+                                    shotColor = _cPlayer2RocketColor;
+                                    break;
+                            }
+                            break;
+                    }
+
+                    // get a new gunshot
+                    Gunfire newShot = new Gunfire(thisPlayer.Player, tank.Position, tank.m_fRotation,
+                        thisPlayer.CurrentWeapon, shotColor);
+
+                    // start reloading
+                    thisPlayer.StartReloading();
+
+                    //add new gunshot it to the list
+                    lock (_oSyncLock)
+                    {
+                        _lShapes.Add(newShot);
+                    }
+                }
+            }
+        }
+        #endregion
+    }
+}

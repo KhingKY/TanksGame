@@ -1,0 +1,27 @@
+﻿/********************************************************************
+ * File: AbstractInput.cs                                           *
+ * Author: Dillon Allan and Jason Karpiak                           *
+ * Description: Class used for input abstraction in-game.           *
+ ********************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CMPE2800_Lab02
+{
+    public class AbstractInput
+    {
+        #region Fields
+        // 8 input directions
+        public bool Up,
+                    Down,
+                    Left,
+                    Right;
+
+        // fire tank cannon
+        public bool Fire;
+        #endregion
+    }
+}

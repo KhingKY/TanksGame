@@ -1,0 +1,416 @@
+﻿/****************************************************************
+ * File: Form1.cs                                               *
+ * Author: Dillon Allan and Jared Karpiak                       *
+ * Description: Main file for game event processing.            *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using System.Windows.Forms;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Members
+        Graphics _grFront;  // main graphics buffer
+
+        //*************************Jared Added Threads
+        //Thread renderThread;
+        //Level gameLevel;
+        //volatile bool renderFlag;
+        //***************************
+
+        // player 1 and player 2 members
+
+        // Tanks
+        Tank _tP1;
+
+        // Abstract input objects
+        AbstractInput _abP1;
+
+        // Colors 
+        System.Drawing.Color _cPlayer1Color = System.Drawing.Color.Green;
+        System.Drawing.Color _cPlayer2Color = System.Drawing.Color.Tan;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes class-level members.
+        /// </summary>
+        public TanksForm()
+        {
+            InitializeComponent();
+
+            _grFront = CreateGraphics();
+            
+            // test tank rendering
+            _tP1 = new Tank(new PointF(400, 400), Direction.East, _cPlayer1Color);
+
+            // test tank input
+            _abP1 = new AbstractInput(InputType.Keyboard);
+        }
+
+        /// <summary>
+        /// Each tick (25 ms) checks for new movement, rendering, 
+        /// and hit detection operations to process.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tim_Updater_Tick(object sender, EventArgs e)
+        {
+            // process new input from each player
+            GetNewInput(_abP1);
+            ApplyInput(_abP1);
+            
+            //GetNewInput(_abP2);
+            //ApplyInput(_tP2._abInput);
+
+            // perform buffered graphics operations
+            DoubleBufferedRender();
+        }
+        /// <summary>
+        /// Transforms shapes and renders to back buffer
+        /// before replacing the front buffer.
+        /// </summary>
+        private void DoubleBufferedRender()
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(_grFront, ClientRectangle))
+                {
+                    bg.Graphics.Clear(System.Drawing.Color.Black);
+
+                    // transform and render player tanks
+                    _tP1.Tick(ClientRectangle.Size);
+                    _tP1.Render(bg.Graphics);
+
+                    // draw a grid for testing render shapes.
+                    for (int x = 0; x < ClientRectangle.Width; x += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(System.Drawing.Color.Red), x, 0, x, ClientRectangle.Height);
+                    }
+
+                    for (int y = 0; y < ClientRectangle.Height; y += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(System.Drawing.Color.Red), 0, y, ClientRectangle.Width, y);
+                    }
+
+                    // flip back buffer to front
+                    bg.Render();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets input device type,
+        /// and updates abstract input fields.
+        /// as necessary.
+        /// </summary>
+        private void GetNewInput(AbstractInput input)
+        {
+            // check control type
+            switch (input.Control)
+            {
+                case InputType.Keyboard:
+                    // get current state of player controls
+                    KeyboardState kbsP1 = Keyboard.GetState();
+
+                    // Player 1 - check input for four possible directions: 
+                    if (kbsP1.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Up))
+                        input.Up = true;
+                    else
+                        input.Up = false;
+                    if (kbsP1.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Down))
+                        input.Down = true;
+                    else
+                        input.Down = false;
+                    if (kbsP1.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Left))
+                        input.Left = true;
+                    else
+                        input.Left = false;
+                    if (kbsP1.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Right))
+                        input.Right = true;
+                    else
+                        input.Right = false;
+
+                    // check for fire cannon
+                    if (kbsP1.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Space))
+                        input.Fire = true;
+                    else
+                        input.Fire = false;
+                    break;
+
+                case InputType.GamePad:
+                    // get current state of player controls
+                    GamePadState gpsP2 = GamePad.GetState(PlayerIndex.One);
+
+                    // is controller 1 connected?
+                    if (gpsP2.IsConnected)
+                    {
+                        // Player 2 - check input for four possible directions:
+                        // (input is determined by left-thumbstick direction)
+
+                        // Up
+                        if (gpsP2.ThumbSticks.Left.Y > 0)
+                            input.Up = true;
+                        else
+                            input.Up = false;
+
+                        // Down
+                        if (gpsP2.ThumbSticks.Left.Y < 0)
+                            input.Up = true;
+                        else
+                            input.Up = false;
+
+                        // Left
+                        if (gpsP2.ThumbSticks.Left.X < 0)
+                            input.Up = true;
+                        else
+                            input.Up = false;
+
+                        // Right
+                        if (gpsP2.ThumbSticks.Left.X > 0)
+                            input.Up = true;
+                        else
+                            input.Up = false;
+
+                        // check input for fire cannon 
+                        // (user can pull trigger halfway to fire)
+                        if (gpsP2.Triggers.Right > 0.5)
+                            input.Fire = true;
+                        else
+                            input.Fire = false;
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Checks input field values, and 
+        /// updates Tank properties accordingly.
+        /// </summary>
+        /// <param name="input">
+        /// Player input.
+        /// </param>
+        private void ApplyInput(AbstractInput input)
+        {
+            // check up AND down
+            if (input.Up && input.Down)
+            {
+                // trigger motor interlock
+                _tP1.m_fYSpeed = 0;
+            }
+            // check up OR down
+            else 
+            {
+                if (input.Up)
+                    _tP1.m_fYSpeed = -Tank.Speed;
+                else if (input.Down)
+                    _tP1.m_fYSpeed = Tank.Speed;
+                // no vertical movement input
+                else
+                    _tP1.m_fYSpeed = 0;
+            }
+
+            // Check left AND right 
+            if (input.Right && input.Left)
+            {
+                // trigger motor interlock
+                _tP1.m_fXSpeed = 0;
+            }
+            // Check left OR right
+            else
+            {
+                if (input.Right)
+                    _tP1.m_fXSpeed = Tank.Speed;
+                else if (input.Left)
+                    _tP1.m_fXSpeed = -Tank.Speed;
+                // no horizontal movement input
+                else
+                    _tP1.m_fXSpeed = 0;
+            }
+
+            // Check fire cannon!
+            if (input.Fire)
+            {
+                // do something to fire a cannon!
+            }
+        }
+        #endregion
+
+        /// <summary>
+        /// Checks player keyboard inputs.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TanksForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // Player controls (if using the keyboard)
+            // NOTE: If one GamePad is connected, the keyboard controls are disabled
+            // for player 1. If two GamePads are connected, both keyboard controls
+            // are disabled.
+            // Player 1 controls: Arrow keys - translational movement
+            //                    Right-ctrl + Arrow key - rotate tank (can't translate)
+            //                    Enter - fire
+            // Player 2 controls: WASD - translation movement
+            //                    Left-shift + WASD key - rotate tank (can't translate)
+            //                    Space - fire
+            switch (e.KeyCode)
+            {
+                // player 1 controls
+                case System.Windows.Forms.Keys.Up:
+                    if (e.Modifiers == System.Windows.Forms.Keys.RControlKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.Down:
+                    if (e.Modifiers == System.Windows.Forms.Keys.RControlKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.Left:
+                    if (e.Modifiers == System.Windows.Forms.Keys.RControlKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.Right:
+                    if (e.Modifiers == System.Windows.Forms.Keys.RControlKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+
+                // player 2 controls
+                case System.Windows.Forms.Keys.W:
+                    if (e.Modifiers == System.Windows.Forms.Keys.LShiftKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.S:
+                    if (e.Modifiers == System.Windows.Forms.Keys.LShiftKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.A:
+                    if (e.Modifiers == System.Windows.Forms.Keys.LShiftKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+                case System.Windows.Forms.Keys.D:
+                    if (e.Modifiers == System.Windows.Forms.Keys.LShiftKey)
+                    {
+                        // set rotate value
+                    }
+                    else
+                    {
+                        // set translate value
+                    }
+                    break;
+            }
+        }
+    }
+}
+/*
+*********************************
+JARED'S FORM RENDERING
+
+//GLOBALS 
+Thread renderThread;
+Level gameLevel;
+volatile bool renderFlag;
+
+
+private void Form1_Load(object sender, EventArgs e)
+{
+    gameLevel = new Level(Properties.Resources.DesertLevel);
+    renderFlag = true;
+    renderThread = new Thread(Render);
+    renderThread.IsBackground = true;
+    renderThread.Start();
+}
+private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+{
+    renderFlag = false;
+    Thread.Sleep(20);
+}
+private void Render()
+{
+   //need a render flag to prevent crashing on form closing
+    while (renderFlag)
+    {
+        try
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(CreateGraphics(), ClientRectangle))
+                {
+
+                    // do rendering here
+                    Graphics gr = bg.Graphics;
+                    bg.Graphics.DrawImage(gameLevel.LevelBackground, new Point(0, 0));
+
+                    int count = 0;
+                    foreach (Block b in gameLevel.LevelBlocks)
+                    {
+                        if (b is Wall)
+                        {
+                            b.Render(bg.Graphics, b._bm);
+                        }
+                    }
+
+    
+                    // flip backbuffer to primary
+                    bg.Render();
+                }
+            }
+            Thread.Sleep(20);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}*/

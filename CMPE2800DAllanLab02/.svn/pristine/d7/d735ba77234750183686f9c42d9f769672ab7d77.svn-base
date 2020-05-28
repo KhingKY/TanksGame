@@ -1,0 +1,384 @@
+﻿/****************************************************************
+ * File: Form1.cs                                               *
+ * Author: Dillon Allan and Jared Karpiak                       *
+ * Description: Main file for game event processing.            *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
+using System.Linq;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Members
+        // background thread for processing input
+        Thread _tInputProcessing;
+        //game level
+        Level _lvGameLevel;
+        //Random number generator, used for random ammo spawns
+        Random _gen = new Random();
+        //bool to protect against rendering interrupt
+        volatile bool _bRenderFlag;
+        //*************************
+
+        // lock object
+        object _oSyncLock = new object();
+
+        // player 1 and player 2 objects
+        PlayerData _pdP1;
+        PlayerData _pdP2;
+
+        // Tanks
+        Tank _tkP1;
+        Tank _tkP2;
+
+        // Starting Spawn Points 
+        Spawn _spP1;
+        Spawn _spP2;
+
+        // Abstract input objects
+        AbstractInput _abP1;
+        AbstractInput _abP2;
+
+        // List of abstract inputs
+        List<AbstractInput> _lPlayerInputs;
+
+        // List of Shapes
+        List<Shape> _lShapes;
+
+        // Array of Tank and Ammo Spawns
+        Spawn[] _aTankSpawns = new Spawn[4];
+        Spawn[] _aAmmoSpawns = new Spawn[4];
+        int _liveAmmoSpawns;
+
+        // Colors 
+        Color _cPlayer1Color = Color.Green;
+        Color _cPlayer2Color = Color.Tan;
+        Color _cPlayer1MGColor = Color.Blue;
+        Color _cPlayer2MGColor = Color.Yellow;
+        Color _cPlayer1RocketColor = Color.Aqua;
+        Color _cPlayer2RocketColor = Color.DarkOrchid;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes class-level members.
+        /// </summary>
+        public TanksForm()
+        {
+            InitializeComponent();
+
+            // initialize players
+            _pdP1 = new PlayerData(PlayerNumber.One);
+            _pdP2 = new PlayerData(PlayerNumber.Two);
+
+            _tInputProcessing = new Thread(TProcessInput, 0);
+
+           // _tRenderThread = new Thread(DoubleBufferedRender);
+            _lvGameLevel = new Level(Properties.Resources.DesertLevel, new PointF (0,0));
+            _bRenderFlag = true;
+
+            //add spawns to the list
+            AddSpawns();
+
+            _abP1 = new AbstractInput(PlayerNumber.One);
+            _abP2 = new AbstractInput(PlayerNumber.Two);
+
+            // test tank rendering
+            _tkP1 = new Tank(_spP1.Position, Direction.SouthEast, _cPlayer1Color);
+            _tkP2 = new Tank(_spP2.Position, Direction.NorthWest, _cPlayer2Color);
+
+            // add inputs to input list
+            _lPlayerInputs = new List<AbstractInput> { _abP1, _abP2 };
+
+            // add tank shapes to shape list
+            _lShapes = new List<Shape> { _tkP1, _tkP2 };
+
+            // start background input processing thread 
+            _tInputProcessing = new Thread(TProcessInput, 0);
+            _tInputProcessing.IsBackground = true;
+            _tInputProcessing.Start();
+        }
+
+        /// <summary>
+        /// Renders one frame of gameplay.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // render new frame
+            if (_bRenderFlag)
+                DoubleBufferedRender();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+        // Player keyboard controls
+        // NOTE: If one GamePad is connected, the keyboard controls are disabled
+        // for player 1. If two GamePads are connected, both keyboard controls
+        // are disabled.
+        // Player 1 controls: Arrow keys - translational movement
+        //                    Right-ctrl + Arrow key - rotate tank (can't translate)
+        //                    Enter - fire
+        //                    '/' key: switch weapon
+        // Player 2 controls: WASD - translation movement
+        //                    Left-shift + WASD key - rotate tank (can't translate)
+        //                    Space - fire
+        //                    Q key - switch weapon
+        /////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Checks key up states, and 
+        /// applies input processing for the appropriate player.
+        /// </summary>
+        private void TanksForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            // send key down event to each player input
+            foreach (AbstractInput ab in _lPlayerInputs)
+                ab.SetKeyDownInput(e);
+
+            //switch (e.KeyCode)
+            //{
+            //    // player 1 inputs
+            //    case Keys.Up:
+            //    case Keys.Down:
+            //    case Keys.Left:
+            //    case Keys.Right:
+            //    case Keys.ControlKey:
+            //    case Keys.Enter:
+            //    case Keys.Oem2: // '/' key
+            //        //case Keys.
+            //        _abP1.SetKeyDownInput(e);
+            //        break;
+
+            //    // player 2 inputs
+            //    case Keys.W:
+            //    case Keys.A:
+            //    case Keys.S:
+            //    case Keys.D:
+            //    case Keys.ShiftKey:
+            //    case Keys.Space:
+            //    case Keys.Q:
+            //        _abP2.SetKeyDownInput(e);
+            //        break;
+            //}
+        }
+
+        /// <summary>
+        /// Checks key down states, and 
+        /// applies input processing for the appropriate player.
+        /// </summary>
+        private void TanksForm_KeyUp(object sender, KeyEventArgs e)
+        {
+            // send key up event to each player input
+            foreach (AbstractInput ab in _lPlayerInputs)
+                ab.SetKeyUpInput(e);
+            //switch (e.KeyCode)
+            //{
+            //// player 1 inputs
+            //case Keys.Up:
+            //case Keys.Down:
+            //case Keys.Left:
+            //case Keys.Right:
+            //case Keys.ControlKey:
+            //case Keys.Enter:
+            //case Keys.Oem2:
+            //    _abP1.SetKeyUpInput(e);
+            //    break;
+
+            //// player 2 inputs
+            //case Keys.W:
+            //case Keys.A:
+            //case Keys.S:
+            //case Keys.D:
+            //case Keys.ShiftKey:
+            //case Keys.Space:
+            //case Keys.Q:
+            //    _abP2.SetKeyUpInput(e);
+            //    break;
+            //}
+        }
+        #endregion
+
+        private void TanksForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            foreach (AbstractInput ab in _lPlayerInputs)
+            {
+                ab.SetKeyPressInput(e);
+            }
+        }
+        private void TanksForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _bRenderFlag = false;
+            _tInputProcessing.Join();
+        }
+        /// <summary>
+        /// Add the spawns to the a list of spawn points
+        /// </summary>
+        private void AddSpawns()
+        {
+            //iterators for array
+            int _iTankSpawnCount = 0;
+            int _iAmmoSpawnCount = 0;
+            Spawn temp;
+            //search the level blocks array for any spawns and add them to the list.
+            foreach (Block b in _lvGameLevel.LevelBlocks)
+            {
+                if (b is Spawn)
+                {
+                    //cast b to a spawn and assign it to temp
+                    temp = (Spawn)b;
+                    //add the spawn to the appropriate array based on type
+                    if (temp._spawnType == SpawnType.Tank)
+                        _aTankSpawns[_iTankSpawnCount++] = temp;
+                    if (temp._spawnType == SpawnType.Ammo)
+                        _aAmmoSpawns[_iAmmoSpawnCount++] = temp;
+
+                }
+            }
+            //set the player 1 initial spawn point to the first one in the list
+            _spP1 = _aTankSpawns[0];
+            //set the player 2 initial spawn point to the furthest point from the first player
+            _spP2 = FurthestSpawn(_spP1, _aTankSpawns);
+
+            //start the first ammo spawn stopwatch
+            _aAmmoSpawns[_gen.Next(0, 4)]._stopwatch.Start();
+            _liveAmmoSpawns = 1;
+
+        }
+        /// <summary>
+        /// Method for finding the furthest spawn point given an original spawn
+        /// </summary>
+        /// <param name="StartSpawn"></param>
+        /// <returns></returns>
+        private Spawn FurthestSpawn(Spawn StartSpawn, Spawn[] spawnArray)
+        {
+            //variables to hold distances and the return spawnPoint
+            int _iDistance = 0;
+            int _iFurthestDistance = 0;
+            Spawn _spFurthest = StartSpawn;
+
+            //iterate through list
+            foreach (Spawn sp in spawnArray)
+            {
+                //if the spawn is not the current location
+                if (sp != StartSpawn)
+                {
+                    //find the distance between the this spawn and the Spawn Point we entered using Pythagoras' Theorem
+                    _iDistance = (int)Math.Sqrt(Math.Pow(StartSpawn.Position.X - sp.Position.X, 2) +
+                                        Math.Pow(StartSpawn.Position.Y - sp.Position.Y, 2));
+                    
+                    //compare the distances set and add the new one if it is further
+                    if (_iDistance > _iFurthestDistance)
+                    {
+                        _iFurthestDistance = _iDistance;
+                        _spFurthest = sp;
+                    }
+                }
+                
+            }
+            //return the furthest spawn point
+            return _spFurthest;
+        }
+        /// <summary>
+        /// Tests a given shape for intersections
+        /// with other shapes in _lShapes..
+        /// </summary>
+        /// <param name="shape">
+        /// Test shape.
+        /// </param>
+        /// <param name="gr">
+        /// Graphics object as screen reference point.
+        /// </param>
+        private void DetectCollisions(Shape shape, Graphics gr)
+        {
+            // collision detection test:
+
+
+            // 1) get shape region defined by its path
+            Region shapeRegion = new Region(shape.GetPath());
+
+        }
+        
+    }
+}
+///*
+//*********************************
+//JARED'S FORM RENDERING
+//=======
+//    }
+//}
+///*
+//*********************************
+//JARED'S FORM RENDERING
+//>>>>>>> .r30
+
+//            // 2) check every other shape for collisions
+//            foreach (Shape testShape in _lShapes)
+//            {
+//                // 3) skip self
+//                if (ReferenceEquals(testShape, shape))
+//                    continue;
+
+//                // 4) skip shapes that can't possibly be touching each other
+//                //if ((Math.Abs(shape.Position.X - testShape.Position.X) > 2 * Block.TILE_SIZE - 1) ||
+//                //    (Math.Abs(shape.Position.Y - testShape.Position.Y) > 2 * Block.TILE_SIZE - 1))
+//                //    continue;
+
+//                //Wall hit detection
+//                foreach (Wall w in _lvGameLevel.LevelBlocks)
+//                {
+//                    //if a tank is running into a wall
+//                    if (shape is Tank)
+//                    {
+//                        Tank t = (Tank)shape;
+//                        Region wallReg = w.Bounds;
+//                        //skip shapes that can't possibly be touching eachother
+//                        if ((Math.Abs(t.Position.X - w.Center.X) > 2 * Block.TILE_SIZE - 1) ||
+//                            (Math.Abs(t.Position.Y - w.Center.Y) > 2 * Block.TILE_SIZE - 1))
+//                            continue;
+//                        Region colReg = shapeRegion.Clone();
+//                        colReg.Intersect(wallReg);
+//                        if (!colReg.IsEmpty(gr))
+//                        {
+                            
+//                        }
+                   
+
+//                    }
+//                 //   if (shape is Gunfire && w.WallType = WallType.Weak)
+//                 /*
+//                 */
+//                }
+//                // 5) create test region based on testShape's path
+//                Region testCollision = new Region(testShape.GetPath());
+//                testCollision.Intersect(shapeRegion);
+
+//                // 6) check if not empty 
+//                if (!testCollision.IsEmpty(gr))
+//                {
+//                    // 7) mark both shapes for death!
+//                    testShape.IsMarkedForDeath = shape.IsMarkedForDeath = true;
+                    
+
+//                    // To implement saved collision testing, uncomment the code below,
+//                    // and comment out the above Lock and Add commands.
+
+//                    // 8) Add collision region to the list of test collisions
+//                    //_lTestCollisions.Add(testCollision);
+
+//                    // 9) set new collision flag
+//                    //_bNewCollision = true;
+//                }
+//            }
+//        }
+
+//        #endregion
+
+
+//    }
+//}

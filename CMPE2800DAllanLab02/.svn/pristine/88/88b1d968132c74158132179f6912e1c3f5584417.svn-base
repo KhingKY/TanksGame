@@ -1,0 +1,94 @@
+﻿/****************************************************************
+ * File: Form1.cs                                               *
+ * Author: Dillon Allan and Jason Karpiak                       *
+ * Description: Main file for game event processing.            *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Members
+        Graphics _grFront;  // main graphics buffer
+        List<Shape> _lPlayers;    // TEST - collection of Tanks
+        Color _cPlayer1Color = Color.Green;
+        Color _cPlayer2Color = Color.Tan;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes class-level members.
+        /// </summary>
+        public TanksForm()
+        {
+            InitializeComponent();
+
+            _grFront = CreateGraphics();
+
+            // test tank rendering
+            _lPlayers = new List<Shape>();
+            _lPlayers.Add(new Tank(new PointF(400, 400), _cPlayer1Color));
+        }
+
+        /// <summary>
+        /// Each tick (25 ms) checks for new movement, rendering, 
+        /// and hit detection operations to process.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tim_Updater_Tick(object sender, EventArgs e)
+        {
+            // perform buffered graphics operations
+            DoubleBufferedRender();
+        }
+
+        /// <summary>
+        /// Transforms shapes and redners to back buffer
+        /// before replacing the front buffer.
+        /// </summary>
+        private void DoubleBufferedRender()
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(_grFront, ClientRectangle))
+                {
+                    bg.Graphics.Clear(Color.Black);
+
+                    // transform and render player tanks
+                    foreach (Tank t in _lPlayers)
+                    {
+                        // transform the shape
+                        t.Tick(ClientRectangle.Size);
+
+                        // draw tanks by color
+                        t.Render(bg.Graphics);
+                    }
+
+                    // draw a grid for testing render shapes.
+                    for (int x = 0; x < ClientRectangle.Width; x += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), x, 0, x, ClientRectangle.Height);
+                    }
+
+                    for (int y = 0; y < ClientRectangle.Height; y += Shape.Tilesize)
+                    {
+                        bg.Graphics.DrawLine(new Pen(Color.Red), 0, y, ClientRectangle.Width, y);
+                    }
+
+                    // flip back buffer to front
+                    bg.Render();
+                }
+            }
+        }
+        #endregion
+    }
+}

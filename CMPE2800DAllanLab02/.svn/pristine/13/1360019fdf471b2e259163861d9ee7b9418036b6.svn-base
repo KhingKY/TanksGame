@@ -1,0 +1,226 @@
+﻿/****************************************************************
+ * File: Form1.cs                                               *
+ * Author: Dillon Allan and Jared Karpiak                       *
+ * Description: Main file for game event processing.            *
+ ****************************************************************/
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
+using System.Threading;
+using System.Windows.Forms;
+
+namespace CMPE2800_Lab02
+{
+    public partial class TanksForm : Form
+    {
+        #region Members
+        // background thread for processing input
+        Thread _tInputProcessing;
+        //*************************Jared Added Threads
+        //Thread renderThread;
+        //Level gameLevel;
+        //volatile bool renderFlag;
+        //***************************
+
+        // player 1 and player 2 members
+
+        // Tanks
+        Tank _tkP1;
+        Tank _tkP2;
+
+        // Abstract input objects
+        AbstractInput _abP1;
+        AbstractInput _abP2;
+
+        // List of abstract inputs
+        List<AbstractInput> _lPlayerInputs;
+
+        // List of Shapes
+        List<Shape> _lShapes;
+
+        // Colors 
+        Color _cPlayer1Color = Color.Green;
+        Color _cPlayer2Color = Color.Tan;
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Initializes class-level members.
+        /// </summary>
+        public TanksForm()
+        {
+            InitializeComponent();
+
+            // initialize members
+
+            _tInputProcessing = new Thread(TProcessInput, 0);
+
+            _abP1 = new AbstractInput(PlayerNumber.One);
+            _abP2 = new AbstractInput(PlayerNumber.Two);
+
+            // test tank rendering
+            _tkP1 = new Tank(PlayerNumber.One, new PointF(110, 110), Direction.SouthEast, _cPlayer1Color);
+            _tkP2 = new Tank(PlayerNumber.Two, new PointF(690, 690), Direction.NorthWest, _cPlayer2Color);
+
+
+            _lPlayerInputs = new List<AbstractInput> { _abP1, _abP2 };
+
+            _lShapes = new List<Shape> { _tkP1, _tkP2 };
+
+            _tInputProcessing.IsBackground = true;
+            _tInputProcessing.Start();
+        }
+
+        /// <summary>
+        /// Renders one frame of gameplay.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            // render new frame
+            DoubleBufferedRender();
+        }
+
+        /////////////////////////////////////////////////////////////////////////////
+        // Player keyboard controls
+        // NOTE: If one GamePad is connected, the keyboard controls are disabled
+        // for player 1. If two GamePads are connected, both keyboard controls
+        // are disabled.
+        // Player 1 controls: Arrow keys - translational movement
+        //                    Right-ctrl + Arrow key - rotate tank (can't translate)
+        //                    Enter - fire
+        // Player 2 controls: WASD - translation movement
+        //                    Left-shift + WASD key - rotate tank (can't translate)
+        //                    Space - fire
+        /////////////////////////////////////////////////////////////////////////////
+
+        /// <summary>
+        /// Checks key up states, and 
+        /// applies input processing for the appropriate player.
+        /// </summary>
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
+
+
+            // To do: 
+            // add fire inputs.
+
+            switch (e.KeyCode)
+            {
+                // player 1 inputs
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.ControlKey:
+                case Keys.Enter:
+                    _abP1.SetKeyDownInput(e);
+                    break;
+
+                // player 2 inputs
+                case Keys.W:
+                case Keys.A:
+                case Keys.S:
+                case Keys.D:
+                case Keys.ShiftKey:
+                case Keys.Space:
+                    _abP2.SetKeyDownInput(e);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Checks key down states, and 
+        /// applies input processing for the appropriate player.
+        /// </summary>
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                // player 1 inputs
+                case Keys.Up:
+                case Keys.Down:
+                case Keys.Left:
+                case Keys.Right:
+                case Keys.ControlKey:
+                case Keys.Enter:
+                    _abP1.SetKeyUpInput(e);
+                    break;
+
+                // player 2 inputs
+                case Keys.W:
+                case Keys.A:
+                case Keys.S:
+                case Keys.D:
+                case Keys.ShiftKey:
+                case Keys.Space:
+                    _abP2.SetKeyUpInput(e);
+                    break;
+            }
+        }
+        #endregion
+    }
+}
+/*
+*********************************
+JARED'S FORM RENDERING
+
+//GLOBALS 
+Thread renderThread;
+Level gameLevel;
+volatile bool renderFlag;
+
+
+private void Form1_Load(object sender, EventArgs e)
+{
+    gameLevel = new Level(Properties.Resources.DesertLevel);
+    renderFlag = true;
+    renderThread = new Thread(Render);
+    renderThread.IsBackground = true;
+    renderThread.Start();
+}
+private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+{
+    renderFlag = false;
+    Thread.Sleep(20);
+}
+private void Render()
+{
+   //need a render flag to prevent crashing on form closing
+    while (renderFlag)
+    {
+        try
+        {
+            using (BufferedGraphicsContext bgc = new BufferedGraphicsContext())
+            {
+                using (BufferedGraphics bg = bgc.Allocate(CreateGraphics(), ClientRectangle))
+                {
+
+                    // do rendering here
+                    Graphics gr = bg.Graphics;
+                    bg.Graphics.DrawImage(gameLevel.LevelBackground, new Point(0, 0));
+
+                    int count = 0;
+                    foreach (Block b in gameLevel.LevelBlocks)
+                    {
+                        if (b is Wall)
+                        {
+                            b.Render(bg.Graphics, b._bm);
+                        }
+                    }
+
+    
+                    // flip backbuffer to primary
+                    bg.Render();
+                }
+            }
+            Thread.Sleep(20);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+}*/
