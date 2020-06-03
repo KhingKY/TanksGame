@@ -5,8 +5,8 @@ solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 before_script:
   - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 script:
-  - dotnet restore TankGameTest/TankGameTest/TankGameTest.csproj
-  - dotnet test TankGameTest/TankGameTest/TankGameTest.csproj
+  - dotnet restore TankGameTest/TankGameTest/bin/Debug/netcoreapp3.1/TankGameTest.dll
+  - dotnet test TankGameTest/TankGameTest/bin/Debug/netcoreapp3.1/TankGameTest.dll
 after_success:
     deploy:
         provider: pages
