@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using CMPE2800_Lab02;
 
 namespace TankGameTest
 {
-	[TestFixture()]
-	class ShapeTest
+	[TestClass()]
+	public class ShapeTest
 	{
-		[Test()]
+		[TestMethod()]
 		public void IsWithinTileSizeTest()
 		{
 			PointF startP1 =new PointF(1,0);
@@ -27,10 +27,11 @@ namespace TankGameTest
 
 		}
 
-		[Test()]
+		[TestMethod()]
 		public void IsIntersectingTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(@"..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			Image _beforeImage = Image.FromFile(@"..\..\..\..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			Bitmap _backgroundImage = new Bitmap(_beforeImage);
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
 			Color colour = Color.FromName("Blue");
@@ -44,10 +45,11 @@ namespace TankGameTest
 
 		}
 
-		[Test()]
+		[TestMethod()]
 		public void IsCollidingTest()
 		{
-			Bitmap _backgroundImage = new Bitmap(@"..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			Image _beforeImage = Image.FromFile(@"..\..\..\..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			Bitmap _backgroundImage = new Bitmap(_beforeImage);
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
 			Color colour = Color.FromName("Blue");
@@ -60,8 +62,5 @@ namespace TankGameTest
 			Assert.IsTrue(tank.IsColliding(tank2, gr));
 
 		}
-
-
 	}
-
 }
