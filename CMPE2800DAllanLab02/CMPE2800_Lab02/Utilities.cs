@@ -801,6 +801,18 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
+        /// Issues a modal dialog asking the user to select a level.
+        /// Sets up the game based on level selection.
+        /// </summary>
+        private void Instruction()
+        {
+            // run instruction modal dialog
+            Instruction _modalNewGame = new Instruction();
+
+            DialogResult result = _modalNewGame.ShowDialog();
+        }
+
+        /// <summary>
         /// Triggers game over modal dialog, 
         /// with a victory message for the winner.
         /// </summary>

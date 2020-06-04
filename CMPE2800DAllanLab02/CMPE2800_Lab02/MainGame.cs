@@ -85,6 +85,7 @@ namespace CMPE2800_Lab02
         /// <param name="e"></param>
         private void MainGame_Load(object sender, EventArgs e)
         {
+            Instruction();
             NewGame();
         }
 
