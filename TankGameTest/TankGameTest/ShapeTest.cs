@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using CMPE2800_Lab02;
 
 namespace TankGameTest
@@ -30,7 +26,16 @@ namespace TankGameTest
 		[TestMethod()]
 		public void IsIntersectingTest()
 		{
-			Image _beforeImage = Image.FromFile(@"..\..\..\..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			string _CurrentDir = Directory.GetCurrentDirectory();
+			string _newDir = _CurrentDir;
+			
+			while (Path.GetFileName(_newDir) != "TanksGame") 
+			{
+				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
+			}
+			string _fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+	
+			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
@@ -42,13 +47,22 @@ namespace TankGameTest
 			Tank tank2 = new Tank(startP2, colour2, PlayerNumber.Two);
 
 			Assert.IsTrue(tank.IsIntersecting(tank2, gr));
-
+			
 		}
 
 		[TestMethod()]
 		public void IsCollidingTest()
 		{
-			Image _beforeImage = Image.FromFile(@"..\..\..\..\..\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png");
+			string _CurrentDir = Directory.GetCurrentDirectory();
+			string _newDir = _CurrentDir;
+
+			while (Path.GetFileName(_newDir) != "TanksGame")
+			{
+				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
+			}
+			string _fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+
+			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);
 			Graphics gr = Graphics.FromImage(_backgroundImage);
 			PointF startP1 = new PointF(1, 0);
