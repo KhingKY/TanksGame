@@ -28,12 +28,21 @@ namespace TankGameTest
 		{
 			string _CurrentDir = Directory.GetCurrentDirectory();
 			string _newDir = _CurrentDir;
-			
+			string _fileName = "";
+
 			while (Path.GetFileName(_newDir) != "TanksGame") 
 			{
 				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
 			}
-			string _fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+
+			try
+			{
+				_fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+			}
+			catch (FileNotFoundException e)
+			{
+				_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
+			}
 	
 			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);
@@ -55,12 +64,21 @@ namespace TankGameTest
 		{
 			string _CurrentDir = Directory.GetCurrentDirectory();
 			string _newDir = _CurrentDir;
+			string _fileName = "";
 
 			while (Path.GetFileName(_newDir) != "TanksGame")
 			{
 				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
 			}
-			string _fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+
+			try
+			{
+				_fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
+			}
+			catch (FileNotFoundException e)
+			{
+				_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
+			}
 
 			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);
