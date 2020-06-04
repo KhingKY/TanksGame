@@ -34,16 +34,8 @@ namespace TankGameTest
 			{
 				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
 			}
+			_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
 
-			try
-			{
-				_fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
-			}
-			catch (FileNotFoundException e)
-			{
-				_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
-			}
-	
 			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);
 			Graphics gr = Graphics.FromImage(_backgroundImage);
@@ -70,15 +62,7 @@ namespace TankGameTest
 			{
 				_newDir = Path.GetFullPath(Path.Combine(_newDir, ".."));
 			}
-
-			try
-			{
-				_fileName = _newDir + @"\CMPE2800DAllanLab02\CMPE2800_Lab02\Images\DirtTerrain.png";
-			}
-			catch (FileNotFoundException e)
-			{
-				_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
-			}
+			_fileName = _newDir + @"/CMPE2800DAllanLab02/CMPE2800_Lab02/Images/DirtTerrain.png";
 
 			Image _beforeImage = Image.FromFile(_fileName);
 			Bitmap _backgroundImage = new Bitmap(_beforeImage);

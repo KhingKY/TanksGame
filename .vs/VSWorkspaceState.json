@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\TankGameTest",
+    "\\TankGameTest\\TankGameTest"
   ],
-  "SelectedNode": "\\.travis.yml",
+  "SelectedNode": "\\TankGameTest\\TankGameTest\\ShapeTest.cs",
   "PreviewInSolutionExplorer": false
 }
