@@ -2,15 +2,11 @@ language: csharp
 dotnet: 3.1.2
 solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 
-before_install:
-  - sudo apt-get install nunit-console
 before_script:
   - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 script:
   - dotnet restore TankGameTest/TankGameTest/TankGameTest.csproj
   - dotnet test TankGameTest/TankGameTest/TankGameTest.csproj
-after_script:
-  - nunit-console Tests/bin/Release/Tests.dll
 after_success:
     deploy:
         provider: pages

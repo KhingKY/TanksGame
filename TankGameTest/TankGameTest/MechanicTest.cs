@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using CMPE2800_Lab02;
 
 namespace TankGameTest
 {
-	[TestFixture()]
-	class MechanicTest
+	[TestClass()]
+	public class MechanicTest
 	{
-		[Test()]
+		[TestMethod()]
 		public void ChangeWeaponTest()
 		{
 			PlayerData playerData = new PlayerData(PlayerNumber.One);
@@ -22,7 +18,7 @@ namespace TankGameTest
 			Assert.AreEqual(playerData.CurrentWeapon, GunType.MachineGun);
 		}
 
-		[Test()]
+		[TestMethod()]
 		public void TakeDamageTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -39,7 +35,7 @@ namespace TankGameTest
 			Assert.AreEqual(playerData1.Lives, 4);
 		}
 
-		[Test()]
+		[TestMethod()]
 		public void ReloadAmmoTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -55,8 +51,5 @@ namespace TankGameTest
 			Assert.AreEqual(playerData1.HeavyAmmo, 5);
 
 		}
-
-
 	}
-
 }
