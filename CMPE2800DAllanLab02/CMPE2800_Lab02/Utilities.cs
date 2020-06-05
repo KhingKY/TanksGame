@@ -10,11 +10,15 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using CMPE2800_Lab02.Dialogs;
+using System.IO;
+using System.Globalization;
 
 namespace CMPE2800_Lab02
 {
     public partial class MainGame : Form
     {
+        NewGame _modalNewGame = new NewGame();//to access map values
+
         #region Startup
         /// <summary>
         /// Initializes main form members.
@@ -62,6 +66,7 @@ namespace CMPE2800_Lab02
 
             // start background input processing thread 
             _tBackgroundProcessing = new Thread(TBackground);
+            
         }
 
         /// <summary>
@@ -767,7 +772,7 @@ namespace CMPE2800_Lab02
             _timMain.Enabled = false;
 
             // run new game modal dialog
-            NewGame _modalNewGame = new NewGame();
+            
 
             DialogResult result = _modalNewGame.ShowDialog();
 
@@ -837,6 +842,26 @@ namespace CMPE2800_Lab02
 
             // send winner to the game over modal dialog
             _modalGameOver.Invoke(new GameOver.delVoidGameOver(_modalGameOver.CBSetPlayerVictory), winner);
+            string gamehistorypath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"..\\..\\GameHistory.txt");
+
+            using (StreamWriter sw = File.AppendText(gamehistorypath))
+            {
+                sw.WriteLine("\n\nDate of Match: "+ DateTime.Now.ToString());
+                string Map;
+                if (_modalNewGame.XMLValue == Properties.Resources.CityLevel)
+                {
+                    Map = "City";
+                } else if (_modalNewGame.XMLValue == Properties.Resources.DesertLevel)
+                {
+                    Map = "Desert";
+                }
+                else 
+                {
+                    Map = "Plain";
+                }
+                sw.WriteLine("Winner: Player {0}   Map: {1}",winner,Map);
+                
+            }
 
             // get result
             DialogResult result = _modalGameOver.ShowDialog();

@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+<<<<<<< HEAD
+=======
+using System.IO;
+using Microsoft.Xna.Framework;
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
 
 namespace CMPE2800_Lab02.Dialogs
 {
@@ -34,7 +39,10 @@ namespace CMPE2800_Lab02.Dialogs
             {
                 if (_gameinstruct.DialogResult == DialogResult.Cancel)
                 {
+<<<<<<< HEAD
                     
+=======
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
                     _gameinstruct.Close();
                     break;
                 }
@@ -42,5 +50,21 @@ namespace CMPE2800_Lab02.Dialogs
             }
             
         }
+<<<<<<< HEAD
+=======
+
+        private void HistoryButton_Click(object sender, EventArgs e)
+        {
+
+            string gamehistorypath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"..\\..\\GameHistory.txt");
+            var lines = File.ReadAllLines(gamehistorypath);
+
+            List<string> fields = lines.ToList();
+
+            GameHistoryTab _gamehistory = new GameHistoryTab(fields);
+            _gamehistory.ShowDialog();
+
+        }
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
     }
 }
