@@ -39,9 +39,7 @@ namespace CMPE2800_Lab02.Dialogs
                     _gameinstruct.Close();
                     break;
                 }
-
             }
-            
         }
 
         private void HistoryButton_Click(object sender, EventArgs e)

@@ -5449,19 +5449,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Owner\\.nuget\\packages\\": {}
+    "C:\\Users\\Ben Liang\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Owner\\DP1\\TanksGame\\TankGameTest\\TankGameTest\\TankGameTest.csproj",
+      "projectUniqueName": "C:\\Users\\Ben Liang\\Documents\\GitHub\\TanksGame\\TankGameTest\\TankGameTest\\TankGameTest.csproj",
       "projectName": "TankGameTest",
-      "projectPath": "C:\\Users\\Owner\\DP1\\TanksGame\\TankGameTest\\TankGameTest\\TankGameTest.csproj",
-      "packagesPath": "C:\\Users\\Owner\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Owner\\DP1\\TanksGame\\TankGameTest\\TankGameTest\\obj\\",
+      "projectPath": "C:\\Users\\Ben Liang\\Documents\\GitHub\\TanksGame\\TankGameTest\\TankGameTest\\TankGameTest.csproj",
+      "packagesPath": "C:\\Users\\Ben Liang\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ben Liang\\Documents\\GitHub\\TanksGame\\TankGameTest\\TankGameTest\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Owner\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ben Liang\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5525,7 +5525,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.202\\RuntimeIdentifierGraph.json"
       }
     }
   }
