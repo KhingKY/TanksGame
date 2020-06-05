@@ -26,8 +26,9 @@ namespace CMPE2800_Lab02
         /// <param name="e"></param>
         private void _btnContinue_Click(object sender, EventArgs e)
         {
-            DialogResult = DialogResult.OK;
+            DialogResult = DialogResult.Cancel;
         }
         #endregion
+
     }
 }
