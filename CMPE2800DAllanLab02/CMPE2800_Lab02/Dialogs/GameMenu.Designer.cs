@@ -28,9 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
+<<<<<<< HEAD
             this.PlayButton = new System.Windows.Forms.Button();
             this.HistoryButton = new System.Windows.Forms.Button();
             this.InstructionsButton = new System.Windows.Forms.Button();
+=======
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameMenu));
+            this.PlayButton = new System.Windows.Forms.Button();
+            this.HistoryButton = new System.Windows.Forms.Button();
+            this.InstructionsButton = new System.Windows.Forms.Button();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
             this.SuspendLayout();
             // 
             // PlayButton
@@ -51,6 +60,10 @@
             this.HistoryButton.TabIndex = 0;
             this.HistoryButton.Text = "Game History";
             this.HistoryButton.UseVisualStyleBackColor = true;
+<<<<<<< HEAD
+=======
+            this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
             // 
             // InstructionsButton
             // 
@@ -62,16 +75,38 @@
             this.InstructionsButton.UseVisualStyleBackColor = true;
             this.InstructionsButton.Click += new System.EventHandler(this.InstructionsButton_Click);
             // 
+<<<<<<< HEAD
+=======
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.InitialImage = null;
+            this.pictureBox1.Location = new System.Drawing.Point(256, 1);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(260, 211);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
             // GameMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+<<<<<<< HEAD
+=======
+            this.Controls.Add(this.pictureBox1);
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
             this.Controls.Add(this.HistoryButton);
             this.Controls.Add(this.InstructionsButton);
             this.Controls.Add(this.PlayButton);
             this.Name = "GameMenu";
+<<<<<<< HEAD
             this.Text = "GameMenu";
+=======
+            this.Text = "TANK GAME";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
             this.ResumeLayout(false);
 
         }
@@ -81,5 +116,9 @@
         private System.Windows.Forms.Button PlayButton;
         private System.Windows.Forms.Button HistoryButton;
         private System.Windows.Forms.Button InstructionsButton;
+<<<<<<< HEAD
+=======
+        private System.Windows.Forms.PictureBox pictureBox1;
+>>>>>>> 389c60681377be3f99ffefbcbea0cec74cf1ed5a
     }
 }

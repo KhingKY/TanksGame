@@ -74,6 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dialogs\GameHistoryTab.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\GameHistoryTab.Designer.cs">
+      <DependentUpon>GameHistoryTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\GameMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Rendering\Wall.cs" />
+    <EmbeddedResource Include="Dialogs\GameHistoryTab.resx">
+      <DependentUpon>GameHistoryTab.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\GameMenu.resx">
       <DependentUpon>GameMenu.cs</DependentUpon>
     </EmbeddedResource>
