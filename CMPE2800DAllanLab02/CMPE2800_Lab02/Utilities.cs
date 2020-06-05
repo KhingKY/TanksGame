@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using CMPE2800_Lab02.Dialogs;
 
 namespace CMPE2800_Lab02
 {
@@ -804,12 +805,20 @@ namespace CMPE2800_Lab02
         /// Issues a modal dialog asking the user to select a level.
         /// Sets up the game based on level selection.
         /// </summary>
-        private void Instruction()
+        private DialogResult Instruction()
         {
             // run instruction modal dialog
             Instruction _modalNewGame = new Instruction();
 
             DialogResult result = _modalNewGame.ShowDialog();
+            return result;
+        }
+
+        private DialogResult GameMenu()
+        {
+            GameMenu _modelGameMenu = new GameMenu();
+            DialogResult result = _modelGameMenu.ShowDialog();
+            return result;
         }
 
         /// <summary>

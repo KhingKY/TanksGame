@@ -74,7 +74,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-	<Compile Include="Dialogs\Instruction.cs">
+    <Compile Include="Dialogs\GameMenu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\GameMenu.Designer.cs">
+      <DependentUpon>GameMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\Instruction.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Dialogs\Instruction.Designer.cs">
@@ -130,7 +136,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Rendering\Wall.cs" />
-	<EmbeddedResource Include="Dialogs\Instruction.resx">
+    <EmbeddedResource Include="Dialogs\GameMenu.resx">
+      <DependentUpon>GameMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\Instruction.resx">
       <DependentUpon>Instruction.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\GameOver.resx">
