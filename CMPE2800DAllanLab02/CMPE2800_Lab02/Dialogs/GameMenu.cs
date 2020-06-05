@@ -46,7 +46,6 @@ namespace CMPE2800_Lab02.Dialogs
 
         private void HistoryButton_Click(object sender, EventArgs e)
         {
-
             string gamehistorypath = Path.Combine(System.IO.Directory.GetCurrentDirectory(), @"..\\..\\GameHistory.txt");
             var lines = File.ReadAllLines(gamehistorypath);
 
