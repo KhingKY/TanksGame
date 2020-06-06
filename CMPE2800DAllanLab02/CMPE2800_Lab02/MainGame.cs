@@ -54,6 +54,9 @@ namespace CMPE2800_Lab02
         // List of Ammo drops
         List<Ammo> _lAmmoDrops;
 
+        // List of Healing Packs
+        List<Heal> _lHealingPacks;
+
         // time between rendering a new ammo drop
         const int _iAmmoTimeout = 5000;
 
@@ -85,7 +88,17 @@ namespace CMPE2800_Lab02
         /// <param name="e"></param>
         private void MainGame_Load(object sender, EventArgs e)
         {
-            NewGame();
+            DialogResult continueGame = GameMenu();
+            if (continueGame == DialogResult.OK)
+            {
+                NewGame();
+            }
+            else 
+            {
+                Environment.Exit(0);
+            }
+            //Instruction();
+            
         }
 
         /// <summary>

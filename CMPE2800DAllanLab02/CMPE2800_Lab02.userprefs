@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{D7699609-E979-47A2-86B8-241F5D4A51F5}|Default">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workbench ActiveDocument="CMPE2800_Lab02\MechanicTest.cs">
+    <Files>
+      <File FileName="CMPE2800_Lab02\MechanicTest.cs" Line="27" Column="21" />
+      <File FileName="CMPE2800_Lab02\Game Mechanics\PlayerData.cs" Line="202" Column="21" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.CMPE2800__Lab02 PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>

@@ -7,5 +7,5 @@
 
 namespace CMPE2800_Lab02
 {
-    public enum SpawnType { Tank, Ammo }
+    public enum SpawnType { Tank, Ammo, Heal }
 }

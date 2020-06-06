@@ -1,21 +1,10 @@
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.exe.config
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.exe
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.pdb
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csprojResolveAssemblyReference.cache
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.Properties.Resources.resources
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csproj.GenerateResource.Cache
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.exe
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.pdb
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\Microsoft.Xna.Framework.dll
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.GameOver.resources
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.GameUI.resources
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.NewGame.resources
-C:\Users\dillo\OneDrive\Documents\NAIT\Fall 2016\CMPE2800\Labs\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.MainGame.resources
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.exe.config
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.exe
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\CMPE2800_Lab02.pdb
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\Microsoft.Xna.Framework.dll
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csprojAssemblyReference.cache
+C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.Dialogs.GameHistoryTab.resources
+C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.Dialogs.GameMenu.resources
+C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.Instruction.resources
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.GameOver.resources
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.GameUI.resources
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.NewGame.resources
@@ -26,10 +15,3 @@ C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\D
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.csproj.CopyComplete
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.exe
 C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\obj\Debug\CMPE2800_Lab02.pdb
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\NUnit3.TestAdapter.dll
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\NUnit3.TestAdapter.pdb
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\nunit.engine.dll
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\nunit.engine.api.dll
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\nunit.framework.dll
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\nunit.framework.pdb
-C:\Users\KHING\Desktop\TanksGame-master\CMPE2800DAllanLab02\CMPE2800_Lab02\bin\Debug\nunit.framework.xml

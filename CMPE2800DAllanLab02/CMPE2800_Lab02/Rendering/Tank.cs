@@ -7,6 +7,7 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System;
+using System.Windows.Forms;
 
 namespace CMPE2800_Lab02
 {
@@ -119,6 +120,13 @@ namespace CMPE2800_Lab02
 
             _model.AddPath(tank._model, false);
         }
+
+        public void drawExplosion()
+        {
+            Bitmap collide = new Bitmap("collide.png");
+
+        }
         #endregion
     }
+
 }

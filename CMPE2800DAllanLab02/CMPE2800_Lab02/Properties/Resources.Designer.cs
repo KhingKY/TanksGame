@@ -19,7 +19,7 @@ namespace CMPE2800_Lab02.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -102,7 +102,9 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;9&lt;/X&gt;
         ///		&lt;Y&gt;5&lt;/Y&gt;
         ///		&lt;TYPE&gt;HARD&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHAPE [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
+        ///		&lt;WIDTH&gt;2&lt;/WIDTH&gt;
+        ///		&lt;HEIGHT&gt; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CityLevel {
             get {
@@ -152,7 +154,9 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;12&lt;/X&gt;
         ///		&lt;Y&gt;5&lt;/Y&gt;
         ///		&lt;TYPE&gt;WEAK&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHA [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
+        ///		&lt;WIDTH&gt;4&lt;/WIDTH&gt;
+        ///		&lt;HEIGH [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DesertLevel {
             get {
@@ -212,7 +216,9 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;11&lt;/X&gt;
         ///		&lt;Y&gt;8&lt;/Y&gt;
         ///		&lt;TYPE&gt;HARD&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHA [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
+        ///		&lt;WIDTH&gt;2&lt;/WIDTH&gt;
+        ///		&lt;HEIGH [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GrassLevel {
             get {
@@ -226,6 +232,16 @@ namespace CMPE2800_Lab02.Properties {
         internal static System.Drawing.Bitmap GrassTerrain {
             get {
                 object obj = ResourceManager.GetObject("GrassTerrain", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap heal {
+            get {
+                object obj = ResourceManager.GetObject("heal", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

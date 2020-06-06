@@ -196,6 +196,15 @@ namespace CMPE2800_Lab02
             }
         }
 
+        public void Heal()
+        {
+            HP += 30;
+            if (HP > 100)
+            {
+                HP = 100;
+            }
+        }
+
         /// <summary>
         /// Sets Heavy Ammo count to the max value.
         /// </summary>
