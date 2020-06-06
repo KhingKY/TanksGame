@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using CMPE2800_Lab02.Rendering;
 
 namespace CMPE2800_Lab02
 {
@@ -56,6 +57,9 @@ namespace CMPE2800_Lab02
 
         // List of Healing Packs
         List<Heal> _lHealingPacks;
+
+        //List of Mines
+        List<Mines> _lMinesDrops;
 
         // time between rendering a new ammo drop
         const int _iAmmoTimeout = 5000;

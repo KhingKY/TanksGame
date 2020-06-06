@@ -64,5 +64,17 @@ namespace TankGameTest
 			playerData1.Heal();
 			Assert.AreEqual(playerData1.HP, 100);
 		}
+
+		[TestMethod()]
+		public void MineTest()
+		{
+			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+
+			playerData1.GetMined();
+			Assert.AreEqual(playerData1.HP, 90);
+
+			playerData1.GetMined();
+			Assert.AreEqual(playerData1.HP, 80);
+		}
 	}
 }

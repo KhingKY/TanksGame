@@ -10,6 +10,7 @@ using System.Drawing.Drawing2D;
 using System.Xml;
 using System.Security.Cryptography;
 using System;
+using CMPE2800_Lab02.Rendering;
 
 namespace CMPE2800_Lab02
 {
@@ -20,6 +21,7 @@ namespace CMPE2800_Lab02
         public List<PointF> _respawnPoints = new List<PointF>();
         public List<Ammo> _ammoDrops = new List<Ammo>();
         public List<Heal> _healPacks = new List<Heal>();
+        public List<Mines> _mineDrops = new List<Mines>();
         //background image
         Bitmap _backgroundImage;
         /// <summary>
@@ -256,6 +258,12 @@ namespace CMPE2800_Lab02
                                     //set the bitmap to the missiles and add a new ammo object to the List
                                     bm = Properties.Resources.heal;
                                     _healPacks.Add(new Heal(spawnLocation));
+                                }
+                                else if (tempString == "Mines")
+                                {
+                                    //set the bitmap to the missiles and add a new ammo object to the List
+                                    bm = Properties.Resources.mine;
+                                    _mineDrops.Add(new Mines(spawnLocation));
                                 }
                                 else
                                 {
