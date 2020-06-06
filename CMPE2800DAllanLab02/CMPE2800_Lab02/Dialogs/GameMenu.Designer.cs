@@ -31,19 +31,16 @@
             this.PlayButton = new System.Windows.Forms.Button();
             this.HistoryButton = new System.Windows.Forms.Button();
             this.InstructionsButton = new System.Windows.Forms.Button();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GameMenu));
-            this.PlayButton = new System.Windows.Forms.Button();
-            this.HistoryButton = new System.Windows.Forms.Button();
-            this.InstructionsButton = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // PlayButton
             // 
-            this.PlayButton.Location = new System.Drawing.Point(305, 218);
+            this.PlayButton.Location = new System.Drawing.Point(271, 198);
+            this.PlayButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(135, 40);
+            this.PlayButton.Size = new System.Drawing.Size(120, 32);
             this.PlayButton.TabIndex = 0;
             this.PlayButton.Text = "Play";
             this.PlayButton.UseVisualStyleBackColor = true;
@@ -51,9 +48,10 @@
             // 
             // HistoryButton
             // 
-            this.HistoryButton.Location = new System.Drawing.Point(62, 218);
+            this.HistoryButton.Location = new System.Drawing.Point(271, 245);
+            this.HistoryButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HistoryButton.Name = "HistoryButton";
-            this.HistoryButton.Size = new System.Drawing.Size(135, 40);
+            this.HistoryButton.Size = new System.Drawing.Size(120, 32);
             this.HistoryButton.TabIndex = 0;
             this.HistoryButton.Text = "Game History";
             this.HistoryButton.UseVisualStyleBackColor = true;
@@ -61,9 +59,10 @@
             // 
             // InstructionsButton
             // 
-            this.InstructionsButton.Location = new System.Drawing.Point(534, 218);
+            this.InstructionsButton.Location = new System.Drawing.Point(271, 292);
+            this.InstructionsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.InstructionsButton.Name = "InstructionsButton";
-            this.InstructionsButton.Size = new System.Drawing.Size(135, 40);
+            this.InstructionsButton.Size = new System.Drawing.Size(120, 32);
             this.InstructionsButton.TabIndex = 0;
             this.InstructionsButton.Text = "Instructions";
             this.InstructionsButton.UseVisualStyleBackColor = true;
@@ -71,25 +70,26 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Image = global::CMPE2800_Lab02.Properties.Resources.ammoDrop;
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(256, 1);
+            this.pictureBox1.Location = new System.Drawing.Point(216, 11);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(260, 211);
+            this.pictureBox1.Size = new System.Drawing.Size(231, 169);
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
             // GameMenu
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(711, 360);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.HistoryButton);
             this.Controls.Add(this.InstructionsButton);
             this.Controls.Add(this.PlayButton);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GameMenu";
-            this.Text = "GameMenu";
             this.Text = "TANK GAME";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);

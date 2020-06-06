@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="Rendering\DynamicShape.cs" />
     <Compile Include="Rendering\Gunfire.cs" />
+    <Compile Include="Rendering\Heal.cs" />
     <Compile Include="Rendering\Level.cs" />
     <Compile Include="Game Mechanics\PlayerData.cs" />
     <Compile Include="Program.cs" />
@@ -138,9 +139,7 @@
     <Compile Include="Rendering\Shape.cs" />
     <Compile Include="Rendering\Ammo.cs" />
     <Compile Include="Rendering\Tank.cs" />
-    <Compile Include="Utilities.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Utilities.cs" />
     <Compile Include="Rendering\Wall.cs" />
     <EmbeddedResource Include="Dialogs\GameHistoryTab.resx">
       <DependentUpon>GameHistoryTab.cs</DependentUpon>
@@ -188,6 +187,7 @@
     <None Include="Images\ammoDrop.png" />
     <Content Include="Images\DirtTerrain.png" />
     <Content Include="Images\GrassTerrain.png" />
+    <None Include="Images\heal.png" />
     <Content Include="Images\MudTerrain.png" />
     <None Include="Images\rocketszt4.gif" />
     <None Include="Levels\DesertLevel.txt" />
@@ -195,6 +195,7 @@
     <None Include="Levels\GrassLevel.txt" />
     <None Include="Images\rockets.png" />
     <None Include="Images\shell.png" />
+    <None Include="Resources\heal.bmp" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
   <ItemGroup />

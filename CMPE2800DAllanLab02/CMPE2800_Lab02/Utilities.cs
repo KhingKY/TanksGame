@@ -64,6 +64,9 @@ namespace CMPE2800_Lab02
             // make ammo drops a copy of the level's ammo drops
             _lAmmoDrops = new List<Ammo>(_lvGameLevel._ammoDrops);
 
+            // make healing packs a copy of the level's healing packs
+            _lHealingPacks = new List<Heal>(_lvGameLevel._healPacks);
+
             // start background input processing thread 
             _tBackgroundProcessing = new Thread(TBackground);
             
@@ -118,6 +121,10 @@ namespace CMPE2800_Lab02
                     _lAmmoDrops.Where(a => a.IsAlive).ToList()
                         .ForEach(a => a.Render(bg.Graphics));
 
+                    // render active ammo drops
+                    _lHealingPacks.Where(a => a.IsAlive).ToList()
+                        .ForEach(a => a.Render(bg.Graphics));
+
                     // flip back buffer to front
                     bg.Render();
                 }
@@ -159,6 +166,8 @@ namespace CMPE2800_Lab02
 
                 // check if a new ammo drop is needed
                 CheckAmmoDrops();
+
+                CheckHealingPacks();
 
                 // slow background thread according to clock value
                 // (25ms to match tick rate of _timMain)
@@ -214,6 +223,41 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
+        /// Monitors the list of healing packs. 
+        /// If none are active, a random one is spawned after 
+        /// the timeout has cleared.
+        /// </summary>
+        private void CheckHealingPacks()
+        {
+            // take a snapshot of the list of ammo drops
+            List<Heal> healingPack;
+            lock (_oRenderLock)
+                healingPack = new List<Heal>(_lHealingPacks);
+
+            // if the ammo timer isn't running, start it
+            if (!Heal._stopwatch.IsRunning)
+                Heal._stopwatch.Start();
+
+            // if there are no active healing packs, and the timer has timed out,
+            // set a random ammo drop's render flag
+            if (!healingPack.Any(a => a.IsAlive) &&
+                Heal._stopwatch.ElapsedMilliseconds > _iAmmoTimeout)
+            {
+                Random r = new Random();
+                healingPack[r.Next(0, _lHealingPacks.Count)].IsAlive = true;
+
+                // reset the timer
+                Heal._stopwatch.Reset();
+
+                // update the list of ammo drops
+                lock (_oRenderLock)
+                    _lHealingPacks = new List<Heal>(healingPack);
+            }
+        }
+
+
+
+        /// <summary>
         /// Checks input devices states, and applies new input.
         /// </summary>
         private void InputProcessing()
@@ -255,12 +299,14 @@ namespace CMPE2800_Lab02
             List<Wall> wallListSnapshot;
             List<PlayerData> playerListSnapshot;
             List<Ammo> ammoDropsSnapshot;
+            List<Heal> healingPack;
             lock (_oRenderLock)
             {
                 dynShapeSnapshot = new List<DynamicShape>(_lDynShapes);
                 wallListSnapshot = new List<Wall>(_lWalls);
                 playerListSnapshot = new List<PlayerData>(_lPlayerData);
                 ammoDropsSnapshot = new List<Ammo>(_lAmmoDrops);
+                healingPack = new List<Heal>(_lHealingPacks);
             }
 
             // perform hit detection testing: 
@@ -279,6 +325,9 @@ namespace CMPE2800_Lab02
 
                     // 4) tanks hitting ammo spawns
                     ProcessAmmoSpawnHits(dynShapeSnapshot, _lAmmoDrops, playerListSnapshot, gr);
+
+                    // 4) tanks hitting healing packs
+                    ProcessHealSpawnHits(dynShapeSnapshot, _lHealingPacks, playerListSnapshot, gr);
                 }
             }
 
@@ -292,6 +341,7 @@ namespace CMPE2800_Lab02
                 _lWalls = new List<Wall>(wallListSnapshot);
                 _lPlayerData = new List<PlayerData>(playerListSnapshot);
                 _lAmmoDrops = new List<Ammo>(ammoDropsSnapshot);
+                _lHealingPacks = new List<Heal>(healingPack);
             }
         }
 
@@ -352,6 +402,21 @@ namespace CMPE2800_Lab02
                     // 2) s1 is a bullet and s2 is a tank
                     else if (ds1 is Gunfire && ds2 is Tank)
                     {
+                        //draw explosion effect
+                        
+
+
+
+
+
+
+
+
+
+
+
+
+
                         // mark bullet for death
                         ds1.IsMarkedForDeath = true;
 
@@ -468,6 +533,40 @@ namespace CMPE2800_Lab02
 
                     // start Ammo class timeout timer
                     Ammo._stopwatch.Restart();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Checks for collisions between tanks and healing packs.
+        /// Replenish's the player's hp if their tank hits it.
+        /// </summary>
+        /// <param name="movingShapes">Collection of dynamic shapes.</param>
+        /// <param name="ammoDrops">Collection of ammo drops.</param>
+        /// <param name="gr">Screen graphics object.</param>
+        private void ProcessHealSpawnHits(List<DynamicShape> movingShapes, List<Heal> healPacks, List<PlayerData> players, Graphics gr)
+        {
+            // check each tank
+            foreach (DynamicShape ds in movingShapes.Where(ds => ds is Tank))
+            {
+                // compare ds to all active ammo drops
+                foreach (Heal healingPack in _lHealingPacks.Where(a => a.IsAlive))
+                {
+                    // move on if no collision is found
+                    if (!ds.IsColliding(healingPack, gr))
+                        continue;
+
+                    // get the tank's player number
+                    PlayerNumber playerNum = (ds as Tank).Player;
+
+                    // replenish the player's HP
+                    players.Find((pd) => pd.Player == playerNum).Heal();
+
+                    // reset ammoDrop's render flag 
+                    healingPack.IsAlive = false;
+
+                    // start Ammo class timeout timer
+                    Heal._stopwatch.Restart();
                 }
             }
         }

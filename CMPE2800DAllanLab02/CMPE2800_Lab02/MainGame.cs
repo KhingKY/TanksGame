@@ -54,6 +54,9 @@ namespace CMPE2800_Lab02
         // List of Ammo drops
         List<Ammo> _lAmmoDrops;
 
+        // List of Healing Packs
+        List<Heal> _lHealingPacks;
+
         // time between rendering a new ammo drop
         const int _iAmmoTimeout = 5000;
 

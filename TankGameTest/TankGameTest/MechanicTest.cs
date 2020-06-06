@@ -51,5 +51,18 @@ namespace TankGameTest
 			Assert.AreEqual(playerData1.HeavyAmmo, 5);
 
 		}
+
+		[TestMethod()]
+		public void HealTest()
+		{
+			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+			PlayerData playerData2 = new PlayerData(PlayerNumber.Two);
+
+			playerData1.TakeDamage(GunType.Rocket, playerData2);
+			Assert.AreEqual(playerData1.HP, 75);
+
+			playerData1.Heal();
+			Assert.AreEqual(playerData1.HP, 100);
+		}
 	}
 }

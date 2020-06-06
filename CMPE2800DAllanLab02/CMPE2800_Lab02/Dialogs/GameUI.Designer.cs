@@ -57,7 +57,7 @@
             this._labP1.Location = new System.Drawing.Point(0, 0);
             this._labP1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labP1.Name = "_labP1";
-            this._labP1.Size = new System.Drawing.Size(151, 32);
+            this._labP1.Size = new System.Drawing.Size(124, 27);
             this._labP1.TabIndex = 0;
             this._labP1.Text = "Player 1";
             // 
@@ -66,10 +66,10 @@
             this._labP2.AutoSize = true;
             this._labP2.Dock = System.Windows.Forms.DockStyle.Right;
             this._labP2.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labP2.Location = new System.Drawing.Point(1025, 0);
+            this._labP2.Location = new System.Drawing.Point(921, 0);
             this._labP2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labP2.Name = "_labP2";
-            this._labP2.Size = new System.Drawing.Size(151, 32);
+            this._labP2.Size = new System.Drawing.Size(124, 27);
             this._labP2.TabIndex = 1;
             this._labP2.Text = "Player 2";
             this._labP2.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -78,10 +78,10 @@
             // 
             this._labHP1.AutoSize = true;
             this._labHP1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labHP1.Location = new System.Drawing.Point(2, 51);
+            this._labHP1.Location = new System.Drawing.Point(2, 41);
             this._labHP1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labHP1.Name = "_labHP1";
-            this._labHP1.Size = new System.Drawing.Size(124, 27);
+            this._labHP1.Size = new System.Drawing.Size(106, 22);
             this._labHP1.TabIndex = 2;
             this._labHP1.Text = "HP : 100";
             // 
@@ -90,10 +90,10 @@
             this._labHP2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._labHP2.AutoSize = true;
             this._labHP2.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labHP2.Location = new System.Drawing.Point(1044, 51);
+            this._labHP2.Location = new System.Drawing.Point(928, 41);
             this._labHP2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labHP2.Name = "_labHP2";
-            this._labHP2.Size = new System.Drawing.Size(124, 27);
+            this._labHP2.Size = new System.Drawing.Size(106, 22);
             this._labHP2.TabIndex = 3;
             this._labHP2.Text = "100 : HP";
             // 
@@ -102,10 +102,10 @@
             this._labScoreDisplay.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._labScoreDisplay.AutoSize = true;
             this._labScoreDisplay.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labScoreDisplay.Location = new System.Drawing.Point(540, 38);
+            this._labScoreDisplay.Location = new System.Drawing.Point(480, 30);
             this._labScoreDisplay.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labScoreDisplay.Name = "_labScoreDisplay";
-            this._labScoreDisplay.Size = new System.Drawing.Size(100, 32);
+            this._labScoreDisplay.Size = new System.Drawing.Size(82, 27);
             this._labScoreDisplay.TabIndex = 4;
             this._labScoreDisplay.Text = "0 | 0";
             // 
@@ -114,10 +114,10 @@
             this._labScore.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this._labScore.AutoSize = true;
             this._labScore.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labScore.Location = new System.Drawing.Point(540, 0);
+            this._labScore.Location = new System.Drawing.Point(480, 0);
             this._labScore.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labScore.Name = "_labScore";
-            this._labScore.Size = new System.Drawing.Size(100, 32);
+            this._labScore.Size = new System.Drawing.Size(82, 27);
             this._labScore.TabIndex = 5;
             this._labScore.Text = "Score";
             // 
@@ -125,10 +125,10 @@
             // 
             this._pbxRocket2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxRocket2.Image = global::CMPE2800_Lab02.Properties.Resources.rockets;
-            this._pbxRocket2.Location = new System.Drawing.Point(732, 91);
-            this._pbxRocket2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._pbxRocket2.Location = new System.Drawing.Point(651, 73);
+            this._pbxRocket2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxRocket2.Name = "_pbxRocket2";
-            this._pbxRocket2.Size = new System.Drawing.Size(150, 77);
+            this._pbxRocket2.Size = new System.Drawing.Size(133, 62);
             this._pbxRocket2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxRocket2.TabIndex = 9;
             this._pbxRocket2.TabStop = false;
@@ -138,10 +138,10 @@
             this._pbxMG2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxMG2.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this._pbxMG2.Image = global::CMPE2800_Lab02.Properties.Resources.shell;
-            this._pbxMG2.Location = new System.Drawing.Point(732, 32);
-            this._pbxMG2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._pbxMG2.Location = new System.Drawing.Point(651, 26);
+            this._pbxMG2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxMG2.Name = "_pbxMG2";
-            this._pbxMG2.Size = new System.Drawing.Size(150, 46);
+            this._pbxMG2.Size = new System.Drawing.Size(133, 37);
             this._pbxMG2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxMG2.TabIndex = 8;
             this._pbxMG2.TabStop = false;
@@ -150,10 +150,10 @@
             // 
             this._pbxMG1.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this._pbxMG1.Image = global::CMPE2800_Lab02.Properties.Resources.shell;
-            this._pbxMG1.Location = new System.Drawing.Point(294, 32);
-            this._pbxMG1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._pbxMG1.Location = new System.Drawing.Point(261, 26);
+            this._pbxMG1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxMG1.Name = "_pbxMG1";
-            this._pbxMG1.Size = new System.Drawing.Size(150, 46);
+            this._pbxMG1.Size = new System.Drawing.Size(133, 37);
             this._pbxMG1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxMG1.TabIndex = 7;
             this._pbxMG1.TabStop = false;
@@ -161,10 +161,10 @@
             // _pbxRocket1
             // 
             this._pbxRocket1.Image = global::CMPE2800_Lab02.Properties.Resources.rockets;
-            this._pbxRocket1.Location = new System.Drawing.Point(294, 91);
-            this._pbxRocket1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._pbxRocket1.Location = new System.Drawing.Point(261, 73);
+            this._pbxRocket1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxRocket1.Name = "_pbxRocket1";
-            this._pbxRocket1.Size = new System.Drawing.Size(150, 77);
+            this._pbxRocket1.Size = new System.Drawing.Size(133, 62);
             this._pbxRocket1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxRocket1.TabIndex = 6;
             this._pbxRocket1.TabStop = false;
@@ -173,10 +173,10 @@
             // 
             this._labLives1.AutoSize = true;
             this._labLives1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labLives1.Location = new System.Drawing.Point(2, 100);
+            this._labLives1.Location = new System.Drawing.Point(2, 80);
             this._labLives1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labLives1.Name = "_labLives1";
-            this._labLives1.Size = new System.Drawing.Size(138, 27);
+            this._labLives1.Size = new System.Drawing.Size(118, 22);
             this._labLives1.TabIndex = 10;
             this._labLives1.Text = "Lives : 3";
             // 
@@ -185,10 +185,10 @@
             this._labLives2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._labLives2.AutoSize = true;
             this._labLives2.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labLives2.Location = new System.Drawing.Point(1029, 98);
+            this._labLives2.Location = new System.Drawing.Point(915, 78);
             this._labLives2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labLives2.Name = "_labLives2";
-            this._labLives2.Size = new System.Drawing.Size(138, 27);
+            this._labLives2.Size = new System.Drawing.Size(118, 22);
             this._labLives2.TabIndex = 11;
             this._labLives2.Text = "3 : Lives";
             // 
@@ -196,10 +196,10 @@
             // 
             this._labHAmmo1.AutoSize = true;
             this._labHAmmo1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labHAmmo1.Location = new System.Drawing.Point(2, 149);
+            this._labHAmmo1.Location = new System.Drawing.Point(2, 119);
             this._labHAmmo1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labHAmmo1.Name = "_labHAmmo1";
-            this._labHAmmo1.Size = new System.Drawing.Size(208, 27);
+            this._labHAmmo1.Size = new System.Drawing.Size(178, 22);
             this._labHAmmo1.TabIndex = 12;
             this._labHAmmo1.Text = "Heavy Ammo : 5";
             // 
@@ -208,10 +208,10 @@
             this._labHAmmo2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._labHAmmo2.AutoSize = true;
             this._labHAmmo2.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labHAmmo2.Location = new System.Drawing.Point(954, 146);
+            this._labHAmmo2.Location = new System.Drawing.Point(848, 117);
             this._labHAmmo2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this._labHAmmo2.Name = "_labHAmmo2";
-            this._labHAmmo2.Size = new System.Drawing.Size(208, 27);
+            this._labHAmmo2.Size = new System.Drawing.Size(178, 22);
             this._labHAmmo2.TabIndex = 13;
             this._labHAmmo2.Text = "5 : Heavy Ammo";
             // 
@@ -220,18 +220,18 @@
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(504, 92);
+            this.label1.Location = new System.Drawing.Point(448, 74);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(178, 66);
+            this.label1.Size = new System.Drawing.Size(149, 60);
             this.label1.TabIndex = 14;
             this.label1.Text = "P   - Pause\r\nEsc - Quit\r\nN   - New Game";
             // 
             // GameUI
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1176, 177);
+            this.ClientSize = new System.Drawing.Size(1045, 142);
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.Controls.Add(this._labHAmmo2);
@@ -249,7 +249,7 @@
             this.Controls.Add(this._labP2);
             this.Controls.Add(this._labP1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "GameUI";
             this.Text = "First to 3 points wins!";
             ((System.ComponentModel.ISupportInitialize)(this._pbxRocket2)).EndInit();
