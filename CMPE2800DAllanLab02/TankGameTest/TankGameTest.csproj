@@ -20,11 +20,4 @@
   <ItemGroup>
     <ProjectReference Include="..\CMPE2800_Lab02\CMPE2800_Lab02.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="CMPE2800_Lab02">
-      <HintPath>..\CMPE2800_Lab02\bin\x86\Debug\CMPE2800_Lab02.exe</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
