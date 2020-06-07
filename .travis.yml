@@ -6,7 +6,6 @@ before_script:
   - nuget restore CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 script:
   - dotnet restore CMPE2800DAllanLab02/TankGameTest/TankGameTest.csproj
-  - dotnet add package NuGet.Frameworks --version 4.7.2
   - dotnet test CMPE2800DAllanLab02/TankGameTest/TankGameTest.csproj
 after_success:
     deploy:
