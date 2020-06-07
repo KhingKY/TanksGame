@@ -7,7 +7,7 @@
 
 namespace CMPE2800_Lab02
 {
-    public enum SpawnType { Tank, Ammo, PowerUp }
+    public enum SpawnType { Tank, Ammo, PowerUp, Mines, SlowFloor }
     
     //Enum used to differentiate between different power ups
     public enum PowerUpType { Shield, Super, Heal, Damage }

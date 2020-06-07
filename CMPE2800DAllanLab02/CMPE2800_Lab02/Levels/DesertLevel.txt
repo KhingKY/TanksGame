@@ -141,4 +141,32 @@
 		<Y>4</Y>
 		<TYPE>PowerUp</TYPE>
 	</SPAWN>
+	<BRUSH>
+		<X>5</X>
+		<Y>4</Y>
+		<SHAPE>hl</SHAPE>
+		<WIDTH>6</WIDTH>
+		<HEIGHT>1</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>5</X>
+		<Y>7</Y>
+		<SHAPE>hl</SHAPE>
+		<WIDTH>6</WIDTH>
+		<HEIGHT>1</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>5</X>
+		<Y>5</Y>
+		<SHAPE>l</SHAPE>
+		<WIDTH>1</WIDTH>
+		<HEIGHT>2</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>10</X>
+		<Y>5</Y>
+		<SHAPE>l</SHAPE>
+		<WIDTH>1</WIDTH>
+		<HEIGHT>2</HEIGHT>
+	</BRUSH>
 </LEVEL>

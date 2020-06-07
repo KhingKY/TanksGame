@@ -169,5 +169,17 @@ namespace TankGameTest
 			playerData1.TakeDamage(GunType.Rocket, playerData2);
 			Assert.AreEqual(70, playerData1.HP);
 		}
+
+		[TestMethod]
+		public void MineTest()
+		{
+			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+
+			playerData1.GetMined();
+			Assert.AreEqual(playerData1.HP, 90);
+
+			playerData1.GetMined();
+			Assert.AreEqual(playerData1.HP, 80);
+		}
 	}
 }

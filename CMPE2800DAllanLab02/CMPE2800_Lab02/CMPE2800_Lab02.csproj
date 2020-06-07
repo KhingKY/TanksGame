@@ -183,8 +183,10 @@
     <Compile Include="Game Mechanics\PlayerData.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rendering\Mines.cs" />
     <Compile Include="Rendering\Shape.cs" />
     <Compile Include="Rendering\Ammo.cs" />
+    <Compile Include="Rendering\Brush.cs" />
     <Compile Include="Rendering\Tank.cs" />
     <Compile Include="Utilities.cs">
       <SubType>Form</SubType>
@@ -237,9 +239,11 @@
     <None Include="Images\CityTerrain.jpg" />
     <None Include="Images\ammoDrop.png" />
     <None Include="Images\damage.png" />
+    <Content Include="Images\bush.png" />
     <Content Include="Images\DirtTerrain.png" />
     <Content Include="Images\GrassTerrain.png" />
     <None Include="Images\heal.png" />
+    <None Include="Images\mine.jpeg" />
     <Content Include="Images\MudTerrain.png" />
     <None Include="Images\rocketszt4.gif" />
     <None Include="Levels\DesertLevel.txt" />
@@ -249,6 +253,9 @@
     <None Include="Images\shell.png" />
     <None Include="Images\super.png" />
     <None Include="Images\shield.png" />
+    <None Include="Resources\heal.bmp" />
+    <None Include="Resources\Mines.bmp" />
+    <Content Include="Images\slowfloor.jpg" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using CMPE2800_Lab02.Dialogs;
 using System.IO;
 using System.Globalization;
+using CMPE2800_Lab02.Rendering;
 
 namespace CMPE2800_Lab02
 {
@@ -61,11 +62,16 @@ namespace CMPE2800_Lab02
             // make wall list a copy of the level's walls
             _lWalls = new List<Wall>(_lvGameLevel.Walls);
 
+            // make wall list a copy of the level's walls
+            _lBrushes = new List<Brush>(_lvGameLevel.SlowFloors);
+
             // make ammo drops a copy of the level's ammo drops
             _lAmmoDrops = new List<Ammo>(_lvGameLevel._ammoDrops);
 
             // make power up drops a copy of the level's power up drops
             _lPowerUpDrops = new List<PowerUp>(_lvGameLevel._powerUpDrops);
+
+            _lMinesDrops = new List<Mines>(_lvGameLevel._mineDrops);
 
             // start background input processing thread 
             _tBackgroundProcessing = new Thread(TBackground);
@@ -117,12 +123,18 @@ namespace CMPE2800_Lab02
                     // render walls
                     _lWalls.ForEach(w => w.Render(bg.Graphics));
 
+                    // render slow floors
+                    _lBrushes.ForEach(w => w.Render(bg.Graphics));
+
                     // render active ammo drops
                     _lAmmoDrops.Where(a => a.IsAlive).ToList()
                         .ForEach(a => a.Render(bg.Graphics));
 
                     // render active ammo drops
                     _lPowerUpDrops.Where(a => a.IsAlive).ToList()
+                        .ForEach(a => a.Render(bg.Graphics));
+
+                    _lMinesDrops.Where(a => a.IsAlive).ToList()
                         .ForEach(a => a.Render(bg.Graphics));
 
                     // flip back buffer to front
@@ -168,6 +180,8 @@ namespace CMPE2800_Lab02
                 CheckAmmoDrops();
 
                 CheckPowerUpDrops();
+
+                CheckMineDrops();
 
                 // slow background thread according to clock value
                 // (25ms to match tick rate of _timMain)
@@ -255,6 +269,34 @@ namespace CMPE2800_Lab02
             }
         }
 
+        private void CheckMineDrops()
+        {
+            // take a snapshot of the list of ammo drops
+            List<Mines> mineDropSnapshots;
+            lock (_oRenderLock)
+                mineDropSnapshots = new List<Mines>(_lMinesDrops);
+
+            // if the ammo timer isn't running, start it
+            if (!Mines._stopwatch.IsRunning)
+                Mines._stopwatch.Start();
+
+            // if there are no active healing packs, and the timer has timed out,
+            // set a random ammo drop's render flag
+            if (!mineDropSnapshots.Any(a => a.IsAlive) &&
+                Mines._stopwatch.ElapsedMilliseconds > _iAmmoTimeout)
+            {
+                Random r = new Random();
+                mineDropSnapshots[r.Next(0, _lMinesDrops.Count)].IsAlive = true;
+
+                // reset the timer
+                PowerUp._stopwatch.Reset();
+
+                // update the list of ammo drops
+                lock (_oRenderLock)
+                    _lMinesDrops = new List<Mines>(mineDropSnapshots);
+            }
+        }
+
         /// <summary>
         /// Checks input devices states, and applies new input.
         /// </summary>
@@ -295,16 +337,21 @@ namespace CMPE2800_Lab02
             // take snapshots of game collections
             List<DynamicShape> dynShapeSnapshot;
             List<Wall> wallListSnapshot;
+            List<Brush> brushListSnapshot;
             List<PlayerData> playerListSnapshot;
             List<Ammo> ammoDropsSnapshot;
             List<PowerUp> powerUpDropsSnapshot;
+            List<Mines> mineDrops;
+
             lock (_oRenderLock)
             {
                 dynShapeSnapshot = new List<DynamicShape>(_lDynShapes);
                 wallListSnapshot = new List<Wall>(_lWalls);
+                brushListSnapshot = new List<Brush>(_lBrushes);
                 playerListSnapshot = new List<PlayerData>(_lPlayerData);
                 ammoDropsSnapshot = new List<Ammo>(_lAmmoDrops);
                 powerUpDropsSnapshot = new List<PowerUp>(_lPowerUpDrops);
+                mineDrops = new List<Mines>(_lMinesDrops);
             }
 
             // perform hit detection testing: 
@@ -321,11 +368,17 @@ namespace CMPE2800_Lab02
                     // 3) moving shapes hitting walls
                     ProcessWallHits(dynShapeSnapshot, wallListSnapshot, playerListSnapshot, gr);
 
-                    // 4) tanks hitting ammo spawns
+                    // 4) moving shapes hitting slow floors
+                    ProcessBrushHits(dynShapeSnapshot, brushListSnapshot, gr);
+
+                    // 5) tanks hitting ammo spawns
                     ProcessAmmoSpawnHits(dynShapeSnapshot, _lAmmoDrops, playerListSnapshot, gr);
 
                     // 5) tanks hitting PowerUping drops
                     ProcessPowerUpSpawnHits(dynShapeSnapshot, _lPowerUpDrops, playerListSnapshot, gr);
+
+                    // 6) tanks hitting mines
+                    ProcessMineSpawnHits(dynShapeSnapshot, _lMinesDrops, playerListSnapshot, gr);
                 }
             }
 
@@ -337,9 +390,11 @@ namespace CMPE2800_Lab02
             {
                 _lDynShapes = new List<DynamicShape>(dynShapeSnapshot);
                 _lWalls = new List<Wall>(wallListSnapshot);
+                _lBrushes = new List<Brush>(brushListSnapshot);
                 _lPlayerData = new List<PlayerData>(playerListSnapshot);
                 _lAmmoDrops = new List<Ammo>(ammoDropsSnapshot);
                 _lPowerUpDrops = new List<PowerUp>(powerUpDropsSnapshot);
+                _lMinesDrops = new List<Mines>(mineDrops);
             }
         }
 
@@ -516,6 +571,36 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
+        /// Compares every moving shape to every brushes,
+        /// reacting to collisions if necessary.
+        /// </summary>
+        /// <param name="MovingShapes">Collection of dynamic shapes.</param>
+        /// <param name="LevelBlocks">Collection of brushes.</param>
+        /// <param name="gr">Screen graphics object.</param>
+        private void ProcessBrushHits(List<DynamicShape> MovingShapes, List<Brush> LevelBlocks, Graphics gr)
+        {
+            // check each moving shape
+            foreach (DynamicShape ds in MovingShapes)
+            {
+                // compare s1 to all brushes
+                foreach (Brush brush in LevelBlocks)
+                {
+                    // move on if no collision is found
+                    if (!ds.IsColliding(brush, gr))
+                        continue;
+
+                    // collision found -- determine the type of collision occured between ds and brush
+
+                    // 1) s1 is Tank
+                    if (ds is Tank)
+                    {
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks for collisions between tanks and ammo drops.
         /// Replenish's the player's ammo if their tank hits an ammo drop.
         /// </summary>
@@ -579,6 +664,33 @@ namespace CMPE2800_Lab02
 
                     // start PowerUp class timeout timer
                     PowerUp._stopwatch.Restart();
+                }
+            }
+        }
+
+        private void ProcessMineSpawnHits(List<DynamicShape> movingShapes, List<Mines> mineDrop, List<PlayerData> players, Graphics gr)
+        {
+            // check each tank
+            foreach (DynamicShape ds in movingShapes.Where(ds => ds is Tank))
+            {
+                // compare ds to all active ammo drops
+                foreach (Mines mines in _lMinesDrops.Where(a => a.IsAlive))
+                {
+                    // move on if no collision is found
+                    if (!ds.IsColliding(mines, gr))
+                        continue;
+
+                    // get the tank's player number
+                    PlayerNumber playerNum = (ds as Tank).Player;
+
+                    // replenish the player's HP
+                    players.Find((pd) => pd.Player == playerNum).GetMined();
+
+                    // reset ammoDrop's render flag 
+                    mines.IsAlive = false;
+
+                    // start Ammo class timeout timer
+                    Mines._stopwatch.Restart();
                 }
             }
         }
@@ -918,8 +1030,7 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
-        /// Issues a modal dialog asking the user to select a level.
-        /// Sets up the game based on level selection.
+        /// Issues a modal dialog showing game instruction.
         /// </summary>
         private DialogResult Instruction()
         {
