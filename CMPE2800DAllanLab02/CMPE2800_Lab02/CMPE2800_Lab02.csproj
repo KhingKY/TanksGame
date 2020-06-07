@@ -136,6 +136,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Rendering\Mines.cs" />
     <Compile Include="Rendering\Shape.cs" />
     <Compile Include="Rendering\Ammo.cs" />
     <Compile Include="Rendering\Tank.cs" />
@@ -188,6 +189,7 @@
     <Content Include="Images\DirtTerrain.png" />
     <Content Include="Images\GrassTerrain.png" />
     <None Include="Images\heal.png" />
+    <None Include="Images\mine.jpeg" />
     <Content Include="Images\MudTerrain.png" />
     <None Include="Images\rocketszt4.gif" />
     <None Include="Levels\DesertLevel.txt" />
@@ -196,6 +198,7 @@
     <None Include="Images\rockets.png" />
     <None Include="Images\shell.png" />
     <None Include="Resources\heal.bmp" />
+    <None Include="Resources\Mines.bmp" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
   <ItemGroup />

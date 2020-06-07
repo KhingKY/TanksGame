@@ -205,6 +205,11 @@ namespace CMPE2800_Lab02
             }
         }
 
+        public void GetMined()
+        {
+            HP -= 10;
+        }
+
         /// <summary>
         /// Sets Heavy Ammo count to the max value.
         /// </summary>
