@@ -1,5 +1,5 @@
 language: csharp
-dotnet: 3.1.2
+dotnet: 4.7
 solution: CMPE2800DAllanLab02/CMPE2800_Lab02.sln
 
 before_script:

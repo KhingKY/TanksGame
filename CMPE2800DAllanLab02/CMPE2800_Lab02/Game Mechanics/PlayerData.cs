@@ -101,6 +101,7 @@ namespace CMPE2800_Lab02
 
             // player is not in super mode
             IsSuper = false;
+            NumBreak = 0;
 
             // Initialize gun damage
             MachineGunDmg = 5;
@@ -152,7 +153,7 @@ namespace CMPE2800_Lab02
         /// </summary>
         public bool CanBreakWall(WallType wallType)
         {
-            if (IsSuper == true && NumBreak < MaxNumBreak && wallType == WallType.Weak)
+            if (IsSuper == true && wallType == WallType.Weak)
             {
                 NumBreak++;
                 if (NumBreak == MaxNumBreak)
@@ -245,7 +246,7 @@ namespace CMPE2800_Lab02
         /// </summary>
         public void GetPowerUp(PowerUp powerUp)
         {
-            switch (powerUp.PowerUpType)
+            switch (powerUp._powerUpType)
             {
                 case PowerUpType.Shield:
                     HasShield = true;

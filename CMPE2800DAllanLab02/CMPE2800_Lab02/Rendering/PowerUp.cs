@@ -17,10 +17,8 @@ namespace CMPE2800_Lab02
         //power up image
         private Bitmap _bm;
 
-        private PowerUpType _type;
-
         //public property to determine the power up type
-        public PowerUpType PowerUpType { get; set; }
+        public PowerUpType _powerUpType { get; set; }
 
         //public property to determine if a power up object is either showing or has a stopwatch started
         public bool IsAlive { get; set; }
@@ -36,7 +34,7 @@ namespace CMPE2800_Lab02
             _model.AddRectangle(new RectangleF(Position.X + Tilesize / 4, Position.Y + Tilesize / 4,
                 Tilesize / 2, Tilesize / 2));
 
-            _type = lPowerUpType;
+            _powerUpType = lPowerUpType;
             //set the bitmap image based on power up type
             _bm = lBitmap;
 
