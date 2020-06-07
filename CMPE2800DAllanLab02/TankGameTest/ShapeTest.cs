@@ -1,14 +1,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
-using System.IO;
 using CMPE2800_Lab02;
 
 namespace TankGameTest
 {
-	[TestClass()]
+	[TestClass]
 	public class ShapeTest
 	{
-		[TestMethod()]
+		[TestMethod]
 		public void IsWithinTileSizeTest()
 		{
 			PointF startP1 = new PointF(1, 0);
@@ -23,7 +22,7 @@ namespace TankGameTest
 
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void IsIntersectingTest()
 		{
 			Bitmap _backgroundImage = new Bitmap(CMPE2800_Lab02.Properties.Resources.DirtTerrain);
@@ -39,7 +38,7 @@ namespace TankGameTest
 			Assert.IsTrue(tank.IsIntersecting(tank2, gr));
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void IsCollidingTest()
 		{
 			Bitmap _backgroundImage = new Bitmap(CMPE2800_Lab02.Properties.Resources.DirtTerrain);

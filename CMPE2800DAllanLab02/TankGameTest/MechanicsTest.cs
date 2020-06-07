@@ -1,14 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Drawing;
-using System.IO;
 using CMPE2800_Lab02;
 
 namespace TankGameTest
 {
-	[TestClass()]
+	[TestClass]
 	public class MechanicTest
 	{
-		[TestMethod()]
+		[TestMethod]
 		public void ChangeWeaponTest()
 		{
 			PlayerData playerData = new PlayerData(PlayerNumber.One);
@@ -20,7 +19,7 @@ namespace TankGameTest
 			Assert.AreEqual(GunType.MachineGun, playerData.CurrentWeapon);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void TakeDamageTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -37,7 +36,7 @@ namespace TankGameTest
 			Assert.AreEqual(4, playerData1.Lives);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void ReloadAmmoTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -53,7 +52,7 @@ namespace TankGameTest
 			Assert.AreEqual(5, playerData1.HeavyAmmo);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void HealTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -66,7 +65,7 @@ namespace TankGameTest
 			Assert.AreEqual(100, playerData1.HP);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void ShieldTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -93,7 +92,7 @@ namespace TankGameTest
 			Assert.AreEqual(100, playerData1.HP);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void SuperTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
@@ -138,7 +137,7 @@ namespace TankGameTest
 			Assert.AreEqual(false, playerData1.IsSuper);
 		}
 
-		[TestMethod()]
+		[TestMethod]
 		public void AddDamageTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);

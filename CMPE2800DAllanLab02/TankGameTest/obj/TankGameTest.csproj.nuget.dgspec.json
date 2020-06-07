@@ -4,6 +4,17 @@
     "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\TankGameTest\\TankGameTest.csproj": {}
   },
   "projects": {
+    "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\CMPE2800_Lab02\\CMPE2800_Lab02.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\CMPE2800_Lab02\\CMPE2800_Lab02.csproj",
+        "projectName": "CMPE2800_Lab02",
+        "projectPath": "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\CMPE2800_Lab02\\CMPE2800_Lab02.csproj"
+      },
+      "frameworks": {
+        "net452": {}
+      }
+    },
     "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\TankGameTest\\TankGameTest.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -26,7 +37,11 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\CMPE2800_Lab02\\CMPE2800_Lab02.csproj": {
+                "projectPath": "C:\\Users\\Owner\\DP1\\TanksGame\\CMPE2800DAllanLab02\\CMPE2800_Lab02\\CMPE2800_Lab02.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

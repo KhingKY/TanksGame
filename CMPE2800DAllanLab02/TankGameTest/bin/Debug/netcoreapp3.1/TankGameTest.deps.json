@@ -8,12 +8,13 @@
     ".NETCoreApp,Version=v3.1": {
       "TankGameTest/1.0.0": {
         "dependencies": {
+          "CMPE2800_Lab02": "1.0.0",
           "MSTest.TestAdapter": "2.1.1",
           "MSTest.TestFramework": "2.1.1",
           "Microsoft.NET.Test.Sdk": "16.6.1",
           "System.Drawing.Common": "4.7.0",
           "coverlet.collector": "1.3.0",
-          "CMPE2800_Lab02": "1.0.0.0"
+          "CMPE2800_Lab02.Reference": "1.0.0.0"
         },
         "runtime": {
           "TankGameTest.dll": {}
@@ -1117,7 +1118,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "CMPE2800_Lab02/1.0.0.0": {
+      "CMPE2800_Lab02.Reference/1.0.0.0": {
         "runtime": {
           "CMPE2800_Lab02.exe": {
             "assemblyVersion": "1.0.0.0",
@@ -1764,7 +1765,7 @@
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
     },
-    "CMPE2800_Lab02/1.0.0.0": {
+    "CMPE2800_Lab02.Reference/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
