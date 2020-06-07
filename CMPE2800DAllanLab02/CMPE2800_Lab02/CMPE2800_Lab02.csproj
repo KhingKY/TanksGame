@@ -139,8 +139,11 @@
     <Compile Include="Rendering\Mines.cs" />
     <Compile Include="Rendering\Shape.cs" />
     <Compile Include="Rendering\Ammo.cs" />
+    <Compile Include="Rendering\Brush.cs" />
     <Compile Include="Rendering\Tank.cs" />
-    <Compile Include="Utilities.cs" />
+    <Compile Include="Utilities.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Rendering\Wall.cs" />
     <EmbeddedResource Include="Dialogs\GameHistoryTab.resx">
       <DependentUpon>GameHistoryTab.cs</DependentUpon>
@@ -186,6 +189,7 @@
   <ItemGroup>
     <None Include="Images\CityTerrain.jpg" />
     <None Include="Images\ammoDrop.png" />
+    <Content Include="Images\bush.png" />
     <Content Include="Images\DirtTerrain.png" />
     <Content Include="Images\GrassTerrain.png" />
     <None Include="Images\heal.png" />
@@ -199,6 +203,7 @@
     <None Include="Images\shell.png" />
     <None Include="Resources\heal.bmp" />
     <None Include="Resources\Mines.bmp" />
+    <Content Include="Images\slowfloor.jpg" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
   <ItemGroup />

@@ -62,6 +62,9 @@ namespace CMPE2800_Lab02
             // make wall list a copy of the level's walls
             _lWalls = new List<Wall>(_lvGameLevel.Walls);
 
+            // make wall list a copy of the level's walls
+            _lBrushes = new List<Brush>(_lvGameLevel.SlowFloors);
+
             // make ammo drops a copy of the level's ammo drops
             _lAmmoDrops = new List<Ammo>(_lvGameLevel._ammoDrops);
 
@@ -119,6 +122,9 @@ namespace CMPE2800_Lab02
 
                     // render walls
                     _lWalls.ForEach(w => w.Render(bg.Graphics));
+
+                    // render slow floors
+                    _lBrushes.ForEach(w => w.Render(bg.Graphics));
 
                     // render active ammo drops
                     _lAmmoDrops.Where(a => a.IsAlive).ToList()
@@ -333,6 +339,7 @@ namespace CMPE2800_Lab02
             // take snapshots of game collections
             List<DynamicShape> dynShapeSnapshot;
             List<Wall> wallListSnapshot;
+            List<Brush> brushListSnapshot;
             List<PlayerData> playerListSnapshot;
             List<Ammo> ammoDropsSnapshot;
             List<Heal> healingPack;
@@ -341,6 +348,7 @@ namespace CMPE2800_Lab02
             {
                 dynShapeSnapshot = new List<DynamicShape>(_lDynShapes);
                 wallListSnapshot = new List<Wall>(_lWalls);
+                brushListSnapshot = new List<Brush>(_lBrushes);
                 playerListSnapshot = new List<PlayerData>(_lPlayerData);
                 ammoDropsSnapshot = new List<Ammo>(_lAmmoDrops);
                 healingPack = new List<Heal>(_lHealingPacks);
@@ -361,12 +369,16 @@ namespace CMPE2800_Lab02
                     // 3) moving shapes hitting walls
                     ProcessWallHits(dynShapeSnapshot, wallListSnapshot, gr);
 
-                    // 4) tanks hitting ammo spawns
+                    // 4) moving shapes hitting slow floors
+                    ProcessBrushHits(dynShapeSnapshot, brushListSnapshot, gr);
+
+                    // 5) tanks hitting ammo spawns
                     ProcessAmmoSpawnHits(dynShapeSnapshot, _lAmmoDrops, playerListSnapshot, gr);
 
-                    // 4) tanks hitting healing packs
+                    // 6) tanks hitting healing packs
                     ProcessHealSpawnHits(dynShapeSnapshot, _lHealingPacks, playerListSnapshot, gr);
 
+                    // 6) tanks hitting mines
                     ProcessMineSpawnHits(dynShapeSnapshot, _lMinesDrops, playerListSnapshot, gr);
                 }
             }
@@ -379,6 +391,7 @@ namespace CMPE2800_Lab02
             {
                 _lDynShapes = new List<DynamicShape>(dynShapeSnapshot);
                 _lWalls = new List<Wall>(wallListSnapshot);
+                _lBrushes = new List<Brush>(brushListSnapshot);
                 _lPlayerData = new List<PlayerData>(playerListSnapshot);
                 _lAmmoDrops = new List<Ammo>(ammoDropsSnapshot);
                 _lHealingPacks = new List<Heal>(healingPack);
@@ -539,6 +552,36 @@ namespace CMPE2800_Lab02
                             if (wall._wallType == WallType.Weak)
                                 wall.IsMarkedForDeath = true;
                         }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compares every moving shape to every brushes,
+        /// reacting to collisions if necessary.
+        /// </summary>
+        /// <param name="MovingShapes">Collection of dynamic shapes.</param>
+        /// <param name="LevelBlocks">Collection of brushes.</param>
+        /// <param name="gr">Screen graphics object.</param>
+        private void ProcessBrushHits(List<DynamicShape> MovingShapes, List<Brush> LevelBlocks, Graphics gr)
+        {
+            // check each moving shape
+            foreach (DynamicShape ds in MovingShapes)
+            {
+                // compare s1 to all brushes
+                foreach (Brush brush in LevelBlocks)
+                {
+                    // move on if no collision is found
+                    if (!ds.IsColliding(brush, gr))
+                        continue;
+
+                    // collision found -- determine the type of collision occured between ds and brush
+
+                    // 1) s1 is Tank
+                    if (ds is Tank)
+                    {
+
                     }
                 }
             }
@@ -974,8 +1017,7 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
-        /// Issues a modal dialog asking the user to select a level.
-        /// Sets up the game based on level selection.
+        /// Issues a modal dialog showing game instruction.
         /// </summary>
         private DialogResult Instruction()
         {

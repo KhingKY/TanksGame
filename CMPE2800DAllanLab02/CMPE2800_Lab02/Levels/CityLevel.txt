@@ -130,4 +130,46 @@
 		<Y>8</Y>
 		<TYPE>Heal</TYPE>
 	</SPAWN>
+	<BRUSH>
+		<X>3</X>
+		<Y>1</Y>
+		<SHAPE>l</SHAPE>
+		<WIDTH>1</WIDTH>
+		<HEIGHT>2</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>3</X>
+		<Y>8</Y>
+		<SHAPE>l</SHAPE>
+		<WIDTH>1</WIDTH>
+		<HEIGHT>2</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>12</X>
+		<Y>2</Y>
+		<SHAPE>l</SHAPE>
+		<WIDTH>1</WIDTH>
+		<HEIGHT>2</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>4</X>
+		<Y>1</Y>
+		<SHAPE>hl</SHAPE>
+		<WIDTH>3</WIDTH>
+		<HEIGHT>1</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>9</X>
+		<Y>3</Y>
+		<SHAPE>hl</SHAPE>
+		<WIDTH>3</WIDTH>
+		<HEIGHT>1</HEIGHT>
+	</BRUSH>
+	<BRUSH>
+		<X>7</X>
+		<Y>8</Y>
+		<SHAPE>hl</SHAPE>
+		<WIDTH>3</WIDTH>
+		<HEIGHT>1</HEIGHT>
+	</BRUSH>
 </LEVEL>

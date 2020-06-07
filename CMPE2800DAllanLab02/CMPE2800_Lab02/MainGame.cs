@@ -49,6 +49,9 @@ namespace CMPE2800_Lab02
         // List of walls
         List<Wall> _lWalls;
 
+        // List of walls
+        List<Brush> _lBrushes;
+
         // List of Tank Spawn locations
         List<PointF> _lTankSpawns = new List<PointF>();
 
