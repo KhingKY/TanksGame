@@ -54,11 +54,14 @@ namespace CMPE2800_Lab02
         // List of Ammo drops
         List<Ammo> _lAmmoDrops;
 
-        // List of Healing Packs
-        List<Heal> _lHealingPacks;
+        // List of Power Up drops
+        List<PowerUp> _lPowerUpDrops;
 
         // time between rendering a new ammo drop
         const int _iAmmoTimeout = 5000;
+
+        // time between rendering a new power up drop
+        const int _iPowerUpTimeout = 7000;
 
         // used for background thread sleeping (in ms)
         const int _iGameClock = 25;

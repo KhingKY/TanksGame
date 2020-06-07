@@ -102,9 +102,7 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;9&lt;/X&gt;
         ///		&lt;Y&gt;5&lt;/Y&gt;
         ///		&lt;TYPE&gt;HARD&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
-        ///		&lt;WIDTH&gt;2&lt;/WIDTH&gt;
-        ///		&lt;HEIGHT&gt; [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHAPE [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string CityLevel {
             get {
@@ -118,6 +116,16 @@ namespace CMPE2800_Lab02.Properties {
         internal static System.Drawing.Bitmap CityTerrain {
             get {
                 object obj = ResourceManager.GetObject("CityTerrain", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap damage {
+            get {
+                object obj = ResourceManager.GetObject("damage", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -154,9 +162,7 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;12&lt;/X&gt;
         ///		&lt;Y&gt;5&lt;/Y&gt;
         ///		&lt;TYPE&gt;WEAK&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
-        ///		&lt;WIDTH&gt;4&lt;/WIDTH&gt;
-        ///		&lt;HEIGH [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHA [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string DesertLevel {
             get {
@@ -216,9 +222,7 @@ namespace CMPE2800_Lab02.Properties {
         ///		&lt;X&gt;11&lt;/X&gt;
         ///		&lt;Y&gt;8&lt;/Y&gt;
         ///		&lt;TYPE&gt;HARD&lt;/TYPE&gt;
-        ///		&lt;SHAPE&gt;o&lt;/SHAPE&gt;
-        ///		&lt;WIDTH&gt;2&lt;/WIDTH&gt;
-        ///		&lt;HEIGH [rest of string was truncated]&quot;;.
+        ///		&lt;SHAPE&gt;o&lt;/SHA [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GrassLevel {
             get {
@@ -262,6 +266,26 @@ namespace CMPE2800_Lab02.Properties {
         internal static System.Drawing.Bitmap shell {
             get {
                 object obj = ResourceManager.GetObject("shell", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shield {
+            get {
+                object obj = ResourceManager.GetObject("shield", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap super {
+            get {
+                object obj = ResourceManager.GetObject("super", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
