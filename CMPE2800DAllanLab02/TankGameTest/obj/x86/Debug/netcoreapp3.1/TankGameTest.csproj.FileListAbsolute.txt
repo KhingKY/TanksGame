@@ -101,3 +101,4 @@ C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\TankGameTest\obj\x86\Debug\netc
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\TankGameTest\obj\x86\Debug\netcoreapp3.1\TankGameTest.csproj.CopyComplete
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\TankGameTest\obj\x86\Debug\netcoreapp3.1\TankGameTest.dll
 C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\TankGameTest\obj\x86\Debug\netcoreapp3.1\TankGameTest.pdb
+C:\Users\Owner\DP1\TanksGame\CMPE2800DAllanLab02\TankGameTest\bin\x86\Debug\netcoreapp3.1\System.Resources.Extensions.dll
