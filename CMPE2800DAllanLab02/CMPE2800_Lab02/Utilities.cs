@@ -450,13 +450,17 @@ namespace CMPE2800_Lab02
 
                     // 1) s1 and s2 are tanks -- set collision flag for both
                     if (ds1 is Tank && ds2 is Tank)
+                    {
+                        // get the tank's player number
+                        players.Find((pd) => pd.Player == (ds1 as Tank).Player).CollidedWithTank(players.Find((pd) => pd.Player == (ds2 as Tank).Player));
                         (ds1 as Tank).IsBlocked = true;
+                    }
 
                     // 2) s1 is a bullet and s2 is a tank
                     else if (ds1 is Gunfire && ds2 is Tank)
                     {
                         //draw explosion effect
-                        
+
 
 
 
@@ -536,9 +540,6 @@ namespace CMPE2800_Lab02
                     {
                         // get the tank's player number
                         PlayerNumber playerNum = (ds as Tank).Player;
-
-                        // replenish the player's ammo
-                        players.Find((pd) => pd.Player == playerNum).CanBreakWall(wall._wallType);
 
                         // mark wall for removal
                         if (players.Find((pd) => pd.Player == playerNum).CanBreakWall(wall._wallType))
