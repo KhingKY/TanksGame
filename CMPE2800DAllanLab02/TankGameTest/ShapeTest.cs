@@ -54,5 +54,23 @@ namespace TankGameTest
 			Assert.IsTrue(tank.IsColliding(tank2, gr));
 
 		}
+
+		[TestMethod]
+		public void TankIntersectingBushTest()
+		{
+			Bitmap _backgroundImage = new Bitmap(CMPE2800_Lab02.Properties.Resources.DirtTerrain);
+			Graphics gr = Graphics.FromImage(_backgroundImage);
+
+			//Location of bush
+			Point spawnLocation = new Point();
+			spawnLocation.X = 2;
+			spawnLocation.Y = 2;
+
+			CMPE2800_Lab02.Brush brush = new CMPE2800_Lab02.Brush(spawnLocation);
+
+			Tank tank = new Tank(spawnLocation, Color.FromName("Blue"), PlayerNumber.One);
+
+			Assert.IsTrue(tank.IsColliding(brush, gr));
+		}
 	}
 }
