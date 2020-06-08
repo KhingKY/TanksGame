@@ -97,8 +97,6 @@ namespace TankGameTest
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
 
-			//Initaite wall
-
 			//Location of powerup
 			Point spawnLocation = new Point();
 			spawnLocation.X = 10;
@@ -114,26 +112,18 @@ namespace TankGameTest
 			playerData1.GetPowerUp(power1);
 			Assert.AreEqual(true, playerData1.IsSuper);
 
-			//checks if after breaking 3 wall the super mode is still on
-			bool wall1 = playerData1.CanBreakWall(WallType.Weak);
-			Assert.AreEqual(true, wall1);
+			//Try to break hard wall
+			bool wall1 = playerData1.CanBreakWall(WallType.Hard);
+			Assert.AreEqual(false, wall1);
 			Assert.AreEqual(true, playerData1.IsSuper);
 
+			//Break weak wall
 			bool wall2 = playerData1.CanBreakWall(WallType.Weak);
 			Assert.AreEqual(true, wall2);
-			Assert.AreEqual(true, playerData1.IsSuper);
-
-			//Try to break hard wall
-			bool wall3 = playerData1.CanBreakWall(WallType.Hard);
-			Assert.AreEqual(false, wall3);
-			Assert.AreEqual(true, playerData1.IsSuper);
-
-			bool wall4 = playerData1.CanBreakWall(WallType.Weak);
-			Assert.AreEqual(true, wall4);
 			Assert.AreEqual(false, playerData1.IsSuper);
 
-			bool wall5 = playerData1.CanBreakWall(WallType.Weak);
-			Assert.AreEqual(false, wall5);
+			bool wall3 = playerData1.CanBreakWall(WallType.Weak);
+			Assert.AreEqual(false, wall3);
 			Assert.AreEqual(false, playerData1.IsSuper);
 		}
 
@@ -176,10 +166,27 @@ namespace TankGameTest
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
 
 			playerData1.GetMined();
-			Assert.AreEqual(playerData1.HP, 90);
+			Assert.AreEqual(90, playerData1.HP);
 
 			playerData1.GetMined();
-			Assert.AreEqual(playerData1.HP, 80);
+			Assert.AreEqual(80, playerData1.HP);
+		}
+
+		[TestMethod]
+		public void CollidedWithTankTest()
+		{
+			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+			PlayerData playerData2 = new PlayerData(PlayerNumber.Two);
+			Assert.AreEqual(100, playerData1.HP);
+			Assert.AreEqual(100, playerData2.HP);
+
+			playerData1.CollidedWithTank(playerData2);
+			Assert.AreEqual(99, playerData1.HP);
+			Assert.AreEqual(99, playerData2.HP);
+
+			playerData2.CollidedWithTank(playerData1);
+			Assert.AreEqual(98, playerData1.HP);
+			Assert.AreEqual(98, playerData2.HP);
 		}
 	}
 }
