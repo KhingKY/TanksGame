@@ -12,6 +12,7 @@ using System.Security.Cryptography;
 using System;
 using CMPE2800_Lab02.Rendering;
 
+
 namespace CMPE2800_Lab02
 {
     class Level : Shape
@@ -21,7 +22,7 @@ namespace CMPE2800_Lab02
         public List<Brush> SlowFloors = new List<Brush>();
         public List<PointF> _respawnPoints = new List<PointF>();
         public List<Ammo> _ammoDrops = new List<Ammo>();
-        public List<Heal> _healPacks = new List<Heal>();
+        public List<PowerUp> _powerUpDrops = new List<PowerUp>();
         public List<Mines> _mineDrops = new List<Mines>();
         
         //background image
@@ -31,7 +32,21 @@ namespace CMPE2800_Lab02
         /// </summary>
         public Bitmap LevelBackground { get { return _backgroundImage; } } //use as backdrop
 
-        
+        /// <summary>
+        /// Initialize random to randomly generate power up type
+        /// </summary>
+        private static readonly Random rand = new Random();
+        private static readonly object syncLock = new object();
+        public static int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return rand.Next(min, max);
+            }
+        }
+
+        public PowerUpType powerUpType { get; private set; }        //= //new PowerUpType(rand.Next(0,4));
+
         /// <summary>
         /// Level Constructor. Call the ParseLevel member function to get the lvl data from the xml file
         /// and make set the bounds for use with hit detection so the tanks don't run off the map
@@ -321,11 +336,28 @@ namespace CMPE2800_Lab02
                                     bm = Properties.Resources.ammoDrop;
                                     _ammoDrops.Add(new Ammo(spawnLocation));
                                 }
-                                else if (tempString == "Heal")
+                                else if (tempString == "PowerUp")
                                 {
-                                    //set the bitmap to the missiles and add a new ammo object to the List
-                                    bm = Properties.Resources.heal;
-                                    _healPacks.Add(new Heal(spawnLocation));
+                                    //set the bitmap to the power up and add a new power up object to the List
+                                    //random
+                                    powerUpType = (PowerUpType)(RandomNumber(0, 300) % 4);
+                                    //set the bitmap image based on power up type
+                                    switch (powerUpType)
+                                    {
+                                        case PowerUpType.Shield:
+                                            bm = Properties.Resources.shield;
+                                            break;
+                                        case PowerUpType.Super:
+                                            bm = Properties.Resources.super;
+                                            break;
+                                        case PowerUpType.Heal:
+                                            bm = Properties.Resources.heal;
+                                            break;
+                                        case PowerUpType.Damage:
+                                            bm = Properties.Resources.damage;
+                                            break;
+                                    }
+                                    _powerUpDrops.Add(new PowerUp(spawnLocation, powerUpType, bm));
                                 }
                                 else if (tempString == "Mines")
                                 {

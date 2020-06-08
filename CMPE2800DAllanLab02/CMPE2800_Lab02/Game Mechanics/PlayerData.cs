@@ -29,6 +29,16 @@ namespace CMPE2800_Lab02
         public int HP { get; private set; }
         const int HPMax = 100;
 
+        // players gain sheild when they collected it but lost shield when they take damage, no damage is taken
+        public bool HasShield { get; private set; }
+
+        // players is in super mode and can knockdown low wall
+        public bool IsSuper { get; private set; }
+
+        // the number of wall that has been break
+        public int NumBreak { get; private set; }
+        const int MaxNumBreak = 3;
+
         // ammo for the heavy weapon (rockets, in this case)
         public int HeavyAmmo { get; private set; }
 
@@ -46,8 +56,8 @@ namespace CMPE2800_Lab02
         public const int RocketReload = 1000;
 
         // damage values for gun types
-        public const int MachineGunDmg = 5;
-        public const int RocketDmg = 25;
+        public int MachineGunDmg { get; private set; }
+        public int RocketDmg { get; private set; }
 
         // stopwatch to time tank gunfire reloads
         Stopwatch ReloadTimer = new Stopwatch();
@@ -85,6 +95,17 @@ namespace CMPE2800_Lab02
 
             // machinegun is the starting weapon by default
             CurrentWeapon = GunType.MachineGun;
+
+            // player do not have shield
+            HasShield = false;
+
+            // player is not in super mode
+            IsSuper = false;
+            NumBreak = 0;
+
+            // Initialize gun damage
+            MachineGunDmg = 5;
+            RocketDmg = 25;
         }
 
         /// <summary>
@@ -128,6 +149,24 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
+        /// Check if super mode is available to break wall
+        /// </summary>
+        public bool CanBreakWall(WallType wallType)
+        {
+            if (IsSuper == true && wallType == WallType.Weak)
+            {
+                NumBreak++;
+                if (NumBreak == MaxNumBreak)
+                {
+                    NumBreak = 0;
+                    IsSuper = false;            
+                }
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Resets the reload timer.
         /// </summary>
         public void StartReloading()
@@ -164,14 +203,20 @@ namespace CMPE2800_Lab02
         public void TakeDamage(GunType gunfire, PlayerData shooter)
         {
             // player takes damage according to guntype
-            switch (gunfire)
+            if (HasShield)
             {
-                case GunType.MachineGun:
-                    HP -= MachineGunDmg;
-                    break;
-                case GunType.Rocket:
-                    HP -= RocketDmg;
-                    break;
+                HasShield = false;
+            }
+            else { 
+                switch (gunfire)
+                {
+                    case GunType.MachineGun:
+                        HP -= MachineGunDmg;
+                        break;
+                    case GunType.Rocket:
+                        HP -= RocketDmg;
+                        break;
+                }
             }
 
             // if HP is below 0, lose a life
@@ -196,6 +241,32 @@ namespace CMPE2800_Lab02
             }
         }
 
+        /// <summary>
+        /// Tank obtain power up based on the powerup type
+        /// </summary>
+        public void GetPowerUp(PowerUp powerUp)
+        {
+            switch (powerUp._powerUpType)
+            {
+                case PowerUpType.Shield:
+                    HasShield = true;
+                    break;
+                case PowerUpType.Super:
+                    IsSuper = true;
+                    break;
+                case PowerUpType.Heal:
+                    Heal();
+                    break;
+                case PowerUpType.Damage:
+                    MachineGunDmg += 5;
+                    RocketDmg += 5;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Tank gets heal effect
+        /// </summary>
         public void Heal()
         {
             HP += 30;

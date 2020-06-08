@@ -131,6 +131,16 @@ namespace CMPE2800_Lab02.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap damage {
+            get {
+                object obj = ResourceManager.GetObject("damage", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;?xml version=&apos;1.0&apos;?&gt;
         ///&lt;LEVEL&gt;
         ///	&lt;LEVELTYPE&gt;DESERT&lt;/LEVELTYPE&gt;
@@ -276,6 +286,26 @@ namespace CMPE2800_Lab02.Properties {
         internal static System.Drawing.Bitmap shell {
             get {
                 object obj = ResourceManager.GetObject("shell", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shield {
+            get {
+                object obj = ResourceManager.GetObject("shield", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap super {
+            get {
+                object obj = ResourceManager.GetObject("super", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
