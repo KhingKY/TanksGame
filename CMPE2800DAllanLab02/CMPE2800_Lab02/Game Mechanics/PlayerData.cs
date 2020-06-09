@@ -31,6 +31,16 @@ namespace CMPE2800_Lab02
         public int HP { get; private set; }
         const int HPMax = 100;
 
+        // players gain sheild when they collected it but lost shield when they take damage, no damage is taken
+        public bool HasShield { get; private set; }
+
+        // players is in super mode and can knockdown low wall
+        public bool IsSuper { get; private set; }
+
+        // the number of wall that has been break
+        public int NumBreak { get; private set; }
+        const int MaxNumBreak = 1;
+
         // ammo for the heavy weapon (rockets, in this case)
         public int HeavyAmmo { get; private set; }
 
@@ -48,8 +58,8 @@ namespace CMPE2800_Lab02
         public const int RocketReload = 1000;
 
         // damage values for gun types
-        public const int MachineGunDmg = 5;
-        public const int RocketDmg = 25;
+        public int MachineGunDmg { get; private set; }
+        public int RocketDmg { get; private set; }
 
         // stopwatch to time tank gunfire reloads
         Stopwatch ReloadTimer = new Stopwatch();
@@ -87,6 +97,17 @@ namespace CMPE2800_Lab02
 
             // machinegun is the starting weapon by default
             CurrentWeapon = GunType.MachineGun;
+
+            // player do not have shield
+            HasShield = false;
+
+            // player is not in super mode
+            IsSuper = false;
+            NumBreak = 0;
+
+            // Initialize gun damage
+            MachineGunDmg = 5;
+            RocketDmg = 25;
         }
 
         /// <summary>
@@ -129,6 +150,37 @@ namespace CMPE2800_Lab02
             return true;
         }
 
+
+        /// <summary>
+        /// Decrement HP when collided with another tank
+        /// </summary>
+        /// <param name="aOther">Another player's data.</param>
+        public void CollidedWithTank(PlayerData aOther)
+        {
+            HP--;
+            aOther.HP--;
+            CheckLife(aOther);
+        }
+
+        /// <summary>
+        /// Check if super mode is available to break wall
+        /// </summary>
+        /// <param name="wallType">The type of wall.</param>
+        public bool CanBreakWall(WallType wallType)
+        {
+            if (IsSuper == true && wallType == WallType.Weak)
+            {
+                NumBreak++;
+                if (NumBreak == MaxNumBreak)
+                {
+                    NumBreak = 0;
+                    IsSuper = false;            
+                }
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// Resets the reload timer.
         /// </summary>
@@ -166,33 +218,54 @@ namespace CMPE2800_Lab02
         public void TakeDamage(GunType gunfire, PlayerData shooter)
         {
             // player takes damage according to guntype
-            switch (gunfire)
+            if (HasShield)
             {
-                case GunType.MachineGun:
-                    HP -= MachineGunDmg;
-                    break;
-                case GunType.Rocket:
-                    HP -= RocketDmg;
-                    break;
+                HasShield = false;
             }
+            else { 
+                switch (gunfire)
+                {
+                    case GunType.MachineGun:
+                        HP -= MachineGunDmg;
+                        break;
+                    case GunType.Rocket:
+                        HP -= RocketDmg;
+                        break;
+                }
+            }
+            CheckLife(shooter);
+        }
 
+        /// <summary>
+        /// Checks if one of the player dies
+        /// </summary>
+        /// <param name="aOther">The player who shot the weapon.</param>
+        public void CheckLife(PlayerData aOther) 
+        { 
             // if HP is below 0, lose a life
             if (HP <= 0)
             {
                 Lives--;
-
                 // reset HP
                 HP = HPMax;
-
                 // the shooter gets a point
-                shooter.Score++;
-
+                aOther.Score++;
                 // trigger respawn flag
                 IsAlive = false;
             }
+            else if (aOther.HP <= 0)
+            {
+                aOther.Lives--;
+                // reset HP
+                aOther.HP = HPMax;
+                // the player gets a point
+                Score++;
+                // trigger respawn flag
+                aOther.IsAlive = false;
+            }
 
             // if shooter reaches 3 points, trigger victory condition
-            if (shooter.Score >= ScoreToWin)
+            if (aOther.Score >= ScoreToWin || Score >= ScoreToWin)
             {
                 PlayerVictory = true;
             }
@@ -215,6 +288,46 @@ namespace CMPE2800_Lab02
             {
                 HP = 100;
             }
+        }
+
+        /// <summary>
+        /// Tank obtain power up based on the powerup type
+        /// </summary>
+        public void GetPowerUp(PowerUp powerUp)
+        {
+            switch (powerUp._powerUpType)
+            {
+                case PowerUpType.Shield:
+                    HasShield = true;
+                    break;
+                case PowerUpType.Super:
+                    IsSuper = true;
+                    break;
+                case PowerUpType.Heal:
+                    Heal();
+                    break;
+                case PowerUpType.Damage:
+                    MachineGunDmg += 5;
+                    RocketDmg += 5;
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Tank gets heal effect
+        /// </summary>
+        public void Heal()
+        {
+            HP += 30;
+            if (HP > 100)
+            {
+                HP = 100;
+            }
+        }
+
+        public void GetMined()
+        {
+            HP -= 10;
         }
 
         /// <summary>

@@ -10,6 +10,8 @@ using System.Drawing.Drawing2D;
 using System.Xml;
 using System.Security.Cryptography;
 using System;
+using CMPE2800_Lab02.Rendering;
+
 
 namespace CMPE2800_Lab02
 {
@@ -17,9 +19,12 @@ namespace CMPE2800_Lab02
     {
         //Lists of walls, tank spawns, and ammo spawns for game mechanics
         public List<Wall> Walls { get; private set; } = new List<Wall>();
+        public List<Brush> SlowFloors = new List<Brush>();
         public List<PointF> _respawnPoints = new List<PointF>();
         public List<Ammo> _ammoDrops = new List<Ammo>();
-        public List<Heal> _healPacks = new List<Heal>();
+        public List<PowerUp> _powerUpDrops = new List<PowerUp>();
+        public List<Mines> _mineDrops = new List<Mines>();
+        
         //background image
         Bitmap _backgroundImage;
         /// <summary>
@@ -27,7 +32,21 @@ namespace CMPE2800_Lab02
         /// </summary>
         public Bitmap LevelBackground { get { return _backgroundImage; } } //use as backdrop
 
-        
+        /// <summary>
+        /// Initialize random to randomly generate power up type
+        /// </summary>
+        private static readonly Random rand = new Random();
+        private static readonly object syncLock = new object();
+        public static int RandomNumber(int min, int max)
+        {
+            lock (syncLock)
+            { // synchronize
+                return rand.Next(min, max);
+            }
+        }
+
+        public PowerUpType powerUpType { get; private set; }        //= //new PowerUpType(rand.Next(0,4));
+
         /// <summary>
         /// Level Constructor. Call the ParseLevel member function to get the lvl data from the xml file
         /// and make set the bounds for use with hit detection so the tanks don't run off the map
@@ -57,6 +76,7 @@ namespace CMPE2800_Lab02
         {
             return _model.Clone() as GraphicsPath;
         }
+
         /// <summary>
         /// Render the background image of the level
         /// </summary>
@@ -122,6 +142,11 @@ namespace CMPE2800_Lab02
                                     //take the wall element and put it into its own xml parser
                                     ParseWall(XR.ReadSubtree());
                                     break;
+                                //set the brushes we will use in our level
+                                case "BRUSH":
+                                    //take the brushes element and put it into its own xml parser
+                                    ParseBrush(XR.ReadSubtree());
+                                    break;
                                 //set the spawns in our level
                                 case "SPAWN":
                                     //take the spawn element and put it into its own xml parser
@@ -133,6 +158,7 @@ namespace CMPE2800_Lab02
                 }
             }
         }
+
         /// <summary>
         /// This function takes an XmlReader the was created from a WALL element in the main file,
         /// It then creates a new wall and adds it to the List<Wall>
@@ -207,6 +233,65 @@ namespace CMPE2800_Lab02
         }
 
         /// <summary>
+        /// This function takes an XmlReader the was created from a BRUSH element in the main file,
+        /// It then creates a new BRUSH and adds it to the List<Brush>
+        /// </summary>
+        /// <param name="brushReader">
+        /// The XML Reader object created from a brush subtree in the ParseLevel() method
+        /// </param>
+        private void ParseBrush(XmlReader brushReader)
+        {
+            //a point to hold the location from where we add the brush
+            Point brushLocation = new Point();
+
+            //a Brushshape to hold the shape, default is vertical line
+            WallShape ws = WallShape.l;
+
+            //width and height variables
+            int width = 0, height = 0;
+
+            //read to the end
+            while (brushReader.Read())
+            {
+                //check the node type
+                switch (brushReader.NodeType)
+                {
+                    ///*******************************************************
+                    ///Here we parse the BRUSH subelements into their own parts
+                    ///*******************************************************
+                    case XmlNodeType.Element:
+                        //check the tag name and perform the necessary action on it
+                        switch (brushReader.Name)
+                        {
+                            //get the starting X location of the brush
+                            case "X":
+                                brushLocation.X = brushReader.ReadElementContentAsInt();
+                                break;
+                            //get the starting Y location of the brush
+                            case "Y":
+                                brushLocation.Y = brushReader.ReadElementContentAsInt();
+                                break;
+                            //Get the shape type. Call the SetBrushShape function. It returns the appropriate enum BurshShape
+                            case "SHAPE":
+                                ws = SetBrushShape(brushReader.ReadElementContentAsString());
+                                break;
+                            //Get the width of the brush
+                            case "WIDTH":
+                                width = brushReader.ReadElementContentAsInt() * Tilesize;
+                                break;
+                            //Get the height of the brush
+                            case "HEIGHT":
+                                height = brushReader.ReadElementContentAsInt() * Tilesize;
+                                //add the brushes once we reach the end
+                                AddBrushes(brushLocation, ws, width, height);
+                                break;
+                        }
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
         /// Takes an XmlReader the was created from a SPAWNS element in the main file,
         /// It cycles through all of the subelements and then either creates an ammo object and adds
         /// it to the ammo spawn list, or it sets adds a PointF position to the respawn list
@@ -251,11 +336,34 @@ namespace CMPE2800_Lab02
                                     bm = Properties.Resources.ammoDrop;
                                     _ammoDrops.Add(new Ammo(spawnLocation));
                                 }
-                                else if (tempString == "Heal")
+                                else if (tempString == "PowerUp")
+                                {
+                                    //set the bitmap to the power up and add a new power up object to the List
+                                    //random
+                                    powerUpType = (PowerUpType)(RandomNumber(0, 300) % 4);
+                                    //set the bitmap image based on power up type
+                                    switch (powerUpType)
+                                    {
+                                        case PowerUpType.Shield:
+                                            bm = Properties.Resources.shield;
+                                            break;
+                                        case PowerUpType.Super:
+                                            bm = Properties.Resources.super;
+                                            break;
+                                        case PowerUpType.Heal:
+                                            bm = Properties.Resources.heal;
+                                            break;
+                                        case PowerUpType.Damage:
+                                            bm = Properties.Resources.damage;
+                                            break;
+                                    }
+                                    _powerUpDrops.Add(new PowerUp(spawnLocation, powerUpType, bm));
+                                }
+                                else if (tempString == "Mines")
                                 {
                                     //set the bitmap to the missiles and add a new ammo object to the List
-                                    bm = Properties.Resources.heal;
-                                    _healPacks.Add(new Heal(spawnLocation));
+                                    bm = Properties.Resources.mine;
+                                    _mineDrops.Add(new Mines(spawnLocation));
                                 }
                                 else
                                 {
@@ -270,6 +378,7 @@ namespace CMPE2800_Lab02
                 }
             }
         }
+
         /// <summary>
         /// This funtion takes in a string and returns the appropriate WallShape
         /// </summary>
@@ -293,6 +402,7 @@ namespace CMPE2800_Lab02
                     return WallShape.l;
             }
         }
+
         /// <summary>
         /// This method adds the walls to the list of walls
         /// </summary>
@@ -346,6 +456,84 @@ namespace CMPE2800_Lab02
 
             }
         }
+
+        /// <summary>
+        /// This funtion takes in a string and returns the appropriate brushShape
+        /// </summary>
+        /// <param name="s"></param>
+        /// <returns>
+        /// The BrushShape
+        /// </returns>
+        private WallShape SetBrushShape(string s)
+        {
+            //return the BrushShape associated with the input string
+            switch (s)
+            {
+                //an "o" shaped wall
+                case "o":
+                    return WallShape.o;
+                //horizontal line shaped wall
+                case "hl":
+                    return WallShape.hl;
+                //vertical line shaped wall
+                default:
+                    return WallShape.l;
+            }
+        }
+
+        /// <summary>
+        /// This method adds the brushes to the list of brushes
+        /// </summary>
+        /// <param name="brushLocation"> location to draw the brush </param>
+        /// <param name="ws"> The Shape of the brush </param>
+        /// <param name="width"> The width of the brush </param>
+        /// <param name="height"> The height of the brush </param>
+        private void AddBrushes(Point brushLocation, WallShape ws, int width, int height)
+        {
+            //create a temporary point to hold the location we are adding to
+            Point tempPoint = new Point(brushLocation.X, brushLocation.Y);
+
+            switch (ws)
+            {
+                //add an 'o' shaped brush
+                case WallShape.o:
+                    //copy of the origin point for drawing
+                    Point drawPoint = tempPoint;
+                    //nested for loop because the shape is a equilateral
+                    for (int i = 0; i < height / Tilesize; ++i)
+                    {
+                        //move the draw point down
+                        drawPoint.Y = tempPoint.Y + i;
+                        //cycle through the horizontal plane
+                        for (int j = 0; j < width / Tilesize; ++j)
+                        {
+                            //move the draw point across the screen
+                            drawPoint.X = tempPoint.X + j;
+                            //add the brush at the draw point
+                            SlowFloors.Add(new Brush(new Point(drawPoint.X * Tilesize, drawPoint.Y * Tilesize)));
+                        }
+                        //reset the drawpoint to the original x position
+                        drawPoint.X = tempPoint.X;
+                    }
+                    break;
+                //add a vertical line shaped wall
+                case WallShape.l:
+                    //single for loop because we are drawing straight down. no change in X
+                    for (int i = 0; i < height / Tilesize; ++i)
+                        SlowFloors.Add(new Brush
+                            (new Point(tempPoint.X * Tilesize, (tempPoint.Y + i) * Tilesize)));
+                    break;
+                //add a horizontal line shaped wall 
+                case WallShape.hl:
+                    //single for loop because we are drawing straight across. no change in Y
+                    for (int i = 0; i < width / Tilesize; ++i)
+                        SlowFloors.Add(new Brush
+                            (new Point((tempPoint.X + i) * Tilesize, tempPoint.Y * Tilesize)));
+                    break;
+
+            }
+        }
+
         #endregion
     }
 }

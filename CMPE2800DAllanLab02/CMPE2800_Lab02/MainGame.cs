@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
+using CMPE2800_Lab02.Rendering;
 
 namespace CMPE2800_Lab02
 {
@@ -48,17 +49,26 @@ namespace CMPE2800_Lab02
         // List of walls
         List<Wall> _lWalls;
 
+        // List of walls
+        List<Brush> _lBrushes;
+
         // List of Tank Spawn locations
         List<PointF> _lTankSpawns = new List<PointF>();
 
         // List of Ammo drops
         List<Ammo> _lAmmoDrops;
 
-        // List of Healing Packs
-        List<Heal> _lHealingPacks;
+        // List of Power Up drops
+        List<PowerUp> _lPowerUpDrops;
+
+        //List of Mines
+        List<Mines> _lMinesDrops;
 
         // time between rendering a new ammo drop
         const int _iAmmoTimeout = 5000;
+
+        // time between rendering a new power up drop
+        const int _iPowerUpTimeout = 7000;
 
         // used for background thread sleeping (in ms)
         const int _iGameClock = 25;

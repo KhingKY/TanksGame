@@ -10,6 +10,7 @@ Winner: Player Two   Map: Desert
 
 Date of Match: 5/6/2020 8:32:44 PM
 Winner: Player Two   Map: City
+<<<<<<< HEAD
 
 
 Date of Match: 7/6/2020 10:41:54 PM
@@ -94,3 +95,5 @@ Winner: Player One   Map: City
 
 Date of Match: 9/6/2020 3:11:39 PM
 Winner: Player Draw   Map: City
+=======
+>>>>>>> master
