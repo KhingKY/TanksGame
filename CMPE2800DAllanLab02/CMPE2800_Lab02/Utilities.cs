@@ -1082,7 +1082,16 @@ namespace CMPE2800_Lab02
                 {
                     Map = "Plain";
                 }
-                sw.WriteLine("Winner: Player {0}   Map: {1}",winner,Map);
+
+                if (winner == PlayerNumber.Draw)
+                {
+                    sw.WriteLine("Result: Draw   Map: {1}", Map);
+                }
+                else 
+                {
+                    sw.WriteLine("Winner: Player {0}   Map: {1}", winner, Map);
+                }
+                
                 
             }
 

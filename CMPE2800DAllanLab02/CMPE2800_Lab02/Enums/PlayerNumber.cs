@@ -9,6 +9,7 @@ namespace CMPE2800_Lab02
     public enum PlayerNumber
     {
         One,
-        Two
+        Two,
+        Draw
     }
 }
