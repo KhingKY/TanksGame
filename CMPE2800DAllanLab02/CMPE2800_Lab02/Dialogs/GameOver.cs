@@ -80,10 +80,6 @@ namespace CMPE2800_Lab02
             {
                 _labWinner.Text = $"Player {playerNum} wins";
             }
-<<<<<<< Updated upstream
-            
-=======
->>>>>>> Stashed changes
         }
         #endregion
     }
