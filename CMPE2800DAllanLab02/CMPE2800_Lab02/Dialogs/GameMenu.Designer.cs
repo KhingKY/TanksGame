@@ -37,6 +37,7 @@
             // 
             // PlayButton
             // 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             this.PlayButton.BackColor = System.Drawing.SystemColors.Control;
             this.PlayButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -50,17 +51,28 @@
             this.PlayButton.UseVisualStyleBackColor = false;
 =======
             this.PlayButton.Location = new System.Drawing.Point(271, 198);
+=======
+            this.PlayButton.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.PlayButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PlayButton.ForeColor = System.Drawing.Color.White;
+            this.PlayButton.Location = new System.Drawing.Point(270, 81);
+>>>>>>> Stashed changes
             this.PlayButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PlayButton.Name = "PlayButton";
-            this.PlayButton.Size = new System.Drawing.Size(120, 32);
+            this.PlayButton.Size = new System.Drawing.Size(147, 47);
             this.PlayButton.TabIndex = 0;
             this.PlayButton.Text = "Play";
+<<<<<<< Updated upstream
             this.PlayButton.UseVisualStyleBackColor = true;
 >>>>>>> master
+=======
+            this.PlayButton.UseVisualStyleBackColor = false;
+>>>>>>> Stashed changes
             this.PlayButton.Click += new System.EventHandler(this.PlayButton_Click);
             // 
             // HistoryButton
             // 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             this.HistoryButton.BackColor = System.Drawing.SystemColors.Control;
             this.HistoryButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
@@ -74,17 +86,28 @@
             this.HistoryButton.UseVisualStyleBackColor = false;
 =======
             this.HistoryButton.Location = new System.Drawing.Point(271, 245);
+=======
+            this.HistoryButton.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.HistoryButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HistoryButton.ForeColor = System.Drawing.Color.White;
+            this.HistoryButton.Location = new System.Drawing.Point(270, 148);
+>>>>>>> Stashed changes
             this.HistoryButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.HistoryButton.Name = "HistoryButton";
-            this.HistoryButton.Size = new System.Drawing.Size(120, 32);
+            this.HistoryButton.Size = new System.Drawing.Size(147, 47);
             this.HistoryButton.TabIndex = 0;
             this.HistoryButton.Text = "Game History";
+<<<<<<< Updated upstream
             this.HistoryButton.UseVisualStyleBackColor = true;
 >>>>>>> master
+=======
+            this.HistoryButton.UseVisualStyleBackColor = false;
+>>>>>>> Stashed changes
             this.HistoryButton.Click += new System.EventHandler(this.HistoryButton_Click);
             // 
             // InstructionsButton
             // 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             this.InstructionsButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.InstructionsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -98,13 +121,23 @@
             this.InstructionsButton.Name = "InstructionsButton";
             this.InstructionsButton.Size = new System.Drawing.Size(120, 32);
 >>>>>>> master
+=======
+            this.InstructionsButton.BackColor = System.Drawing.Color.DarkOliveGreen;
+            this.InstructionsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InstructionsButton.ForeColor = System.Drawing.Color.White;
+            this.InstructionsButton.Location = new System.Drawing.Point(270, 220);
+            this.InstructionsButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.InstructionsButton.Name = "InstructionsButton";
+            this.InstructionsButton.Size = new System.Drawing.Size(147, 47);
+>>>>>>> Stashed changes
             this.InstructionsButton.TabIndex = 0;
             this.InstructionsButton.Text = "Instructions";
-            this.InstructionsButton.UseVisualStyleBackColor = true;
+            this.InstructionsButton.UseVisualStyleBackColor = false;
             this.InstructionsButton.Click += new System.EventHandler(this.InstructionsButton_Click);
             // 
             // pictureBox1
             // 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             this.pictureBox1.Image = global::CMPE2800_Lab02.Properties.Resources.menuImage;
             this.pictureBox1.InitialImage = null;
@@ -115,12 +148,20 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
 =======
             this.pictureBox1.Image = global::CMPE2800_Lab02.Properties.Resources.ammoDrop;
+=======
+            this.pictureBox1.Image = global::CMPE2800_Lab02.Properties.Resources.menuImage;
+>>>>>>> Stashed changes
             this.pictureBox1.InitialImage = null;
-            this.pictureBox1.Location = new System.Drawing.Point(216, 11);
+            this.pictureBox1.Location = new System.Drawing.Point(-6, -32);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pictureBox1.Name = "pictureBox1";
+<<<<<<< Updated upstream
             this.pictureBox1.Size = new System.Drawing.Size(231, 169);
 >>>>>>> master
+=======
+            this.pictureBox1.Size = new System.Drawing.Size(721, 474);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+>>>>>>> Stashed changes
             this.pictureBox1.TabIndex = 1;
             this.pictureBox1.TabStop = false;
             // 
@@ -129,6 +170,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 360);
+<<<<<<< Updated upstream
 <<<<<<< HEAD
             this.Controls.Add(this.HistoryButton);
             this.Controls.Add(this.InstructionsButton);
@@ -140,6 +182,12 @@
             this.Controls.Add(this.InstructionsButton);
             this.Controls.Add(this.PlayButton);
 >>>>>>> master
+=======
+            this.Controls.Add(this.HistoryButton);
+            this.Controls.Add(this.InstructionsButton);
+            this.Controls.Add(this.PlayButton);
+            this.Controls.Add(this.pictureBox1);
+>>>>>>> Stashed changes
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GameMenu";
             this.Text = "TANK GAME";

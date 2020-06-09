@@ -13,6 +13,7 @@ using CMPE2800_Lab02.Dialogs;
 using System.IO;
 using System.Globalization;
 using CMPE2800_Lab02.Rendering;
+using System.Diagnostics;
 
 namespace CMPE2800_Lab02
 {
@@ -70,6 +71,9 @@ namespace CMPE2800_Lab02
 
             // make power up drops a copy of the level's power up drops
             _lPowerUpDrops = new List<PowerUp>(_lvGameLevel._powerUpDrops);
+
+            // make healing packs a copy of the level's healing packs
+            _lHealingPacks = new List<Heal>(_lvGameLevel._healPacks);
 
             _lMinesDrops = new List<Mines>(_lvGameLevel._mineDrops);
 
@@ -134,8 +138,13 @@ namespace CMPE2800_Lab02
                     _lPowerUpDrops.Where(a => a.IsAlive).ToList()
                         .ForEach(a => a.Render(bg.Graphics));
 
+                    // render active healing packs
+                    _lHealingPacks.Where(a => a.IsAlive).ToList()
+                        .ForEach(a => a.Render(bg.Graphics));
+
                     _lMinesDrops.Where(a => a.IsAlive).ToList()
                         .ForEach(a => a.Render(bg.Graphics));
+
 
                     // flip back buffer to front
                     bg.Render();
@@ -150,6 +159,8 @@ namespace CMPE2800_Lab02
         /// </summary>
         private void TBackground()
         {
+            Stopwatch _time = new Stopwatch();
+            _time.Start();
             // loop forever
             while (true)
             {
@@ -157,13 +168,31 @@ namespace CMPE2800_Lab02
                 UpdateUI();
 
                 // check for game over condition
+                if (_time.ElapsedMilliseconds > 180000)
+                {
+                    if (_lPlayerData[0].Score > _lPlayerData[1].Score)
+                    {
+                        _lPlayerData[0].SetPlayerVictory();
+                        GameOver(PlayerNumber.One);
+                    }
+                    else if (_lPlayerData[1].Score > _lPlayerData[0].Score)
+                    {
+                        _lPlayerData[1].SetPlayerVictory();
+                        GameOver(PlayerNumber.Two);
+                    }
+                }
+
+                // check for game over condition
                 if (PlayerData.PlayerVictory)
                 {
                     // pause game
                     _bGamePaused = true;
-
-                    // trigger game over event
-                    GameOver(_lPlayerData.Find(p => p.Score == PlayerData.ScoreToWin).Player);
+                    _time.Stop();
+                }
+                else if (_time.ElapsedMilliseconds > 180000 && !PlayerData.PlayerVictory)
+                {
+                    _bGamePaused = true;
+                    GameOver(PlayerNumber.Draw);
                 }
 
                 // poll for new input, and apply the input to game elements
@@ -182,6 +211,8 @@ namespace CMPE2800_Lab02
                 CheckPowerUpDrops();
 
                 CheckMineDrops();
+
+                CheckHealingPacks();
 
                 // slow background thread according to clock value
                 // (25ms to match tick rate of _timMain)
@@ -269,6 +300,33 @@ namespace CMPE2800_Lab02
             }
         }
 
+        private void CheckHealingPacks()
+        {
+            // take a snapshot of the list of ammo drops
+            List<Heal> healingPack;
+            lock (_oRenderLock)
+                healingPack = new List<Heal>(_lHealingPacks);
+
+            // if the ammo timer isn't running, start it
+            if (!Heal._stopwatch.IsRunning)
+                Heal._stopwatch.Start();
+
+            // if there are no active healing packs, and the timer has timed out,
+            // set a random ammo drop's render flag
+            if (!healingPack.Any(a => a.IsAlive) &&
+                Heal._stopwatch.ElapsedMilliseconds > _iAmmoTimeout)
+            {
+                Random r = new Random();
+                healingPack[r.Next(0, _lHealingPacks.Count)].IsAlive = true;
+
+                // reset the timer
+                Heal._stopwatch.Reset();
+
+                // update the list of ammo drops
+                lock (_oRenderLock)
+                    _lHealingPacks = new List<Heal>(healingPack);
+            }
+        }
         private void CheckMineDrops()
         {
             // take a snapshot of the list of ammo drops
@@ -341,6 +399,7 @@ namespace CMPE2800_Lab02
             List<PlayerData> playerListSnapshot;
             List<Ammo> ammoDropsSnapshot;
             List<PowerUp> powerUpDropsSnapshot;
+            List<Heal> healingPack;
             List<Mines> mineDrops;
 
             lock (_oRenderLock)
@@ -351,6 +410,7 @@ namespace CMPE2800_Lab02
                 playerListSnapshot = new List<PlayerData>(_lPlayerData);
                 ammoDropsSnapshot = new List<Ammo>(_lAmmoDrops);
                 powerUpDropsSnapshot = new List<PowerUp>(_lPowerUpDrops);
+                healingPack = new List<Heal>(_lHealingPacks);
                 mineDrops = new List<Mines>(_lMinesDrops);
             }
 
@@ -377,6 +437,9 @@ namespace CMPE2800_Lab02
                     // 5) tanks hitting PowerUping drops
                     ProcessPowerUpSpawnHits(dynShapeSnapshot, _lPowerUpDrops, playerListSnapshot, gr);
 
+                    // tanks hitting healing packs
+                    ProcessHealSpawnHits(dynShapeSnapshot, _lHealingPacks, playerListSnapshot, gr);
+
                     // 6) tanks hitting mines
                     ProcessMineSpawnHits(dynShapeSnapshot, _lMinesDrops, playerListSnapshot, gr);
                 }
@@ -394,6 +457,7 @@ namespace CMPE2800_Lab02
                 _lPlayerData = new List<PlayerData>(playerListSnapshot);
                 _lAmmoDrops = new List<Ammo>(ammoDropsSnapshot);
                 _lPowerUpDrops = new List<PowerUp>(powerUpDropsSnapshot);
+                _lHealingPacks = new List<Heal>(healingPack);
                 _lMinesDrops = new List<Mines>(mineDrops);
             }
         }
@@ -459,21 +523,6 @@ namespace CMPE2800_Lab02
                     // 2) s1 is a bullet and s2 is a tank
                     else if (ds1 is Gunfire && ds2 is Tank)
                     {
-                        //draw explosion effect
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         // mark bullet for death
                         ds1.IsMarkedForDeath = true;
 
@@ -669,6 +718,32 @@ namespace CMPE2800_Lab02
             }
         }
 
+        private void ProcessHealSpawnHits(List<DynamicShape> movingShapes, List<Heal> healPacks, List<PlayerData> players, Graphics gr)
+        {
+            // check each tank
+            foreach (DynamicShape ds in movingShapes.Where(ds => ds is Tank))
+            {
+                // compare ds to all active ammo drops
+                foreach (Heal healingPack in _lHealingPacks.Where(a => a.IsAlive))
+                {
+                    // move on if no collision is found
+                    if (!ds.IsColliding(healingPack, gr))
+                        continue;
+
+                    // get the tank's player number
+                    PlayerNumber playerNum = (ds as Tank).Player;
+
+                    // replenish the player's HP
+                    players.Find((pd) => pd.Player == playerNum).Heal();
+
+                    // reset ammoDrop's render flag 
+                    healingPack.IsAlive = false;
+
+                    // start Ammo class timeout timer
+                    Heal._stopwatch.Restart();
+                }
+            }
+        }
         private void ProcessMineSpawnHits(List<DynamicShape> movingShapes, List<Mines> mineDrop, List<PlayerData> players, Graphics gr)
         {
             // check each tank
