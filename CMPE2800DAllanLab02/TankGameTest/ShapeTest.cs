@@ -56,7 +56,7 @@ namespace TankGameTest
 		}
 
 		[TestMethod]
-		public void IsIntersectingTest2()
+		public void TankIntersectingBushTest()
 		{
 			Bitmap _backgroundImage = new Bitmap(CMPE2800_Lab02.Properties.Resources.DirtTerrain);
 			Graphics gr = Graphics.FromImage(_backgroundImage);

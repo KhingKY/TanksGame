@@ -37,7 +37,7 @@ namespace CMPE2800_Lab02
 
         // the number of wall that has been break
         public int NumBreak { get; private set; }
-        const int MaxNumBreak = 3;
+        const int MaxNumBreak = 1;
 
         // ammo for the heavy weapon (rockets, in this case)
         public int HeavyAmmo { get; private set; }
@@ -148,9 +148,22 @@ namespace CMPE2800_Lab02
             return true;
         }
 
+
+        /// <summary>
+        /// Decrement HP when collided with another tank
+        /// </summary>
+        /// <param name="aOther">Another player's data.</param>
+        public void CollidedWithTank(PlayerData aOther)
+        {
+            HP--;
+            aOther.HP--;
+            CheckLife(aOther);
+        }
+
         /// <summary>
         /// Check if super mode is available to break wall
         /// </summary>
+        /// <param name="wallType">The type of wall.</param>
         public bool CanBreakWall(WallType wallType)
         {
             if (IsSuper == true && wallType == WallType.Weak)
@@ -218,24 +231,39 @@ namespace CMPE2800_Lab02
                         break;
                 }
             }
+            CheckLife(shooter);
+        }
 
+        /// <summary>
+        /// Checks if one of the player dies
+        /// </summary>
+        /// <param name="aOther">The player who shot the weapon.</param>
+        public void CheckLife(PlayerData aOther) 
+        { 
             // if HP is below 0, lose a life
             if (HP <= 0)
             {
                 Lives--;
-
                 // reset HP
                 HP = HPMax;
-
                 // the shooter gets a point
-                shooter.Score++;
-
+                aOther.Score++;
                 // trigger respawn flag
                 IsAlive = false;
             }
+            else if (aOther.HP <= 0)
+            {
+                aOther.Lives--;
+                // reset HP
+                aOther.HP = HPMax;
+                // the player gets a point
+                Score++;
+                // trigger respawn flag
+                aOther.IsAlive = false;
+            }
 
             // if shooter reaches 3 points, trigger victory condition
-            if (shooter.Score >= ScoreToWin)
+            if (aOther.Score >= ScoreToWin || Score >= ScoreToWin)
             {
                 PlayerVictory = true;
             }
