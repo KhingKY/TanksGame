@@ -17,6 +17,12 @@ namespace CMPE2800_Lab02
         // Brush Constructor
         public Brush(Point position) : base(position)
         {
+            //creat the model. Positioning the image in the center of the tile
+            _model = new GraphicsPath();
+            _model.AddRectangle(new RectangleF(Position.X, Position.Y, Tilesize, Tilesize));
+
+            //set the bitmap image to the Brush
+            _bm = Properties.Resources.bush;
         }
 
         /// <summary>
@@ -27,6 +33,11 @@ namespace CMPE2800_Lab02
         /// </param>
         public override void Render(Graphics gr)
         {
+            // get the model's bounds
+            RectangleF modRect = _model.GetBounds();
+
+            //render an brush image
+            gr.DrawImage(_bm, modRect.X, modRect.Y, modRect.Width, modRect.Height);
         }
 
         /// <summary>
@@ -37,6 +48,7 @@ namespace CMPE2800_Lab02
         /// </returns>
         public override GraphicsPath GetPath()
         {
+            return _model.Clone() as GraphicsPath;
         }
     }
 }
