@@ -312,15 +312,7 @@ namespace CMPE2800_Lab02
                     break;
             }
         }
-        public bool GetPlayerVictory()
-        {
-            return PlayerVictory;
-        }
 
-        public void SetPlayerVictory()
-        {
-            PlayerVictory = true;
-        }
         /// <summary>
         /// Tank gets heal effect
         /// </summary>

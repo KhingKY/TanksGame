@@ -42,22 +42,12 @@
             this._gbxLevels.Controls.Add(this._rbPlains);
             this._gbxLevels.Controls.Add(this._rbDesert);
             this._gbxLevels.Controls.Add(this._rbCity);
-<<<<<<< Updated upstream
             this._gbxLevels.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._gbxLevels.Location = new System.Drawing.Point(49, 31);
             this._gbxLevels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._gbxLevels.Name = "_gbxLevels";
             this._gbxLevels.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._gbxLevels.Size = new System.Drawing.Size(267, 167);
-=======
-            this._gbxLevels.Font = new System.Drawing.Font("Courier New", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._gbxLevels.ForeColor = System.Drawing.Color.White;
-            this._gbxLevels.Location = new System.Drawing.Point(4, 3);
-            this._gbxLevels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this._gbxLevels.Name = "_gbxLevels";
-            this._gbxLevels.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this._gbxLevels.Size = new System.Drawing.Size(370, 182);
->>>>>>> Stashed changes
             this._gbxLevels.TabIndex = 0;
             this._gbxLevels.TabStop = false;
             this._gbxLevels.Text = "Select a level";
@@ -99,54 +89,30 @@
             // 
             // _btnLoad
             // 
-<<<<<<< Updated upstream
             this._btnLoad.Location = new System.Drawing.Point(49, 244);
             this._btnLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._btnLoad.Name = "_btnLoad";
             this._btnLoad.Size = new System.Drawing.Size(100, 28);
-=======
-            this._btnLoad.BackColor = System.Drawing.Color.DarkOliveGreen;
-            this._btnLoad.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnLoad.ForeColor = System.Drawing.Color.White;
-            this._btnLoad.Location = new System.Drawing.Point(54, 193);
-            this._btnLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this._btnLoad.Name = "_btnLoad";
-            this._btnLoad.Size = new System.Drawing.Size(268, 44);
->>>>>>> Stashed changes
             this._btnLoad.TabIndex = 1;
             this._btnLoad.Text = "Load Level";
-            this._btnLoad.UseVisualStyleBackColor = false;
+            this._btnLoad.UseVisualStyleBackColor = true;
             this._btnLoad.Click += new System.EventHandler(this._btnLoad_Click);
             // 
             // _btnCancel
             // 
-<<<<<<< Updated upstream
             this._btnCancel.Location = new System.Drawing.Point(229, 244);
             this._btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._btnCancel.Name = "_btnCancel";
             this._btnCancel.Size = new System.Drawing.Size(100, 28);
-=======
-            this._btnCancel.BackColor = System.Drawing.Color.DarkOliveGreen;
-            this._btnCancel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._btnCancel.ForeColor = System.Drawing.Color.White;
-            this._btnCancel.Location = new System.Drawing.Point(54, 245);
-            this._btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Size = new System.Drawing.Size(268, 40);
->>>>>>> Stashed changes
             this._btnCancel.TabIndex = 2;
             this._btnCancel.Text = "Cancel";
-            this._btnCancel.UseVisualStyleBackColor = false;
+            this._btnCancel.UseVisualStyleBackColor = true;
             this._btnCancel.Click += new System.EventHandler(this._btnCancel_Click);
             // 
             // NewGame
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-<<<<<<< Updated upstream
-=======
-            this.BackColor = System.Drawing.Color.Olive;
->>>>>>> Stashed changes
             this.ClientSize = new System.Drawing.Size(379, 298);
             this.ControlBox = false;
             this.Controls.Add(this._btnCancel);

@@ -7,10 +7,6 @@
 using System.Windows.Forms;
 using System.Drawing;
 using System;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 namespace CMPE2800_Lab02
 {
     public partial class GameUI : Form
@@ -25,14 +21,9 @@ namespace CMPE2800_Lab02
 
         // desired UI Height in pixels
         private const int _iUIHeightPx = 154;
-<<<<<<< Updated upstream
 
         Timer timer = new Timer();
         int count_down = 20;
-=======
-        Timer timer = new Timer();
-        int count_down = 180;
->>>>>>> Stashed changes
         #endregion
 
         #region Methods
@@ -75,13 +66,8 @@ namespace CMPE2800_Lab02
             _labHP2.ForeColor = HP2 < 50 ? Color.Red : Color.Black;
             _labHAmmo1.ForeColor = HAmmo1 < 3 ? Color.Red : Color.Black;
             _labHAmmo2.ForeColor = HAmmo2 < 3 ? Color.Red : Color.Black;
-<<<<<<< Updated upstream
             _labLives1.ForeColor = Lives1 < 2 ? Color.Red : Color.Black;
             _labLives2.ForeColor = Lives2 < 2 ? Color.Red : Color.Black;
-=======
-            _labLives1.ForeColor = Lives1 < 2 ? Color.DarkRed : Color.White;
-            _labLives2.ForeColor = Lives2 < 2 ? Color.DarkRed : Color.White;
->>>>>>> Stashed changes
 
             // set titlebar text to indicate if the game is paused
             if (isPaused)
@@ -143,10 +129,7 @@ namespace CMPE2800_Lab02
             newPBx.BackColor = SystemColors.ActiveCaption;
         }
         #endregion
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
         private void timer1_Tick(object sender, System.EventArgs e)
         {
             count_down--;
@@ -186,13 +169,8 @@ namespace CMPE2800_Lab02
             //update label
             label2.Text = time;
 
-<<<<<<< Updated upstream
             
         }
 
-=======
-
-        }
->>>>>>> Stashed changes
     }
 }

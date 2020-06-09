@@ -24,7 +24,7 @@ namespace CMPE2800_Lab02
         public List<Ammo> _ammoDrops = new List<Ammo>();
         public List<PowerUp> _powerUpDrops = new List<PowerUp>();
         public List<Mines> _mineDrops = new List<Mines>();
-        public List<Heal> _healPacks = new List<Heal>();
+        
         //background image
         Bitmap _backgroundImage;
         /// <summary>
@@ -335,12 +335,6 @@ namespace CMPE2800_Lab02
                                     //set the bitmap to the missiles and add a new ammo object to the List
                                     bm = Properties.Resources.ammoDrop;
                                     _ammoDrops.Add(new Ammo(spawnLocation));
-                                }
-                                else if (tempString == "Heal")
-                                {
-                                    //set the bitmap to the missiles and add a new ammo object to the List
-                                    bm = Properties.Resources.heal;
-                                    _healPacks.Add(new Heal(spawnLocation));
                                 }
                                 else if (tempString == "PowerUp")
                                 {
