@@ -33,20 +33,22 @@
             // 
             // TextHistory
             // 
-            this.TextHistory.Location = new System.Drawing.Point(24, 43);
+            this.TextHistory.Location = new System.Drawing.Point(0, 0);
+            this.TextHistory.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.TextHistory.Multiline = true;
             this.TextHistory.Name = "TextHistory";
             this.TextHistory.ReadOnly = true;
             this.TextHistory.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.TextHistory.Size = new System.Drawing.Size(722, 374);
+            this.TextHistory.Size = new System.Drawing.Size(711, 360);
             this.TextHistory.TabIndex = 0;
             // 
             // GameHistoryTab
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(711, 360);
             this.Controls.Add(this.TextHistory);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "GameHistoryTab";
             this.Text = "GameHistoryTab";
             this.ResumeLayout(false);

@@ -4,7 +4,7 @@
   <PropertyGroup Condition="'$(MSBuildRuntimeType)' == 'Core'">
     <GenerateResourceMSBuildArchitecture>CurrentArchitecture</GenerateResourceMSBuildArchitecture>
     <GenerateResourceMSBuildRuntime>CurrentRuntime    </GenerateResourceMSBuildRuntime>
-	<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -20,7 +20,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
-	<Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,7 +31,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,7 +41,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-	<Prefer32Bit>false</Prefer32Bit>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -178,6 +178,7 @@
     </Compile>
     <Compile Include="Rendering\DynamicShape.cs" />
     <Compile Include="Rendering\Gunfire.cs" />
+    <Compile Include="Rendering\Heal.cs" />
     <Compile Include="Rendering\PowerUp.cs" />
     <Compile Include="Rendering\Level.cs" />
     <Compile Include="Game Mechanics\PlayerData.cs" />
@@ -253,14 +254,14 @@
     <None Include="Images\shell.png" />
     <None Include="Images\super.png" />
     <None Include="Images\shield.png" />
-    <None Include="Resources\heal.bmp" />
     <None Include="Resources\Mines.bmp" />
     <Content Include="Images\slowfloor.jpg" />
+    <None Include="Resources\menuImage.jpg" />
+    <None Include="Resources\heal.png" />
+    <None Include="Resources\heart.png" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.NETFramework.ReferenceAssemblies.net452.1.0.0\build\Microsoft.NETFramework.ReferenceAssemblies.net452.targets" Condition="Exists('..\packages\Microsoft.NETFramework.ReferenceAssemblies.net452.1.0.0\build\Microsoft.NETFramework.ReferenceAssemblies.net452.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
