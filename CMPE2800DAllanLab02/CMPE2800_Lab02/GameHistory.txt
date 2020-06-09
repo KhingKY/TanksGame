@@ -10,3 +10,87 @@ Winner: Player Two   Map: Desert
 
 Date of Match: 5/6/2020 8:32:44 PM
 Winner: Player Two   Map: City
+
+
+Date of Match: 7/6/2020 10:41:54 PM
+Winner: Player Two   Map: City
+
+
+Date of Match: 8/6/2020 1:24:38 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:27:52 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:28:34 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:30:10 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:30:49 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:37:09 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:38:09 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:48:03 AM
+Winner: Player Draw   Map: City
+
+
+Date of Match: 8/6/2020 1:48:33 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:51:48 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:55:08 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:58:51 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 8/6/2020 1:59:28 AM
+Winner: Player One   Map: City
+
+
+Date of Match: 9/6/2020 2:55:06 PM
+Winner: Player One   Map: City
+
+
+Date of Match: 9/6/2020 2:58:49 PM
+Winner: Player One   Map: City
+
+
+Date of Match: 9/6/2020 2:59:53 PM
+Winner: Player Two   Map: City
+
+
+Date of Match: 9/6/2020 3:08:27 PM
+Winner: Player One   Map: City
+
+
+Date of Match: 9/6/2020 3:10:23 PM
+Winner: Player Two   Map: City
+
+
+Date of Match: 9/6/2020 3:11:08 PM
+Winner: Player One   Map: City
+
+
+Date of Match: 9/6/2020 3:11:39 PM
+Winner: Player Draw   Map: City

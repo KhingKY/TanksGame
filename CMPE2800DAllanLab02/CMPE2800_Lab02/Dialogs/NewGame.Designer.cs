@@ -43,9 +43,11 @@
             this._gbxLevels.Controls.Add(this._rbDesert);
             this._gbxLevels.Controls.Add(this._rbCity);
             this._gbxLevels.Font = new System.Drawing.Font("Courier New", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._gbxLevels.Location = new System.Drawing.Point(42, 23);
+            this._gbxLevels.Location = new System.Drawing.Point(49, 31);
+            this._gbxLevels.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._gbxLevels.Name = "_gbxLevels";
-            this._gbxLevels.Size = new System.Drawing.Size(200, 136);
+            this._gbxLevels.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._gbxLevels.Size = new System.Drawing.Size(267, 167);
             this._gbxLevels.TabIndex = 0;
             this._gbxLevels.TabStop = false;
             this._gbxLevels.Text = "Select a level";
@@ -53,9 +55,10 @@
             // _rbPlains
             // 
             this._rbPlains.AutoSize = true;
-            this._rbPlains.Location = new System.Drawing.Point(24, 92);
+            this._rbPlains.Location = new System.Drawing.Point(32, 113);
+            this._rbPlains.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._rbPlains.Name = "_rbPlains";
-            this._rbPlains.Size = new System.Drawing.Size(94, 25);
+            this._rbPlains.Size = new System.Drawing.Size(117, 31);
             this._rbPlains.TabIndex = 2;
             this._rbPlains.Text = "Plains";
             this._rbPlains.UseVisualStyleBackColor = true;
@@ -63,9 +66,10 @@
             // _rbDesert
             // 
             this._rbDesert.AutoSize = true;
-            this._rbDesert.Location = new System.Drawing.Point(24, 59);
+            this._rbDesert.Location = new System.Drawing.Point(32, 73);
+            this._rbDesert.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._rbDesert.Name = "_rbDesert";
-            this._rbDesert.Size = new System.Drawing.Size(94, 25);
+            this._rbDesert.Size = new System.Drawing.Size(117, 31);
             this._rbDesert.TabIndex = 1;
             this._rbDesert.Text = "Desert";
             this._rbDesert.UseVisualStyleBackColor = true;
@@ -74,9 +78,10 @@
             // 
             this._rbCity.AutoSize = true;
             this._rbCity.Checked = true;
-            this._rbCity.Location = new System.Drawing.Point(24, 27);
+            this._rbCity.Location = new System.Drawing.Point(32, 33);
+            this._rbCity.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._rbCity.Name = "_rbCity";
-            this._rbCity.Size = new System.Drawing.Size(72, 25);
+            this._rbCity.Size = new System.Drawing.Size(89, 31);
             this._rbCity.TabIndex = 0;
             this._rbCity.TabStop = true;
             this._rbCity.Text = "City";
@@ -84,9 +89,10 @@
             // 
             // _btnLoad
             // 
-            this._btnLoad.Location = new System.Drawing.Point(37, 198);
+            this._btnLoad.Location = new System.Drawing.Point(49, 244);
+            this._btnLoad.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._btnLoad.Name = "_btnLoad";
-            this._btnLoad.Size = new System.Drawing.Size(75, 23);
+            this._btnLoad.Size = new System.Drawing.Size(100, 28);
             this._btnLoad.TabIndex = 1;
             this._btnLoad.Text = "Load Level";
             this._btnLoad.UseVisualStyleBackColor = true;
@@ -94,9 +100,10 @@
             // 
             // _btnCancel
             // 
-            this._btnCancel.Location = new System.Drawing.Point(172, 198);
+            this._btnCancel.Location = new System.Drawing.Point(229, 244);
+            this._btnCancel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._btnCancel.Name = "_btnCancel";
-            this._btnCancel.Size = new System.Drawing.Size(75, 23);
+            this._btnCancel.Size = new System.Drawing.Size(100, 28);
             this._btnCancel.TabIndex = 2;
             this._btnCancel.Text = "Cancel";
             this._btnCancel.UseVisualStyleBackColor = true;
@@ -104,13 +111,14 @@
             // 
             // NewGame
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 242);
+            this.ClientSize = new System.Drawing.Size(379, 298);
             this.ControlBox = false;
             this.Controls.Add(this._btnCancel);
             this.Controls.Add(this._btnLoad);
             this.Controls.Add(this._gbxLevels);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "NewGame";
             this.Text = "New Game";
             this.Load += new System.EventHandler(this.NewGame_Load);

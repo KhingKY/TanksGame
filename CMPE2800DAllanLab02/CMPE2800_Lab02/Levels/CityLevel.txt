@@ -92,13 +92,13 @@
 
 
 	<SPAWN>
-		<X>3</X>
+		<X>4</X>
 		<Y>4</Y>
 		<TYPE>Heal</TYPE>
 	</SPAWN>
 	<SPAWN>
-		<X>6</X>
-		<Y>7</Y>
+		<X>7</X>
+		<Y>5</Y>
 		<TYPE>Heal</TYPE>
 	</SPAWN>
 	<SPAWN>

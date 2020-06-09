@@ -12,13 +12,14 @@ using System.Windows.Forms;
 using CMPE2800_Lab02.Dialogs;
 using System.IO;
 using System.Globalization;
+using System.Diagnostics;
 
 namespace CMPE2800_Lab02
 {
     public partial class MainGame : Form
     {
         NewGame _modalNewGame = new NewGame();//to access map values
-
+        
         #region Startup
         /// <summary>
         /// Initializes main form members.
@@ -30,6 +31,7 @@ namespace CMPE2800_Lab02
 
             // reset pause flag
             _bGamePaused = false;
+
 
             // initialize players
             PlayerData p1 = new PlayerData(PlayerNumber.One);
@@ -138,20 +140,40 @@ namespace CMPE2800_Lab02
         /// </summary>
         private void TBackground()
         {
+
+            Stopwatch _time = new Stopwatch();
+            _time.Start();
             // loop forever
             while (true)
             {
                 // update UI
                 UpdateUI();
 
+                if (_time.ElapsedMilliseconds>20000)
+                {
+                    if (_lPlayerData[0].Score>_lPlayerData[1].Score)
+                    {
+                        _lPlayerData[0].SetPlayerVictory();
+                        GameOver(PlayerNumber.One);
+                    }
+                    else if (_lPlayerData[1].Score > _lPlayerData[0].Score)
+                    {
+                        _lPlayerData[1].SetPlayerVictory();
+                        GameOver(PlayerNumber.Two);
+                    }
+                }
+                
                 // check for game over condition
                 if (PlayerData.PlayerVictory)
                 {
                     // pause game
                     _bGamePaused = true;
-
-                    // trigger game over event
-                    GameOver(_lPlayerData.Find(p => p.Score == PlayerData.ScoreToWin).Player);
+                    _time.Stop();
+                }
+                else if (_time.ElapsedMilliseconds>20000 && !PlayerData.PlayerVictory)
+                {
+                    _bGamePaused = true;
+                    GameOver(PlayerNumber.Draw);
                 }
 
                 // poll for new input, and apply the input to game elements
@@ -402,21 +424,6 @@ namespace CMPE2800_Lab02
                     // 2) s1 is a bullet and s2 is a tank
                     else if (ds1 is Gunfire && ds2 is Tank)
                     {
-                        //draw explosion effect
-                        
-
-
-
-
-
-
-
-
-
-
-
-
-
                         // mark bullet for death
                         ds1.IsMarkedForDeath = true;
 

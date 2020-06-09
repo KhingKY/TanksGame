@@ -28,7 +28,7 @@ namespace CMPE2800_Lab02
 
             //creat the model. Positioning the image in the center of the tile
             _model = new GraphicsPath();
-            _model.AddRectangle(new RectangleF(Position.X + Tilesize / 2, Position.Y + Tilesize / 2,
+            _model.AddRectangle(new RectangleF(Position.X + Tilesize / 4, Position.Y + Tilesize / 4,
                 Tilesize / 2, Tilesize / 2));
 
             //set the bitmap image to the heal

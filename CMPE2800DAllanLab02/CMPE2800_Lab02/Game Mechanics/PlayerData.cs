@@ -6,12 +6,14 @@
  ***********************************************************************/
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace CMPE2800_Lab02
 {
     class PlayerData
     {
         #region Members
+        public static Stopwatch _time = new Stopwatch();
         // get-only player number
         public PlayerNumber Player { get; }
 
@@ -23,7 +25,7 @@ namespace CMPE2800_Lab02
 
         // players lose a life when HP < 1
         public int Lives { get; private set; }
-        const int LivesMax = 4;
+        const int LivesMax = 3;
 
         // players lose HP when they take damage
         public int HP { get; private set; }
@@ -194,6 +196,16 @@ namespace CMPE2800_Lab02
             {
                 PlayerVictory = true;
             }
+        }
+
+        public bool GetPlayerVictory()
+        {
+            return PlayerVictory;
+        }
+
+        public void SetPlayerVictory()
+        {
+            PlayerVictory = true;
         }
 
         public void Heal()

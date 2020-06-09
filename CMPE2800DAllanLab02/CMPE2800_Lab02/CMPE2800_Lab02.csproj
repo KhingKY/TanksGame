@@ -188,6 +188,7 @@
     <Content Include="Images\DirtTerrain.png" />
     <Content Include="Images\GrassTerrain.png" />
     <None Include="Images\heal.png" />
+    <None Include="Images\menuImage.jpg" />
     <Content Include="Images\MudTerrain.png" />
     <None Include="Images\rocketszt4.gif" />
     <None Include="Levels\DesertLevel.txt" />
@@ -196,6 +197,11 @@
     <None Include="Images\rockets.png" />
     <None Include="Images\shell.png" />
     <None Include="Resources\heal.bmp" />
+    <None Include="Images\war-museum-perspective-army-9250.jpg" />
+    <None Include="Resources\collide.png" />
+    <None Include="Resources\heal.png" />
+    <None Include="Resources\heart.png" />
+    <None Include="Resources\ammoDrop.png" />
     <Content Include="XNA Framework\Microsoft.Xna.Framework.dll" />
   </ItemGroup>
   <ItemGroup />
