@@ -33,7 +33,7 @@ namespace TankGameTest
 
 			playerData1.Respawn();
 			Assert.AreEqual(100, playerData1.HP);
-			Assert.AreEqual(4, playerData1.Lives);
+			Assert.AreEqual(3, playerData1.Lives);
 		}
 
 		[TestMethod]
@@ -164,6 +164,7 @@ namespace TankGameTest
 		public void MineTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+			Assert.AreEqual(100, playerData1.HP);
 
 			playerData1.GetMined();
 			Assert.AreEqual(90, playerData1.HP);
