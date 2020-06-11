@@ -346,7 +346,7 @@ namespace CMPE2800_Lab02
                                 {
                                     //set the bitmap to the power up and add a new power up object to the List
                                     //random
-                                    powerUpType = (PowerUpType)(RandomNumber(0, 300) % 4);
+                                    powerUpType = (PowerUpType)(RandomNumber(0, 300) % 3);
                                     //set the bitmap image based on power up type
                                     switch (powerUpType)
                                     {
@@ -355,9 +355,6 @@ namespace CMPE2800_Lab02
                                             break;
                                         case PowerUpType.Super:
                                             bm = Properties.Resources.super;
-                                            break;
-                                        case PowerUpType.Heal:
-                                            bm = Properties.Resources.heal;
                                             break;
                                         case PowerUpType.Damage:
                                             bm = Properties.Resources.damage;
