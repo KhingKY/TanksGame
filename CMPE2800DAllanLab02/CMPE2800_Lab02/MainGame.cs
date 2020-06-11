@@ -61,6 +61,9 @@ namespace CMPE2800_Lab02
         // List of Power Up drops
         List<PowerUp> _lPowerUpDrops;
 
+        // List of Healing Packs
+        List<Heal> _lHealingPacks;
+
         //List of Mines
         List<Mines> _lMinesDrops;
 

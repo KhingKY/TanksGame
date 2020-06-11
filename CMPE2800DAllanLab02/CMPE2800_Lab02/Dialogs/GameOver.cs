@@ -66,10 +66,20 @@ namespace CMPE2800_Lab02
                 case PlayerNumber.Two:
                     playerNum = 2;
                     break;
+                case PlayerNumber.Draw:
+                    playerNum = 3;
+                    break;
             }
 
             // set victory text
-            _labWinner.Text = $"Player {playerNum} wins";
+            if (playerNum == 3)
+            {
+                _labWinner.Text = $"Its a Draw";
+            }
+            else
+            {
+                _labWinner.Text = $"Player {playerNum} wins";
+            }
         }
         #endregion
     }

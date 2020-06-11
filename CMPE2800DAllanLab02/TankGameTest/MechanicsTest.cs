@@ -164,6 +164,7 @@ namespace TankGameTest
 		public void MineTest()
 		{
 			PlayerData playerData1 = new PlayerData(PlayerNumber.One);
+			Assert.AreEqual(100, playerData1.HP);
 
 			playerData1.GetMined();
 			Assert.AreEqual(90, playerData1.HP);

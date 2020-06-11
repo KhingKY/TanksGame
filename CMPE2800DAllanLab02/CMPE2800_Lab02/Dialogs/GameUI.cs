@@ -6,6 +6,7 @@
  ***********************************************************************/
 using System.Windows.Forms;
 using System.Drawing;
+using System;
 
 namespace CMPE2800_Lab02
 {
@@ -21,6 +22,8 @@ namespace CMPE2800_Lab02
 
         // desired UI Height in pixels
         private const int _iUIHeightPx = 154;
+        Timer timer = new Timer();
+        int count_down = 180;
         #endregion
 
         #region Methods
@@ -48,21 +51,23 @@ namespace CMPE2800_Lab02
             int HAmmo1, int HAmmo2, int Score1, int Score2, bool HasShield1, bool HasShield2, bool IsSuper1, bool IsSuper2, bool isPaused)
         {
             // set UI values
-            _labHP1.Text = $"HP : {HP1}";
-            _labHP2.Text = $"{HP2} : HP";
-            _labLives1.Text = $"Lives : {Lives1}";
-            _labLives2.Text = $"{Lives2} : Lives";
-            _labHAmmo1.Text = $"Heavy Ammo : {HAmmo1}";
-            _labHAmmo2.Text = $"{HAmmo2} : Heavy Ammo";
+            _labHP1.Text = $"{HP1}/100";
+            _labHP2.Text = $"{HP2}/100";
+            _labLives1.Text = $"{Lives1}";
+            _labLives2.Text = $"{Lives2}";
+            _labHAmmo1.Text = $"{HAmmo1}";
+            _labHAmmo2.Text = $"{HAmmo2}";
             _labScoreDisplay.Text = $"{Score1} | {Score2}";
+            progressBar1.Value = HP1;
+            progressBar2.Value = HP2;
 
             // if set HP, life, and HAmmo fonts red if quantities are below 50%
             _labHP1.ForeColor = HP1 < 50 ? Color.Red : Color.Black;
             _labHP2.ForeColor = HP2 < 50 ? Color.Red : Color.Black;
             _labHAmmo1.ForeColor = HAmmo1 < 3 ? Color.Red : Color.Black;
             _labHAmmo2.ForeColor = HAmmo2 < 3 ? Color.Red : Color.Black;
-            _labLives1.ForeColor = Lives1 < 3 ? Color.Red : Color.Black;
-            _labLives2.ForeColor = Lives2 < 3 ? Color.Red : Color.Black;
+            _labLives1.ForeColor = Lives1 < 2 ? Color.DarkRed : Color.White;
+            _labLives2.ForeColor = Lives2 < 2 ? Color.DarkRed : Color.White;
 
             // set titlebar text to indicate if the game is paused
             if (isPaused)
@@ -133,5 +138,46 @@ namespace CMPE2800_Lab02
             newPBx.BackColor = SystemColors.ActiveCaption;
         }
         #endregion
+        private void timer1_Tick(object sender, System.EventArgs e)
+        {
+            count_down--;
+            //get current time
+            int mm = TimeSpan.FromMinutes(count_down).Hours;
+            int ss = TimeSpan.FromMinutes(count_down).Minutes;
+
+            //time
+            string time = "";
+
+            //padding leading zero
+
+            if (mm < 10)
+            {
+                time += "0" + mm;
+            }
+            else
+            {
+                time += mm;
+            }
+            time += ":";
+
+            if (ss < 10)
+            {
+                time += "0" + ss;
+            }
+            else
+            {
+                time += ss;
+            }
+            if (count_down == 0)
+            {
+                count_down++;
+                time = "00:00";
+            }
+
+            //update label
+            label2.Text = time;
+
+
+        }
     }
 }
