@@ -151,9 +151,9 @@ namespace TankGameTest
 			playerData1.Heal();
 			Assert.AreEqual(100, playerData1.HP);
 
-			Assert.AreEqual(25, playerData1.RocketDmg);
-			playerData1.GetPowerUp(power1);
-			Assert.AreEqual(30, playerData1.RocketDmg);
+			Assert.AreEqual(25, playerData2.RocketDmg);
+			playerData2.GetPowerUp(power1);
+			Assert.AreEqual(30, playerData2.RocketDmg);
 
 			//After add damage
 			playerData1.TakeDamage(GunType.Rocket, playerData2);

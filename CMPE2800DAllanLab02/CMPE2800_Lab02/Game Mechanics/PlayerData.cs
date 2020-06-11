@@ -226,10 +226,10 @@ namespace CMPE2800_Lab02
                 switch (gunfire)
                 {
                     case GunType.MachineGun:
-                        HP -= MachineGunDmg;
+                        HP -= shooter.MachineGunDmg;
                         break;
                     case GunType.Rocket:
-                        HP -= RocketDmg;
+                        HP -= shooter.RocketDmg;
                         break;
                 }
             }
