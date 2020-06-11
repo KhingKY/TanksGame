@@ -34,6 +34,10 @@
             this._labHP2 = new System.Windows.Forms.Label();
             this._labScoreDisplay = new System.Windows.Forms.Label();
             this._labScore = new System.Windows.Forms.Label();
+            this._pbxSuper1 = new System.Windows.Forms.PictureBox();
+            this._pbxSuper2 = new System.Windows.Forms.PictureBox();
+            this._pbxShield1 = new System.Windows.Forms.PictureBox();
+            this._pbxShield2 = new System.Windows.Forms.PictureBox();
             this._pbxRocket2 = new System.Windows.Forms.PictureBox();
             this._pbxMG2 = new System.Windows.Forms.PictureBox();
             this._pbxMG1 = new System.Windows.Forms.PictureBox();
@@ -52,6 +56,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+			((System.ComponentModel.ISupportInitialize)(this._pbxSuper1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxSuper1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxShield1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxShield2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxRocket2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxMG2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxMG1)).BeginInit();
@@ -106,6 +114,54 @@
             this._labScore.Size = new System.Drawing.Size(83, 36);
             this._labScore.TabIndex = 5;
             this._labScore.Text = "Score";
+            // 
+            // _pbxShield1
+            // 
+            this._pbxShield1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._pbxShield1.Image = global::CMPE2800_Lab02.Properties.Resources.shield;
+            this._pbxShield1.Location = new System.Drawing.Point(220, 98);
+            this._pbxShield1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._pbxShield1.Name = "_pbxShield1";
+            this._pbxShield1.Size = new System.Drawing.Size(40, 37);
+            this._pbxShield1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._pbxShield1.TabIndex = 15;
+            this._pbxShield1.TabStop = false;
+            // 
+            // _pbxShield2
+            // 
+            this._pbxShield2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._pbxShield2.Image = global::CMPE2800_Lab02.Properties.Resources.shield;
+            this._pbxShield2.Location = new System.Drawing.Point(760, 98);
+            this._pbxShield2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._pbxShield2.Name = "_pbxShield2";
+            this._pbxShield2.Size = new System.Drawing.Size(40, 37);
+            this._pbxShield2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._pbxShield2.TabIndex = 15;
+            this._pbxShield2.TabStop = false;
+            // 
+            // _pbxSuper1
+            // 
+            this._pbxSuper1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._pbxSuper1.Image = global::CMPE2800_Lab02.Properties.Resources.super;
+            this._pbxSuper1.Location = new System.Drawing.Point(175, 98);
+            this._pbxSuper1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._pbxSuper1.Name = "_pbxSuper1";
+            this._pbxSuper1.Size = new System.Drawing.Size(40, 37);
+            this._pbxSuper1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._pbxSuper1.TabIndex = 15;
+            this._pbxSuper1.TabStop = false;
+            // 
+            // _pbxSuper2
+            // 
+            this._pbxSuper2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this._pbxSuper2.Image = global::CMPE2800_Lab02.Properties.Resources.super;
+            this._pbxSuper2.Location = new System.Drawing.Point(810, 98);
+            this._pbxSuper2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this._pbxSuper2.Name = "_pbxSuper2";
+            this._pbxSuper2.Size = new System.Drawing.Size(40, 37);
+            this._pbxSuper2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this._pbxSuper2.TabIndex = 15;
+            this._pbxSuper2.TabStop = false;
             // 
             // _pbxRocket2
             // 
@@ -311,6 +367,10 @@
             this.Controls.Add(this.progressBar2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
+			this.Controls.Add(this._pbxSuper1);
+            this.Controls.Add(this._pbxSuper2);
+            this.Controls.Add(this._pbxShield1);
+            this.Controls.Add(this._pbxShield2);
             this.Controls.Add(this._pbxRocket2);
             this.Controls.Add(this._pbxMG2);
             this.Controls.Add(this._pbxMG1);
@@ -326,6 +386,10 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "GameUI";
             this.Text = "First to 3 points wins!";
+            ((System.ComponentModel.ISupportInitialize)(this._pbxSuper1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxSuper1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxShield1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._pbxShield2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxRocket2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxMG2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._pbxMG1)).EndInit();
@@ -342,6 +406,10 @@
         private System.Windows.Forms.Label _labHP2;
         private System.Windows.Forms.Label _labScoreDisplay;
         private System.Windows.Forms.Label _labScore;
+        private System.Windows.Forms.PictureBox _pbxSuper1;
+        private System.Windows.Forms.PictureBox _pbxSuper2;
+        private System.Windows.Forms.PictureBox _pbxShield1;
+        private System.Windows.Forms.PictureBox _pbxShield2;
         private System.Windows.Forms.PictureBox _pbxRocket1;
         private System.Windows.Forms.PictureBox _pbxMG1;
         private System.Windows.Forms.PictureBox _pbxMG2;

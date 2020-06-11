@@ -33,7 +33,7 @@ namespace TankGameTest
 
 			playerData1.Respawn();
 			Assert.AreEqual(100, playerData1.HP);
-			Assert.AreEqual(3, playerData1.Lives);
+			Assert.AreEqual(2, playerData1.Lives);
 		}
 
 		[TestMethod]
