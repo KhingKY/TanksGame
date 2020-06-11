@@ -119,10 +119,10 @@
             // 
             this._pbxShield1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxShield1.Image = global::CMPE2800_Lab02.Properties.Resources.shield;
-            this._pbxShield1.Location = new System.Drawing.Point(120, 40);
+            this._pbxShield1.Location = new System.Drawing.Point(220, 98);
             this._pbxShield1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxShield1.Name = "_pbxShield1";
-            this._pbxShield1.Size = new System.Drawing.Size(40, 20);
+            this._pbxShield1.Size = new System.Drawing.Size(40, 37);
             this._pbxShield1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxShield1.TabIndex = 15;
             this._pbxShield1.TabStop = false;
@@ -131,10 +131,10 @@
             // 
             this._pbxShield2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxShield2.Image = global::CMPE2800_Lab02.Properties.Resources.shield;
-            this._pbxShield2.Location = new System.Drawing.Point(850, 40);
+            this._pbxShield2.Location = new System.Drawing.Point(760, 98);
             this._pbxShield2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxShield2.Name = "_pbxShield2";
-            this._pbxShield2.Size = new System.Drawing.Size(40, 20);
+            this._pbxShield2.Size = new System.Drawing.Size(40, 37);
             this._pbxShield2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxShield2.TabIndex = 15;
             this._pbxShield2.TabStop = false;
@@ -143,10 +143,10 @@
             // 
             this._pbxSuper1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxSuper1.Image = global::CMPE2800_Lab02.Properties.Resources.super;
-            this._pbxSuper1.Location = new System.Drawing.Point(120, 80);
+            this._pbxSuper1.Location = new System.Drawing.Point(175, 98);
             this._pbxSuper1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxSuper1.Name = "_pbxSuper1";
-            this._pbxSuper1.Size = new System.Drawing.Size(40, 20);
+            this._pbxSuper1.Size = new System.Drawing.Size(40, 37);
             this._pbxSuper1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxSuper1.TabIndex = 15;
             this._pbxSuper1.TabStop = false;
@@ -155,10 +155,10 @@
             // 
             this._pbxSuper2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this._pbxSuper2.Image = global::CMPE2800_Lab02.Properties.Resources.super;
-            this._pbxSuper2.Location = new System.Drawing.Point(850, 80);
+            this._pbxSuper2.Location = new System.Drawing.Point(810, 98);
             this._pbxSuper2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._pbxSuper2.Name = "_pbxSuper2";
-            this._pbxSuper2.Size = new System.Drawing.Size(40, 20);
+            this._pbxSuper2.Size = new System.Drawing.Size(40, 37);
             this._pbxSuper2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this._pbxSuper2.TabIndex = 15;
             this._pbxSuper2.TabStop = false;
