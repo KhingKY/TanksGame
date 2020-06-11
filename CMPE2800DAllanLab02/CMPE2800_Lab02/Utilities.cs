@@ -200,7 +200,7 @@ namespace CMPE2800_Lab02
 
             // issue callback function to update UI
             _modelessUI.Invoke(new GameUI.delVoidUIStats(_modelessUI.CBUpdateUI), p1.HP, p2.HP,
-                p1.Lives, p2.Lives, p1.HeavyAmmo, p2.HeavyAmmo, p1.Score, p2.Score, _bGamePaused);
+                p1.Lives, p2.Lives, p1.HeavyAmmo, p2.HeavyAmmo, p1.Score, p2.Score, p1.HasShield, p2.HasShield, p1.IsSuper, p2.IsSuper, _bGamePaused);
         }
 
         /// <summary>
@@ -452,28 +452,35 @@ namespace CMPE2800_Lab02
                     if (ds1 is Tank && ds2 is Tank)
                     {
                         // get the tank's player number
-                        players.Find((pd) => pd.Player == (ds1 as Tank).Player).CollidedWithTank(players.Find((pd) => pd.Player == (ds2 as Tank).Player));
+                        PlayerData p1 = players.Find((pd) => pd.Player == (ds1 as Tank).Player);
+                        PlayerData p2 = players.Find((pd) => pd.Player == (ds2 as Tank).Player);
+
+                        //collision effect
+                        p1.CollidedWithTank(p2);
                         (ds1 as Tank).IsBlocked = true;
+
+                        // check if the player died after taking damage
+                        if (!p1.IsAlive)
+                        {
+                            // signal for tank removal
+                            ds1.IsMarkedForDeath = true;
+
+                            // reset player HP for new life
+                            p1.Respawn();
+                        }
+                        else if (!p2.IsAlive)
+                        {
+                            // signal for tank removal
+                            ds2.IsMarkedForDeath = true;
+
+                            // reset player HP for new life
+                            p2.Respawn();
+                        }
                     }
 
                     // 2) s1 is a bullet and s2 is a tank
                     else if (ds1 is Gunfire && ds2 is Tank)
                     {
-                        //draw explosion effect
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         // mark bullet for death
                         ds1.IsMarkedForDeath = true;
 

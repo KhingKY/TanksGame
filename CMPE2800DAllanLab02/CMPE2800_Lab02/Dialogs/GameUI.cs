@@ -14,7 +14,7 @@ namespace CMPE2800_Lab02
         #region Members
         // delegate for updating the UI stats
         public delegate void delVoidUIStats(int HP1, int HP2, int Lives1, int Lives2,
-            int HAmmo1, int HAmmo2, int Score1, int Score2, bool isPaused);
+            int HAmmo1, int HAmmo2, int Score1, int Score2, bool HasShield1, bool HasShield2, bool IsSuper1, bool IsSuper2, bool isPaused);
 
         // delegate for toggling weapon icon background color
         public delegate void delVoidSwitchWeapon(PlayerNumber player, GunType gun);
@@ -45,7 +45,7 @@ namespace CMPE2800_Lab02
         /// <param name="Score1">Player 1 score.</param>
         /// <param name="Score2">Player 2 score.</param>
         public void CBUpdateUI(int HP1, int HP2, int Lives1, int Lives2, 
-            int HAmmo1, int HAmmo2, int Score1, int Score2, bool isPaused)
+            int HAmmo1, int HAmmo2, int Score1, int Score2, bool HasShield1, bool HasShield2, bool IsSuper1, bool IsSuper2, bool isPaused)
         {
             // set UI values
             _labHP1.Text = $"HP : {HP1}";
@@ -73,6 +73,15 @@ namespace CMPE2800_Lab02
             {
                 Text = "First to 3 points wins!";
             }
+            
+            //Checks if player 1 has power up shield and super
+            _pbxShield1.Visible = HasShield1;
+            _pbxSuper1.Visible = IsSuper1;
+
+            //Checks if player 2 has power up shield and super
+            _pbxShield2.Visible = HasShield2;
+            _pbxSuper2.Visible = IsSuper2;
+
         }
 
         /// <summary>

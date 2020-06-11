@@ -243,9 +243,6 @@ namespace CMPE2800_Lab02
             // if HP is below 0, lose a life
             if (HP <= 0)
             {
-                Lives--;
-                // reset HP
-                HP = HPMax;
                 // the shooter gets a point
                 aOther.Score++;
                 // trigger respawn flag
@@ -253,9 +250,6 @@ namespace CMPE2800_Lab02
             }
             else if (aOther.HP <= 0)
             {
-                aOther.Lives--;
-                // reset HP
-                aOther.HP = HPMax;
                 // the player gets a point
                 Score++;
                 // trigger respawn flag
@@ -322,6 +316,9 @@ namespace CMPE2800_Lab02
         /// </summary>
         public void Respawn()
         {
+            //Deduct lives
+            Lives--;
+
             // reset HP
             HP = HPMax;
 
