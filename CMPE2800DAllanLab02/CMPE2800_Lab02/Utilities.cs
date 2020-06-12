@@ -188,6 +188,9 @@ namespace CMPE2800_Lab02
                     // pause game
                     _bGamePaused = true;
                     _time.Stop();
+
+                    // trigger game over event
+                    GameOver(_lPlayerData.Find(p => p.Score == PlayerData.ScoreToWin).Player);
                 }
                 else if (_time.ElapsedMilliseconds > 180000 && !PlayerData.PlayerVictory)
                 {
@@ -522,24 +525,6 @@ namespace CMPE2800_Lab02
                         //collision effect
                         p1.CollidedWithTank(p2);
                         (ds1 as Tank).IsBlocked = true;
-
-                        // check if the player died after taking damage
-                        if (!p1.IsAlive)
-                        {
-                            // signal for tank removal
-                            ds1.IsMarkedForDeath = true;
-
-                            // reset player HP for new life
-                            p1.Respawn();
-                        }
-                        else if (!p2.IsAlive)
-                        {
-                            // signal for tank removal
-                            ds2.IsMarkedForDeath = true;
-
-                            // reset player HP for new life
-                            p2.Respawn();
-                        }
                     }
 
                     // 2) s1 is a bullet and s2 is a tank

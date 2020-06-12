@@ -157,9 +157,11 @@ namespace CMPE2800_Lab02
         /// <param name="aOther">Another player's data.</param>
         public void CollidedWithTank(PlayerData aOther)
         {
-            HP--;
-            aOther.HP--;
-            CheckLife(aOther);
+            if (HP > 1 && aOther.HP > 1)
+            {
+                HP--;
+                aOther.HP--;
+            }
         }
 
         /// <summary>
@@ -233,33 +235,24 @@ namespace CMPE2800_Lab02
                         break;
                 }
             }
-            CheckLife(shooter);
-        }
 
-        /// <summary>
-        /// Checks if one of the player dies
-        /// </summary>
-        /// <param name="aOther">The player who shot the weapon.</param>
-        public void CheckLife(PlayerData aOther) 
-        { 
             // if HP is below 0, lose a life
             if (HP <= 0)
             {
+                Lives--;
+
+                // reset HP
+                HP = HPMax;
+
                 // the shooter gets a point
-                aOther.Score++;
+                shooter.Score++;
+
                 // trigger respawn flag
                 IsAlive = false;
             }
-            else if (aOther.HP <= 0)
-            {
-                // the player gets a point
-                Score++;
-                // trigger respawn flag
-                aOther.IsAlive = false;
-            }
 
             // if shooter reaches 3 points, trigger victory condition
-            if (aOther.Score >= ScoreToWin || Score >= ScoreToWin)
+            if (shooter.Score >= ScoreToWin)
             {
                 PlayerVictory = true;
             }
@@ -326,9 +319,6 @@ namespace CMPE2800_Lab02
         /// </summary>
         public void Respawn()
         {
-            //Deduct lives
-            Lives--;
-
             // reset HP
             HP = HPMax;
 
